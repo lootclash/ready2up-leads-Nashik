@@ -1,0 +1,33 @@
+{
+  "summary": "Frontend-only E2E testing of the single-file Ready2UP dashboard (/ready2up.html) via Playwright on the public preview URL. Covered: page load & root redirect, 40 lead cards, scoreboard stats, search/area/stage/pill filter composition, empty state, stage select + localStorage persistence + Deals Closed Today counter, stage filter interaction, sprint call tracker (increment/5th-call confetti/persistence/reset), all 4 per-card action links (wa.me, tel:, Find Phone new tab, Google Maps), pitch script modal (per-lead + generic playbook, copy buttons, close via X/Escape/backdrop), pricing packages, CSV export (name/rows/columns), confetti canvas, and mobile 390x844 dock/layout + desktop 1920 layout. 12 of 12 requested scenarios pass except one spec deviation on the modal WhatsApp Send button. Zero console/page errors on any flow.",
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Pitch modal - wa-send-btn", "issue": "Spec says the 'Send' button must be visible only when the lead has a phone number. Actual: openPlaybook() uses `send.hidden = !lead`, so it is visible for phone-less leads too (verified lead 2 Mykonos, phone=null -> button visible with href https://wa.me/?text=...). Functionally it still opens WhatsApp chooser, so severity is LOW, but it deviates from the stated requirement. Fix: `send.hidden = !(lead && lead.phone)`.", "selector": "[data-testid=\"wa-send-btn\"]", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Desktop 1920 - lead cards", "issues": ["Cuisine spec value is truncated with an ellipsis on multi-cuisine leads (e.g. 'North Indian, Asian, …', 'Multi-cuisine, Cockta…') with no title/tooltip attribute, so full cuisine text is unreachable on desktop. Consider adding a title attribute."]},
+      {"screen": "Mobile 390x844 - toast", "issues": ["Toast renders directly above the bottom dock and long messages wrap to 2 lines partially overlapping the dock's top edge visually (readable, cosmetic only)."]},
+      {"screen": "Headless render note", "issues": ["Button word spacing looks tight in headless screenshots ('PitchPlaybook', '+LogCall') - font/emoji fallback in headless Chromium, not a code defect."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: hide wa-send-btn for leads without a phone (`send.hidden = !(lead && lead.phone)`) to match spec",
+    "Optional: add title attribute to truncated cuisine spec values"
+  ],
+  "critical_code_review_comments": [
+    "ready2up.html is 1688 lines in a single file - acceptable given the explicit single-file requirement, but data (40 leads) could be split if the constraint ever relaxes",
+    "State is localStorage-only with date-keyed reset (r2u_lead_stages_v1 / r2u_daily_calls_v1) - correctly guards legacy string stage values and stale dates",
+    "celebrate() guards `typeof confetti !== 'function'` - CDN loaded fine in sandbox (canvas element appeared on Deal Won / celebrate / 5th call)"
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (no backend)", "frontend": "97%"},
+  "seed_data_creation": "None - static data. localStorage cleared before each test batch; stage for lead 2 reverted to New Lead and call counter reset after tests.",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "test_credentials": "None required (no auth)",
+  "context_for_next_testing_agent": "Verified results: 40 cards, statTotal=40, statHot=32, statPipeline=₹15.4L, statWon=0; pill counts All(40)/Hot(32)/Phone(4); pill-phone ids [30,31,32,37]; cafes+College Road = Mykonos, Friends Bistro, Pokket Cafe, Cafe Wassup, Chai Ketali, The Cafe Katta; search 'College'=7, 'Mykonos'=1, nonsense=empty-state + reset works; Deal Won -> stage-won class, is-won card, 'BOOM' toast, statWon=1 and persists across reload, revert -> 0; log-call x5 -> 5, progress 33.3333%, persists, reset->0; wa-31 = https://wa.me/919881632502?text=... (Gandharv + Mumbai-Agra Highway encoded), wa-1 = https://wa.me/?text=..., call-31 = tel:+919881632502 (A tag), call-30 = tel:02532311585, call-1 is BUTTON 'Find Phone' with toast + new maps tab, maps-btn-1 target=_blank, lead-phone-31 green rgb(5,150,105); modal titles and scripts correct, copy toasts fire, close via X/Escape/backdrop all work; CSV = Ready2UP_Nashik_Leads_2026-09-03.csv, CRLF, 41 lines, 14 header columns, toast 'Exported 40 leads to CSV'; mobile 390: single column grid (358px), scoreboard 2x2, dock visible with 4 working buttons, scrollWidth==390 (no overflow), playbook label hidden; desktop 1920: 3 grid columns, dock hidden. Note: use open(path,'rb') when asserting CSV CRLF (text mode translates newlines).",
+  "rca_of_the_issue": "wa-send-btn visibility is driven by lead presence rather than lead.phone presence in openPlaybook() (line ~1583 of /app/frontend/public/ready2up.html)."
+}
