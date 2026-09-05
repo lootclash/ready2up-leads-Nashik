@@ -21,11 +21,12 @@ Sticky dark header (Playbook / Daily Report / Export CSV), hero banner + Team Wi
 ## Implemented
 - June 2026 (v1): original 40-lead dashboard, E2E tested (iteration_1).
 - June 2026 (v2 — this session): full professional redesign with inline SVG icon system (all emojis removed incl. scripts); 21 new verified Nashik leads (ids 41–61: Dessert Villa, Pilgrim Coffee, Brewing Tales, Cafe Suburb, Coffee Club NX, Celestia Lounge, Lacasa Rooftop Cafe, InterMezzo, Sadhana Misal, Divtya Budhlya Wada, Topchi Brewing Outpost, Cerana Taproom, Curry Leaves, Woodlands, Cafe Peter, The Chocolate Room, York Winery, Soma Vine Village, Panchavati Gaurav, Coffee Culture, Spice It-ibis); per-lead quick note + follow-up date with Overdue/Due today/Upcoming chips + "Follow-ups Due" pill; Sort menu (Recommended, Deal Value, Rating, Priority, Follow-up soonest, Name) persisted; Daily Report modal → wa.me share + copy; CSV now includes Note & Next Follow-up; `wa-send-btn` only shown when lead has a phone; `[hidden]` CSS fix. E2E tested (iteration_2: 100% pass, desktop + 390px mobile, zero console errors).
+- June 2026 (v2.1): Objection Handler in the Pitch Playbook — 7 common Nashik F&B objections (Swiggy/Zomato only, Instagram is enough, too expensive, no time, walk-ins only, "send on WhatsApp" stall, failed website before) as expandable accordions with lead-personalised, copyable answers. Verified via screenshot (desktop + mobile).
 
 ## Backlog
 - P1: Cloud sync of stages/notes/calls across devices (needs backend + auth).
 - P2: Add/edit leads in-app; import CSV.
-- P2: Objection-handler section in Playbook; per-rep name in report.
+- P2: Per-rep name in report; rep leaderboard.
 - P2: Daily report as shareable image.
 
 ## Next Tasks

@@ -320,6 +320,21 @@ main{padding:20px 0 72px}
 .pkg-tag{font-size:10px;font-weight:700;letter-spacing:.06em;padding:2px 6px;border-radius:4px;background:var(--electric);color:#fff}
 .pkg-desc{font-size:12.5px;color:var(--text-2);margin-top:2px}
 .pkg-price{font-family:var(--font-mono);font-size:15px;font-weight:700;color:var(--success);white-space:nowrap}
+.objections{margin-top:18px}
+.objections h4{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:13.5px;font-weight:600;font-family:var(--font-body);margin-bottom:8px}
+.obj-hint{font-size:11.5px;font-weight:500;color:var(--text-3);margin-left:auto}
+.obj{border:1px solid var(--border);border-radius:10px;background:var(--surface);margin-top:8px;overflow:hidden;transition:border-color .2s var(--ease)}
+.obj[open]{border-color:var(--primary-border)}
+.obj summary{list-style:none;display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--text);user-select:none}
+.obj summary::-webkit-details-marker{display:none}
+.obj summary:hover{background:var(--surface-2)}
+.obj-q{flex:1;min-width:0}
+.obj-num{width:24px;height:24px;flex:0 0 24px;border-radius:6px;display:grid;place-items:center;background:var(--danger-bg);color:var(--danger-text);font-family:var(--font-mono);font-size:11px;font-weight:700}
+.obj-chev{color:var(--text-3);transition:transform .2s var(--ease)}
+.obj[open] .obj-chev{transform:rotate(180deg)}
+.obj-body{padding:0 14px 12px 48px;display:flex;flex-direction:column;gap:10px}
+.obj-body p{font-size:13.5px;line-height:1.6;color:var(--text-2);white-space:pre-wrap}
+.obj-body .btn-mini{align-self:flex-start}
 .report-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
 .rs{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
 .rs-label{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3)}
@@ -541,6 +556,11 @@ main{padding:20px 0 72px}
         <div class="script-tools"><button class="btn-mini" data-copy="callScript" data-testid="copy-call-btn"><span data-icon="copy" data-size="13"></span> Copy</button></div>
       </div>
       <pre class="script" id="callScript" data-testid="call-script"></pre>
+    </section>
+
+    <section class="objections" data-testid="objections-section">
+      <h4><span data-icon="shield" data-size="15"></span> Objection Handler <span class="obj-hint">Tap an objection for the answer</span></h4>
+      <div id="objectionsList" data-testid="objections-list"></div>
     </section>
 
     <section class="pricing" data-testid="pricing-section">
@@ -1611,7 +1631,9 @@ const ICONS = {
   chart: '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v3"/>',
   building: '<rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>',
   tagIcon: '<path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"/><path d="M7 7h.01"/>',
-  alert: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'
+  alert: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+  shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+  chevron: '<path d="m6 9 6 6 6-6"/>'
 };
 const icon = (name, size = 16, cls = '') => `<svg class="ic ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
 document.querySelectorAll('[data-icon]').forEach((el) => {
@@ -1715,6 +1737,62 @@ I noticed ${name} on ${area} doesn't have its own website yet, so most customers
 We build zero-commission direct ordering websites for Nashik restaurants, with WhatsApp table booking and Google SEO so you rank first in your area. Packages start at ₹25,000.
 
 Can I WhatsApp you a free 60-second preview of ${name}'s website today? Which number should I send it to?"${hook}`;
+}
+
+const OBJECTIONS = [
+  {
+    q: '"We only use Swiggy / Zomato. That is enough for us."',
+    a: (n) => `Swiggy and Zomato are great for discovery, so keep them. The problem is what they cost: 20-25% of every order, plus they show your customers your competitors right next to you.
+
+A website does not replace them, it protects you from them. Repeat customers who already love ${n} order direct at 0% commission, and you own their number for festival offers and re-orders. Even 40 direct orders a month at ₹500 saves you around ₹5,000 in commission every month, so the website pays for itself within the first year.`
+  },
+  {
+    q: '"We already have Instagram and Facebook."',
+    a: (n) => `Instagram is perfect for showing the vibe of ${n}, and we would connect it to the website so your reels appear there automatically.
+
+But Instagram cannot take a table booking, show a full priced menu, accept an order or rank on Google when someone searches "best cafe near me". Your website does all of that 24x7 and turns your followers into paying customers instead of just likes.`
+  },
+  {
+    q: '"It is too expensive right now."',
+    a: (n) => `Completely understand, so let us look at the numbers. The Starter package is ₹25,000 one-time, which is less than what many restaurants lose to aggregator commission in a single month.
+
+We can also split it into two payments and start with the Starter site now, adding online ordering later once you see results. What matters is that ${n} stops losing direct customers every day it is not online.`
+  },
+  {
+    q: '"We do not have time to manage a website."',
+    a: (n) => `You will not have to. We handle the build, hosting, updates and Google listing for you.
+
+Menu or price changes are one WhatsApp message to us, and bookings and orders arrive directly on your WhatsApp with automatic confirmations. ${n} gets more customers with zero extra work for your team.`
+  },
+  {
+    q: '"Our customers are all locals and walk-ins. They already know us."',
+    a: (n) => `Your regulars are your strength, and the website makes them order more often with direct offers and easy reordering.
+
+But every weekend Nashik fills up with visitors from Mumbai and Pune heading to Sula and Trimbakeshwar, and they choose where to eat on Google. Right now they cannot find ${n}. A website with local SEO puts you in front of them before your competitors.`
+  },
+  {
+    q: '"Send me the details on WhatsApp, I will think about it."',
+    a: (n) => `Absolutely, I will send it right now. To make it useful, let me also send a free 60-second preview of how ${n}'s website could look, with your name and photos.
+
+Can we fix a quick 10-minute call tomorrow at 11 or 4 so I can walk you through it? That way you can decide with the real design in front of you.`
+  },
+  {
+    q: '"We tried a website before and it did not bring customers."',
+    a: (n) => `That is very common, and it usually means the site was a brochure with no ordering, no booking and no Google optimisation, so nobody found it.
+
+What we build for ${n} is different: it ranks on Google for your area, takes bookings and orders on WhatsApp, and we track how many customers it brings you every month. If it does not bring results, you will see that in the numbers, not guess.`
+  }
+];
+
+function renderObjections(l) {
+  const n = l ? l.name : '[Restaurant Name]';
+  $('objectionsList').innerHTML = OBJECTIONS.map((o, i) => `<details class="obj" data-testid="objection-${i + 1}">
+    <summary data-testid="objection-toggle-${i + 1}"><span class="obj-num">${i + 1}</span><span class="obj-q">${esc(o.q)}</span>${icon('chevron', 16, 'obj-chev')}</summary>
+    <div class="obj-body">
+      <p data-testid="objection-answer-${i + 1}">${esc(o.a(n))}</p>
+      <button class="btn-mini" data-copyobj="${i}" data-testid="objection-copy-${i + 1}">${icon('copy', 13)} Copy answer</button>
+    </div>
+  </details>`).join('');
 }
 
 function waLink(l) {
@@ -2010,6 +2088,7 @@ function openPlaybook(lead) {
   const canSend = !!(lead && lead.phone);
   send.hidden = !canSend;
   if (canSend) send.href = waLink(lead);
+  renderObjections(lead);
   openModal('modal');
 }
 
@@ -2131,6 +2210,11 @@ $('leadsGrid').addEventListener('click', (e) => {
 $('playbookBtn').addEventListener('click', () => openPlaybook(null));
 $('modalClose').addEventListener('click', () => closeModal('modal'));
 $('modal').addEventListener('click', (e) => { if (e.target === $('modal')) closeModal('modal'); });
+$('objectionsList').addEventListener('click', async (e) => {
+  const btn = e.target.closest('[data-copyobj]'); if (!btn) return;
+  const ok = await copyText(btn.closest('.obj-body').querySelector('p').textContent);
+  toast(ok ? 'Answer copied. Handle it with confidence.' : 'Copy failed. Long-press the text to copy manually.');
+});
 $('reportBtn').addEventListener('click', openReport);
 $('reportClose').addEventListener('click', () => closeModal('reportModal'));
 $('reportModal').addEventListener('click', (e) => { if (e.target === $('reportModal')) closeModal('reportModal'); });
