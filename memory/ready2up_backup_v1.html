@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#4f46e5">
+<meta name="description" content="Ready2UP Sales Command Center — Nashik F&B lead intelligence dashboard for closing website design, SEO & AI automation deals.">
+<title>Ready2UP Sales Command Center · Nashik F&amp;B Lead Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<style>
+/* ================= DESIGN TOKENS ================= */
+:root{
+  --bg:#f8fafc; --surface:#ffffff; --subtle:#f1f5f9; --subtle-2:#f8fafc;
+  --indigo:#4f46e5; --indigo-2:#6366f1; --indigo-deep:#4338ca; --indigo-soft:#eef2ff; --indigo-border:#c7d2fe;
+  --cyan:#06b6d4; --sky:#0ea5e9; --sky-soft:#f0f9ff; --sky-border:#bae6fd;
+  --emerald:#059669; --emerald-2:#10b981; --emerald-soft:#ecfdf5; --emerald-border:#a7f3d0;
+  --amber:#d97706; --amber-soft:#fffbeb; --amber-border:#fde68a;
+  --rose:#e11d48; --rose-soft:#fff1f2; --rose-border:#fecdd3;
+  --purple:#7c3aed; --purple-soft:#f5f3ff; --purple-border:#ddd6fe;
+  --wa:#25d366; --wa-deep:#1ebe5a;
+  --text:#0f172a; --text-2:#334155; --text-3:#475569; --muted:#64748b; --light:#94a3b8;
+  --border:#e2e8f0; --border-2:#cbd5e1;
+  --sh-xs:0 1px 2px rgba(15,23,42,.04);
+  --sh-sm:0 1px 3px rgba(15,23,42,.05),0 1px 2px rgba(15,23,42,.04);
+  --sh-md:0 4px 14px -2px rgba(15,23,42,.07),0 2px 6px -2px rgba(15,23,42,.04);
+  --sh-lg:0 18px 40px -8px rgba(15,23,42,.12),0 8px 16px -6px rgba(15,23,42,.05);
+  --sh-indigo:0 10px 28px -6px rgba(79,70,229,.45);
+  --sh-emerald:0 10px 28px -6px rgba(5,150,105,.4);
+  --r-card:18px; --r-lg:20px; --r-btn:13px; --r-sm:10px; --r-pill:9999px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --font-body:'Plus Jakarta Sans',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-head:'Outfit',var(--font-body);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-body);color:var(--text);background:var(--bg);
+  min-height:100vh;line-height:1.5;overflow-x:hidden;font-size:15px;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(900px 620px at 6% -8%, rgba(79,70,229,.085), transparent 62%),
+    radial-gradient(820px 600px at 104% 6%, rgba(5,150,105,.075), transparent 62%),
+    radial-gradient(760px 540px at 50% 112%, rgba(217,119,6,.07), transparent 62%),
+    radial-gradient(600px 400px at 90% 75%, rgba(6,182,212,.05), transparent 60%);
+}
+::selection{background:#c7d2fe;color:#1e1b4b}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--font-head);letter-spacing:-.5px;line-height:1.15}
+
+.container{width:100%;max-width:1280px;margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ================= BUTTONS ================= */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:42px;padding:0 18px;border-radius:var(--r-btn);
+  font-weight:700;font-size:14px;letter-spacing:-.1px;white-space:nowrap;
+  transition:transform .28s var(--ease),box-shadow .28s var(--ease),background-color .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease);
+  will-change:transform;
+}
+.btn:hover{transform:translateY(-1px) scale(1.02)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn:focus-visible{outline:3px solid rgba(79,70,229,.35);outline-offset:2px}
+.btn-outline{background:var(--surface);border:1.5px solid var(--border);color:var(--text-2);box-shadow:var(--sh-xs)}
+.btn-outline:hover{border-color:var(--indigo-border);color:var(--indigo);background:var(--indigo-soft)}
+.btn-success{background:var(--emerald);color:#fff;box-shadow:var(--sh-emerald)}
+.btn-success:hover{background:#047857}
+.btn-primary{background:var(--indigo);color:#fff;box-shadow:var(--sh-indigo)}
+.btn-primary:hover{background:var(--indigo-deep)}
+
+/* ================= TOP NAV ================= */
+.topbar{
+  position:sticky;top:0;z-index:60;
+  background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:70px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-mark{
+  width:42px;height:42px;flex:0 0 42px;border-radius:12px;display:grid;place-items:center;
+  font-family:var(--font-head);font-weight:900;font-size:16px;letter-spacing:-.5px;color:#fff;
+  background:linear-gradient(135deg,#6366f1 0%,#4f46e5 55%,#4338ca 100%);
+  box-shadow:0 8px 20px -6px rgba(79,70,229,.55), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.brand-name{display:flex;align-items:center;gap:8px;font-family:var(--font-head);font-weight:800;font-size:19px;letter-spacing:-.6px}
+.badge-pro{
+  font-family:var(--font-body);font-size:10px;font-weight:800;letter-spacing:.6px;white-space:nowrap;
+  padding:3px 8px;border-radius:var(--r-pill);background:var(--emerald-soft);color:var(--emerald);border:1px solid var(--emerald-border);
+}
+.brand-tag{font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap}
+.topbar-actions{display:flex;align-items:center;gap:10px}
+.btn-label-short{display:none}
+
+/* ================= HERO ================= */
+main{padding:28px 0 80px}
+.hero{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:space-between;gap:28px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:34px 36px 34px 40px;box-shadow:var(--sh-md);
+  animation:fadeUp .7s var(--ease) both;
+}
+.hero::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+  background:linear-gradient(180deg,var(--indigo) 0%,var(--cyan) 55%,var(--emerald) 100%);
+}
+.hero::after{
+  content:"";position:absolute;right:-120px;top:-120px;width:360px;height:360px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle, rgba(79,70,229,.10), transparent 65%);
+}
+.hero-content{position:relative;z-index:1;max-width:760px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:var(--r-pill);
+  background:var(--rose-soft);color:var(--rose);border:1px solid var(--rose-border);font-size:12px;font-weight:800;letter-spacing:.2px;
+}
+.hero-title{font-size:clamp(28px,4vw,42px);font-weight:900;letter-spacing:-1.2px;margin:14px 0 10px;color:var(--text)}
+.grad-text{
+  background:linear-gradient(92deg,#4f46e5 0%,#6366f1 45%,#06b6d4 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{font-size:15px;color:var(--text-3);max-width:700px;line-height:1.65}
+.hero-sub strong{color:var(--text);font-weight:700}
+.hero-side{position:relative;z-index:1;flex:0 0 auto}
+.btn-celebrate{
+  min-height:50px;padding:0 22px;border-radius:14px;font-size:15px;color:#fff;
+  background:linear-gradient(135deg,#f43f5e 0%,#e11d48 50%,#be123c 100%);
+  box-shadow:0 12px 28px -8px rgba(225,29,72,.5);
+}
+.btn-celebrate:hover{box-shadow:0 16px 32px -8px rgba(225,29,72,.55)}
+
+/* ================= SCOREBOARD ================= */
+.scoreboard{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.stat{
+  display:flex;align-items:center;gap:16px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);
+  padding:20px 22px;box-shadow:var(--sh-sm);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);
+  animation:fadeUp .7s var(--ease) both;
+}
+.stat:nth-child(2){animation-delay:.06s}.stat:nth-child(3){animation-delay:.12s}.stat:nth-child(4){animation-delay:.18s}
+.stat:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:var(--border-2)}
+.stat-icon{width:52px;height:52px;flex:0 0 52px;border-radius:14px;display:grid;place-items:center;font-size:24px}
+.stat-icon.i-indigo{background:var(--indigo-soft);border:1px solid var(--indigo-border)}
+.stat-icon.i-rose{background:var(--rose-soft);border:1px solid var(--rose-border)}
+.stat-icon.i-emerald{background:var(--emerald-soft);border:1px solid var(--emerald-border)}
+.stat-icon.i-amber{background:var(--amber-soft);border:1px solid var(--amber-border)}
+.stat-body{min-width:0}
+.stat-label{font-size:11px;font-weight:800;letter-spacing:.7px;color:var(--muted);text-transform:uppercase}
+.stat-value{font-family:var(--font-head);font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1.05;margin-top:3px}
+.stat-sub{font-size:12px;color:var(--light);font-weight:600;margin-top:2px}
+.stat-value.pop{animation:pop .5s var(--ease)}
+
+/* ================= SPRINT TRACKER ================= */
+.sprint{
+  position:relative;overflow:hidden;margin-top:16px;
+  background:linear-gradient(120deg,#4338ca 0%,#4f46e5 45%,#6366f1 100%);
+  color:#fff;border-radius:var(--r-card);padding:20px 24px;
+  box-shadow:0 18px 40px -14px rgba(79,70,229,.55);
+  animation:fadeUp .7s var(--ease) .1s both;
+}
+.sprint::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:radial-gradient(600px 200px at 100% 0%, rgba(255,255,255,.18), transparent 60%);
+}
+.sprint-row{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.sprint-left{display:flex;align-items:center;gap:14px;min-width:0}
+.sprint-icon{width:46px;height:46px;flex:0 0 46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22)}
+.sprint-title{font-family:var(--font-head);font-weight:800;font-size:17px;letter-spacing:-.4px}
+.sprint-sub{font-size:13px;color:rgba(255,255,255,.82);font-weight:500;margin-top:2px}
+.sprint-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.counter-pill{
+  display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:0 16px;border-radius:var(--r-pill);
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);font-weight:600;font-size:14px;
+}
+.counter-pill b{font-family:var(--font-head);font-size:20px;font-weight:800;letter-spacing:-.5px}
+.btn-log{background:var(--emerald-2);color:#fff;box-shadow:0 8px 20px -6px rgba(16,185,129,.6)}
+.btn-log:hover{background:var(--emerald)}
+.btn-reset{background:var(--purple);color:#fff;border:1px solid rgba(255,255,255,.28);box-shadow:0 8px 20px -6px rgba(124,58,237,.55)}
+.btn-reset:hover{background:#6d28d9}
+.progress{position:relative;height:6px;margin-top:16px;border-radius:var(--r-pill);background:rgba(255,255,255,.18);overflow:hidden}
+.progress-fill{height:100%;width:0;border-radius:var(--r-pill);background:linear-gradient(90deg,#a7f3d0,#ffffff);transition:width .6s var(--ease)}
+
+/* ================= COMMAND STRIP ================= */
+.command{
+  margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);
+  padding:18px;box-shadow:var(--sh-sm);animation:fadeUp .7s var(--ease) .16s both;
+}
+.search-wrap{position:relative;display:flex;align-items:center}
+.search-icon{position:absolute;left:16px;font-size:17px;pointer-events:none}
+.search-input{
+  width:100%;min-height:52px;padding:0 48px 0 48px;border-radius:14px;
+  border:1.5px solid var(--border);background:var(--subtle-2);font-size:15px;font-weight:500;color:var(--text);
+  transition:border-color .2s var(--ease),box-shadow .2s var(--ease),background-color .2s var(--ease);
+}
+.search-input::placeholder{color:var(--light)}
+.search-input:focus{outline:none;border-color:var(--indigo);background:#fff;box-shadow:0 0 0 4px rgba(79,70,229,.12)}
+.search-clear{
+  position:absolute;right:10px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  color:var(--muted);background:var(--subtle);font-size:13px;font-weight:800;transition:background-color .2s,color .2s;
+}
+.search-clear:hover{background:var(--rose-soft);color:var(--rose)}
+.search-clear[hidden]{display:none}
+.selects{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.select-wrap{position:relative;display:flex;align-items:center}
+.select-wrap .sel-icon{position:absolute;left:14px;font-size:15px;pointer-events:none}
+.select-wrap::after{
+  content:"";position:absolute;right:16px;width:9px;height:9px;pointer-events:none;
+  border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:translateY(-3px) rotate(45deg);
+}
+.select{
+  width:100%;min-height:48px;padding:0 40px 0 40px;border-radius:13px;appearance:none;-webkit-appearance:none;
+  border:1.5px solid var(--border);background:var(--subtle-2);font-weight:600;font-size:14px;color:var(--text-2);cursor:pointer;
+  transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+}
+.select:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 4px rgba(79,70,229,.12)}
+.pills{display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-ms-overflow-style:none;scroll-snap-type:x proximity}
+.pills::-webkit-scrollbar{display:none}
+.pill{
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border-radius:var(--r-pill);
+  background:var(--subtle);color:var(--text-3);font-weight:700;font-size:13.5px;white-space:nowrap;scroll-snap-align:start;
+  border:1px solid transparent;
+  transition:background-color .22s var(--ease),color .22s var(--ease),transform .22s var(--ease),box-shadow .22s var(--ease);
+}
+.pill:hover{background:#e2e8f0;transform:translateY(-1px)}
+.pill.active{background:var(--indigo);color:#fff;box-shadow:var(--sh-indigo)}
+.pill-count{font-size:12px;font-weight:800;opacity:.75}
+
+/* ================= RESULTS META ================= */
+.results-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 4px 14px;flex-wrap:wrap}
+.results-text{font-size:14px;color:var(--muted);font-weight:600}
+.results-text b{color:var(--text);font-weight:800}
+.results-text .money{color:var(--emerald)}
+.link-btn{font-size:13px;font-weight:700;color:var(--indigo);padding:8px 12px;border-radius:var(--r-sm);transition:background-color .2s}
+.link-btn:hover{background:var(--indigo-soft)}
+.link-btn[hidden]{display:none}
+
+/* ================= LEAD GRID & CARDS ================= */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(380px,100%),1fr));gap:20px}
+.lead-card{
+  position:relative;display:flex;flex-direction:column;gap:14px;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:22px;
+  box-shadow:var(--sh-sm);
+  transition:transform .32s var(--ease),box-shadow .32s var(--ease),border-color .32s var(--ease);
+  animation:cardIn .55s var(--ease) both;animation-delay:calc(var(--i,0) * 45ms);
+}
+.lead-card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:var(--indigo-border)}
+.lead-card.is-won{border-color:var(--emerald-border);background:linear-gradient(180deg,#fff 0%,#f5fdf9 100%)}
+.lead-card.is-won::after{
+  content:"🏆 WON";position:absolute;top:-1px;right:22px;padding:5px 10px 4px;border-radius:0 0 10px 10px;
+  background:var(--emerald);color:#fff;font-size:10px;font-weight:800;letter-spacing:.8px;box-shadow:0 6px 14px -6px rgba(5,150,105,.6);
+}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.card-name{font-size:19px;font-weight:800;letter-spacing:-.6px;line-height:1.2;color:var(--text)}
+.deal-tag{
+  flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;padding:6px 11px;border-radius:var(--r-pill);
+  background:var(--emerald-soft);color:var(--emerald);border:1px solid var(--emerald-border);font-weight:800;font-size:13px;letter-spacing:-.2px;
+}
+.tag-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:-4px}
+.type-tag{
+  display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:var(--r-pill);
+  background:var(--indigo-soft);color:var(--indigo);border:1px solid var(--indigo-border);font-weight:700;font-size:12px;
+}
+.web-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:var(--r-pill);font-weight:700;font-size:11.5px;background:var(--subtle);color:var(--muted);border:1px solid var(--border)}
+.web-tag.no-site{background:var(--rose-soft);color:var(--rose);border-color:var(--rose-border)}
+.status-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.priority{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:var(--r-pill);font-weight:800;font-size:11.5px;letter-spacing:.5px}
+.p-high{background:var(--rose-soft);color:var(--rose);border:1px solid var(--rose-border)}
+.p-medium{background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber-border)}
+.p-low{background:var(--subtle);color:var(--muted);border:1px solid var(--border)}
+.stage-select{
+  appearance:none;-webkit-appearance:none;min-height:38px;padding:0 34px 0 13px;border-radius:var(--r-pill);
+  border:1px solid;font-weight:700;font-size:12.5px;cursor:pointer;max-width:200px;
+  background-repeat:no-repeat;background-position:right 12px center;background-size:11px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  transition:background-color .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease),box-shadow .2s var(--ease);
+}
+.stage-select:focus{outline:none;box-shadow:0 0 0 4px rgba(79,70,229,.14)}
+.stage-new{background-color:var(--subtle);color:var(--text-3);border-color:var(--border)}
+.stage-talk{background-color:var(--sky-soft);color:#0369a1;border-color:var(--sky-border)}
+.stage-pitched{background-color:var(--purple-soft);color:#6d28d9;border-color:var(--purple-border)}
+.stage-meeting{background-color:var(--amber-soft);color:#b45309;border-color:var(--amber-border)}
+.stage-won{background-color:var(--emerald);color:#fff;border-color:var(--emerald);box-shadow:var(--sh-emerald);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.spec{background:var(--subtle-2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;min-width:0}
+.spec-label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--light)}
+.spec-val{display:block;font-size:13px;font-weight:600;color:var(--text-2);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.spec-val.phone-yes{color:var(--emerald);font-weight:800}
+.spec-val.phone-no{color:var(--light);font-weight:600}
+.pitch-box{position:relative;background:var(--purple-soft);border:1px solid var(--purple-border);border-left:4px solid var(--purple);border-radius:12px;padding:12px 14px}
+.pitch-label{display:block;font-size:11px;font-weight:800;letter-spacing:.6px;color:var(--purple);text-transform:uppercase;margin-bottom:5px}
+.pitch-box p{font-size:13.5px;color:var(--text-2);line-height:1.55;font-weight:500}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:auto}
+.act{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 12px;border-radius:var(--r-btn);
+  font-weight:700;font-size:13.5px;letter-spacing:-.1px;white-space:nowrap;
+  transition:transform .28s var(--ease),box-shadow .28s var(--ease),background-color .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease);
+}
+.act:hover{transform:translateY(-1px) scale(1.02)}
+.act:active{transform:scale(.97)}
+.act:focus-visible{outline:3px solid rgba(79,70,229,.35);outline-offset:2px}
+.act-wa{background:var(--wa);color:#fff;box-shadow:0 8px 20px -8px rgba(37,211,102,.7)}
+.act-wa:hover{background:var(--wa-deep)}
+.act-call{background:var(--sky);color:#fff;box-shadow:0 8px 20px -8px rgba(14,165,233,.7)}
+.act-call:hover{background:#0284c7}
+.act-outline{background:var(--surface);color:var(--text-2);border:1.5px solid var(--border)}
+.act-outline:hover{border-color:var(--indigo-border);color:var(--indigo);background:var(--indigo-soft)}
+.act-maps:hover{border-color:var(--rose-border);color:var(--rose);background:var(--rose-soft)}
+
+.empty{
+  display:none;text-align:center;padding:64px 24px;background:var(--surface);border:1.5px dashed var(--border-2);border-radius:var(--r-card);
+}
+.empty.show{display:block}
+.empty-icon{font-size:44px}
+.empty h3{font-size:20px;margin:12px 0 6px}
+.empty p{color:var(--muted);font-size:14px;margin-bottom:18px}
+
+/* ================= MODAL ================= */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:rgba(15,23,42,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s;
+}
+.modal-backdrop.open{opacity:1;visibility:visible}
+.modal{
+  position:relative;width:100%;max-width:600px;max-height:min(88vh,860px);overflow-y:auto;
+  background:var(--surface);border-radius:22px;padding:30px;box-shadow:0 40px 90px -20px rgba(15,23,42,.35);
+  transform:translateY(24px) scale(.97);transition:transform .38s var(--ease);
+  -webkit-overflow-scrolling:touch;
+}
+.modal-backdrop.open .modal{transform:translateY(0) scale(1)}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  background:var(--subtle);color:var(--text-3);font-size:15px;font-weight:800;
+  transition:background-color .2s,color .2s,transform .25s var(--ease);
+}
+.modal-close:hover{background:var(--rose-soft);color:var(--rose);transform:rotate(90deg)}
+.modal-badge{display:inline-flex;padding:5px 11px;border-radius:var(--r-pill);background:var(--indigo-soft);color:var(--indigo);border:1px solid var(--indigo-border);font-size:10.5px;font-weight:800;letter-spacing:.9px}
+.modal-title{font-size:24px;font-weight:800;letter-spacing:-.8px;margin:14px 44px 4px 0}
+.modal-sub{font-size:13.5px;color:var(--muted);font-weight:500;margin-bottom:22px}
+.script-block{margin-bottom:18px}
+.script-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.script-head h4{font-size:15px;font-weight:800;letter-spacing:-.3px}
+.script-tools{display:flex;gap:8px}
+.btn-mini{
+  display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 13px;border-radius:10px;font-size:12.5px;font-weight:800;
+  background:var(--indigo);color:#fff;transition:transform .25s var(--ease),background-color .2s,box-shadow .25s var(--ease);
+}
+.btn-mini:hover{transform:translateY(-1px) scale(1.03);background:var(--indigo-deep);box-shadow:var(--sh-indigo)}
+.btn-mini.wa{background:var(--wa)}
+.btn-mini.wa:hover{background:var(--wa-deep);box-shadow:0 8px 20px -8px rgba(37,211,102,.7)}
+.btn-mini[hidden]{display:none}
+.script{
+  white-space:pre-wrap;word-wrap:break-word;font-family:var(--font-body);font-size:13.5px;line-height:1.6;color:var(--text-2);
+  background:var(--subtle-2);border:1px solid var(--border);border-radius:14px;padding:16px;
+}
+.pricing{background:var(--emerald-soft);border:1px solid var(--emerald-border);border-radius:16px;padding:18px}
+.pricing h4{font-size:15px;font-weight:800;color:#065f46;margin-bottom:12px;letter-spacing:-.3px}
+.pkg{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 14px;background:rgba(255,255,255,.75);border:1px solid var(--emerald-border);border-radius:12px;margin-bottom:8px;transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.pkg:last-child{margin-bottom:0}
+.pkg:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
+.pkg-name{font-weight:800;font-size:14px;color:var(--text)}
+.pkg-desc{font-size:12.5px;color:var(--text-3);margin-top:3px;line-height:1.5}
+.pkg-price{flex:0 0 auto;font-family:var(--font-head);font-weight:800;font-size:17px;color:var(--emerald);letter-spacing:-.5px}
+.pkg.featured{border-color:var(--emerald);box-shadow:0 0 0 1px var(--emerald) inset}
+.pkg-tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.7px;padding:2px 7px;border-radius:var(--r-pill);background:var(--emerald);color:#fff;margin-left:6px;vertical-align:middle}
+
+/* ================= TOAST ================= */
+.toast{
+  position:fixed;left:50%;bottom:28px;z-index:120;transform:translate(-50%,24px);
+  display:inline-flex;align-items:center;gap:8px;max-width:calc(100% - 32px);
+  padding:13px 20px;border-radius:var(--r-pill);background:var(--text);color:#fff;font-weight:700;font-size:14px;
+  box-shadow:0 20px 40px -10px rgba(15,23,42,.45);opacity:0;visibility:hidden;pointer-events:none;
+  transition:transform .4s var(--ease),opacity .3s var(--ease),visibility .4s;
+}
+.toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
+
+/* ================= FOOTER ================= */
+.footer{text-align:center;color:var(--light);font-size:12.5px;font-weight:600;margin-top:40px}
+.footer b{color:var(--muted)}
+
+/* ================= MOBILE DOCK ================= */
+.dock{
+  position:fixed;left:50%;bottom:14px;z-index:90;transform:translateX(-50%);display:none;
+  width:calc(100% - 28px);max-width:440px;padding:8px;border-radius:24px;
+  background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
+  border:1px solid var(--border);box-shadow:0 20px 50px -12px rgba(15,23,42,.25);
+  padding-bottom:calc(8px + env(safe-area-inset-bottom));
+}
+.dock-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.dock-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;border-radius:16px;
+  font-size:11px;font-weight:700;color:var(--text-3);transition:background-color .2s var(--ease),color .2s var(--ease),transform .25s var(--ease);
+}
+.dock-btn span:first-child{font-size:20px;line-height:1}
+.dock-btn:hover,.dock-btn:active{background:var(--indigo-soft);color:var(--indigo);transform:translateY(-2px)}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width:1024px){
+  .brand-tag{display:none}
+}
+@media (max-width:767px){
+  .container{padding:0 16px}
+  main{padding:18px 0 120px}
+  .topbar-inner{height:64px}
+  .brand-mark{width:38px;height:38px;flex-basis:38px;font-size:14px}
+  .brand-name{font-size:17px}
+  .badge-pro{font-size:9px;padding:2px 6px}
+  .btn{min-height:44px;padding:0 14px}
+  .btn-label-long,#playbookBtn .btn-label{display:none}
+  .btn-label-short{display:inline}
+  .hero{flex-direction:column;align-items:stretch;padding:26px 20px 24px 24px;gap:20px}
+  .hero-title{font-size:30px;letter-spacing:-1px}
+  .hero-sub{font-size:14px}
+  .btn-celebrate{width:100%}
+  .scoreboard{grid-template-columns:1fr 1fr;gap:12px}
+  .stat{padding:16px;gap:12px;flex-direction:column;align-items:flex-start}
+  .stat-icon{width:44px;height:44px;flex-basis:44px;font-size:20px;border-radius:12px}
+  .stat-value{font-size:26px}
+  .stat-label{font-size:10px}
+  .sprint{padding:18px}
+  .sprint-row{flex-direction:column;align-items:stretch}
+  .sprint-right{justify-content:space-between}
+  .counter-pill{flex:1 1 100%;justify-content:center;min-height:46px}
+  .sprint-right .btn{flex:1 1 0;min-height:46px}
+  .command{padding:14px}
+  .selects{grid-template-columns:1fr}
+  .pill{min-height:44px}
+  .results-meta{margin:18px 2px 12px}
+  .grid{gap:14px}
+  .lead-card{padding:18px}
+  .card-name{font-size:18px}
+  .act{min-height:48px;font-size:13px;padding:0 8px}
+  .stage-select{max-width:170px;min-height:40px}
+  .modal-backdrop{padding:0;align-items:flex-end}
+  .modal{max-height:92vh;border-radius:22px 22px 0 0;padding:24px 18px calc(24px + env(safe-area-inset-bottom))}
+  .modal-title{font-size:21px}
+  .toast{bottom:114px;font-size:13px}
+  .dock{display:block}
+}
+@media (max-width:380px){
+  .actions{grid-template-columns:1fr 1fr}
+  .act{font-size:12.5px;gap:5px}
+  .specs{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= TOP NAV ================= -->
+<header class="topbar" data-testid="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="#top" data-testid="brand-link" aria-label="Ready2UP home">
+      <span class="brand-mark">R2</span>
+      <span class="brand-text">
+        <span class="brand-name">Ready2UP <span class="badge-pro">SALES PRO</span></span>
+        <span class="brand-tag">Web Design &amp; AI Automation Deals</span>
+      </span>
+    </a>
+    <div class="topbar-actions">
+      <button class="btn btn-outline" id="playbookBtn" data-testid="playbook-btn" aria-label="Open Pitch Playbook">
+        <span>💡</span><span class="btn-label">Pitch Playbook</span>
+      </button>
+      <button class="btn btn-success" id="exportBtn" data-testid="export-csv-btn" aria-label="Export leads to CSV">
+        <span>📥</span><span class="btn-label-long">Export CSV (<span class="export-count">40</span>)</span><span class="btn-label-short">CSV (<span class="export-count">40</span>)</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="container" id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" data-testid="hero-banner">
+    <div class="hero-content">
+      <span class="hero-badge" data-testid="hero-badge">🔥 Nashik F&amp;B Growth Engine</span>
+      <h1 class="hero-title" data-testid="hero-title">Ready2UP <span class="grad-text">Deal Closer</span> Portal</h1>
+      <p class="hero-sub">Targeting <strong>40 high-potential cafes, lounges &amp; restaurants</strong> across Nashik. These owners are bleeding customers to Swiggy/Zomato commission — pitch our <strong>zero-commission websites, QR menus, and Google SEO</strong> to close ₹35k–₹60k deals!</p>
+    </div>
+    <div class="hero-side">
+      <button class="btn btn-celebrate" id="celebrateBtn" data-testid="celebrate-btn">🎉 Team Win Celebration</button>
+    </div>
+  </section>
+
+  <!-- ================= SCOREBOARD ================= -->
+  <section class="scoreboard" data-testid="scoreboard" aria-label="Sales scoreboard">
+    <div class="stat" data-testid="stat-total">
+      <div class="stat-icon i-indigo">🎯</div>
+      <div class="stat-body"><div class="stat-label">Total Verified Leads</div><div class="stat-value" id="statTotal">40</div><div class="stat-sub">Across Nashik F&amp;B</div></div>
+    </div>
+    <div class="stat" data-testid="stat-hot">
+      <div class="stat-icon i-rose">🔥</div>
+      <div class="stat-body"><div class="stat-label">Hot Opportunities (No Site)</div><div class="stat-value" id="statHot">0</div><div class="stat-sub">Zero web presence</div></div>
+    </div>
+    <div class="stat" data-testid="stat-pipeline">
+      <div class="stat-icon i-emerald">💰</div>
+      <div class="stat-body"><div class="stat-label">Est. Pipeline Value</div><div class="stat-value" id="statPipeline">₹0</div><div class="stat-sub" id="statPipelineSub">Total deal potential</div></div>
+    </div>
+    <div class="stat" data-testid="stat-won">
+      <div class="stat-icon i-amber">🏆</div>
+      <div class="stat-body"><div class="stat-label">Deals Closed Today</div><div class="stat-value" id="statWon">0</div><div class="stat-sub" id="statWonSub">0 won overall</div></div>
+    </div>
+  </section>
+
+  <!-- ================= SPRINT TRACKER ================= -->
+  <section class="sprint" data-testid="sprint-tracker" aria-label="Daily sprint tracker">
+    <div class="sprint-row">
+      <div class="sprint-left">
+        <div class="sprint-icon">⚡</div>
+        <div>
+          <div class="sprint-title">Sales Rep Daily Sprint Tracker</div>
+          <div class="sprint-sub">Log your calls &amp; DMs in real-time. Target: <b>15 outreach contacts</b> today!</div>
+        </div>
+      </div>
+      <div class="sprint-right">
+        <div class="counter-pill" data-testid="calls-counter">📞 Calls Made: <b id="callsCount" data-testid="calls-count">0</b> / 15</div>
+        <button class="btn btn-log" id="logCallBtn" data-testid="log-call-btn">+ Log Call</button>
+        <button class="btn btn-reset" id="resetCallsBtn" data-testid="reset-calls-btn">Reset</button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><div class="progress-fill" id="callsProgress" data-testid="calls-progress"></div></div>
+  </section>
+
+  <!-- ================= COMMAND STRIP ================= -->
+  <section class="command" id="command" data-testid="command-strip" aria-label="Search and filters">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" data-testid="search-input" type="search" autocomplete="off" placeholder="Search by restaurant name, area (College Rd), cuisine..." aria-label="Search leads">
+      <button class="search-clear" id="searchClear" data-testid="search-clear-btn" hidden aria-label="Clear search">✕</button>
+    </div>
+    <div class="selects">
+      <div class="select-wrap"><span class="sel-icon">📍</span><select class="select" id="areaFilter" data-testid="area-filter" aria-label="Filter by area"></select></div>
+      <div class="select-wrap"><span class="sel-icon">📊</span><select class="select" id="stageFilter" data-testid="stage-filter" aria-label="Filter by stage"></select></div>
+    </div>
+    <div class="pills" id="pills" role="tablist" aria-label="Quick filters">
+      <button class="pill active" data-filter="all" data-testid="pill-all" role="tab" aria-selected="true">All Leads <span class="pill-count" data-count="all"></span></button>
+      <button class="pill" data-filter="hot" data-testid="pill-hot" role="tab" aria-selected="false">🔥 Hot Leads <span class="pill-count" data-count="hot"></span></button>
+      <button class="pill" data-filter="phone" data-testid="pill-phone" role="tab" aria-selected="false">📞 Phone Ready <span class="pill-count" data-count="phone"></span></button>
+      <button class="pill" data-filter="cafes" data-testid="pill-cafes" role="tab" aria-selected="false">☕ Cafes &amp; Bistros</button>
+      <button class="pill" data-filter="dining" data-testid="pill-dining" role="tab" aria-selected="false">🍽️ Fine Dining &amp; Casual</button>
+      <button class="pill" data-filter="bars" data-testid="pill-bars" role="tab" aria-selected="false">🍸 Lounges &amp; Bars</button>
+    </div>
+  </section>
+
+  <!-- ================= RESULTS ================= -->
+  <div class="results-meta">
+    <div class="results-text" id="resultsText" data-testid="results-count">Showing <b>40</b> of 40 leads</div>
+    <button class="link-btn" id="clearFiltersBtn" data-testid="clear-filters-btn" hidden>✕ Clear all filters</button>
+  </div>
+
+  <section class="grid" id="leadsGrid" data-testid="leads-grid" aria-live="polite"></section>
+
+  <div class="empty" id="emptyState" data-testid="empty-state">
+    <div class="empty-icon">🔎</div>
+    <h3>No leads match these filters</h3>
+    <p>Try a different area, stage or search term — there are 40 verified prospects waiting.</p>
+    <button class="btn btn-primary" id="emptyClearBtn" data-testid="empty-clear-btn">Show all leads</button>
+  </div>
+
+  <p class="footer"><b>Ready2UP</b> · Web Design, SEO &amp; AI Automation · Nashik, Maharashtra · Built for closers 🚀</p>
+</main>
+
+<!-- ================= PITCH PLAYBOOK MODAL ================= -->
+<div class="modal-backdrop" id="modal" data-testid="pitch-modal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" data-testid="modal-close-btn" aria-label="Close playbook">✕</button>
+    <span class="modal-badge">READY2UP SALES PLAYBOOK</span>
+    <h2 class="modal-title" id="modalTitle" data-testid="modal-title">Pitching: Nashik F&amp;B Prospect</h2>
+    <p class="modal-sub" id="modalSub">Personalised scripts — copy, paste, and close. 💪</p>
+
+    <section class="script-block">
+      <div class="script-head">
+        <h4>💬 WhatsApp Opener Template</h4>
+        <div class="script-tools">
+          <button class="btn-mini" data-copy="waScript" data-testid="copy-wa-btn">📋 Copy Text</button>
+          <a class="btn-mini wa" id="waSendBtn" data-testid="wa-send-btn" target="_blank" rel="noopener" hidden>💬 Send</a>
+        </div>
+      </div>
+      <pre class="script" id="waScript" data-testid="wa-script"></pre>
+    </section>
+
+    <section class="script-block">
+      <div class="script-head">
+        <h4>☎️ Cold Call 30-Second Pitch</h4>
+        <div class="script-tools"><button class="btn-mini" data-copy="callScript" data-testid="copy-call-btn">📋 Copy Text</button></div>
+      </div>
+      <pre class="script" id="callScript" data-testid="call-script"></pre>
+    </section>
+
+    <section class="pricing" data-testid="pricing-section">
+      <h4>💰 Ready2UP Pricing Packages</h4>
+      <div class="pkg">
+        <div><div class="pkg-name">Starter F&amp;B Website</div><div class="pkg-desc">5-page responsive site, digital menu, WhatsApp booking, location map.</div></div>
+        <div class="pkg-price">₹25,000</div>
+      </div>
+      <div class="pkg featured">
+        <div><div class="pkg-name">Pro Direct Ordering Suite <span class="pkg-tag">BEST SELLER</span></div><div class="pkg-desc">Zero-commission ordering, UPI payment, automated reservations, Google My Business SEO.</div></div>
+        <div class="pkg-price">₹45,000</div>
+      </div>
+      <div class="pkg">
+        <div><div class="pkg-name">VIP Growth &amp; AI Package</div><div class="pkg-desc">Everything above + Instagram lead capture + Google Ads setup.</div></div>
+        <div class="pkg-price">₹65,000</div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast" data-testid="toast" role="status" aria-live="polite"></div>
+
+<!-- ================= MOBILE DOCK ================= -->
+<nav class="dock" data-testid="mobile-dock" aria-label="Quick actions">
+  <div class="dock-inner">
+    <button class="dock-btn" id="dockHome" data-testid="dock-dashboard"><span>🏠</span><span>Dashboard</span></button>
+    <button class="dock-btn" id="dockSearch" data-testid="dock-search"><span>🔍</span><span>Search</span></button>
+    <button class="dock-btn" id="dockPlaybook" data-testid="dock-playbook"><span>💡</span><span>Playbook</span></button>
+    <button class="dock-btn" id="dockCsv" data-testid="dock-csv"><span>📥</span><span>CSV</span></button>
+  </div>
+</nav>
+
+<script>
+/* ================= LEAD DATABASE (40 VERIFIED NASHIK BUSINESSES) ================= */
+const LEADS = [
+  {
+    "id": 1,
+    "name": "Millionaires Above All",
+    "type": "Restaurant & Bar",
+    "area": "Parijat Nagar",
+    "cuisine": "North Indian, Asian, Continental",
+    "price": "₹1700",
+    "rating": "4.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Millionaires+Above+All+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹45,000",
+    "pitchHook": "Premier rooftop venue: Pitch VIP table booking system, sunset photo gallery, and weekend live DJ event ticket reservations directly on their own website."
+  },
+  {
+    "id": 2,
+    "name": "Mykonos",
+    "type": "Cafe & Restaurant",
+    "area": "College Road",
+    "cuisine": "Cafe, Continental, Italian, Coffee",
+    "price": "₹1300",
+    "rating": "4.8",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Mykonos+Cafe+College+Road+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹40,000",
+    "pitchHook": "Huge youth & college crowd hotspot. Pitch Greek-themed aesthetic website with Instagram reel embeds, QR digital menu, and WhatsApp birthday party bookings."
+  },
+  {
+    "id": 3,
+    "name": "Larive Kitchen & Cocktail",
+    "type": "Restaurant & Bar",
+    "area": "Sahjeevan Colony",
+    "cuisine": "Multi-cuisine, Cocktails",
+    "price": "₹1500",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Larive+Kitchen+Cocktail+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹50,000",
+    "pitchHook": "Cocktail lounge and modern dining. Pitch cocktail catalog, chef tasting menu showcase, and corporate dinner reservation system."
+  },
+  {
+    "id": 4,
+    "name": "Tamara",
+    "type": "Restaurant",
+    "area": "College Road",
+    "cuisine": "Multi-cuisine Fine Dining",
+    "price": "₹1400",
+    "rating": "4.7",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Tamara+Restaurant+College+Road+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹38,000",
+    "pitchHook": "Upscale dining on College Road. Pitch elegant family dining reservation portal + Google SEO to rank #1 for 'best family restaurant College Road'."
+  },
+  {
+    "id": 5,
+    "name": "Urban Oasis Multi-cuisine",
+    "type": "Restaurant",
+    "area": "Patil Colony",
+    "cuisine": "Multi-cuisine",
+    "price": "₹1200",
+    "rating": "4.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Urban+Oasis+Multi-cuisine+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹35,000",
+    "pitchHook": "Growing restaurant. Needs online credibility against older competitors. Pitch starter website with food photography and Google Maps boost."
+  },
+  {
+    "id": 6,
+    "name": "Vintage Asia - Courtyard By Marriott",
+    "type": "Hotel Restaurant",
+    "area": "Mumbai-Agra Highway",
+    "cuisine": "Pan-Asian Luxury",
+    "price": "₹2000",
+    "rating": "5.0",
+    "hasWebsite": "Hotel Portal",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Courtyard+Marriott+Nashik",
+    "social": "Hotel Website",
+    "dealValue": "₹60,000",
+    "pitchHook": "Part of Marriott. Pitch standalone microsite for high-net-worth wine tourist dinners & Sunday brunch promotions."
+  },
+  {
+    "id": 7,
+    "name": "Horizon By Sayaji",
+    "type": "Hotel Restaurant",
+    "area": "Indira Nagar",
+    "cuisine": "Multi-cuisine Rooftop",
+    "price": "₹1800",
+    "rating": "4.7",
+    "hasWebsite": "Hotel Portal",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Horizon+Sayaji+Nashik",
+    "social": "Hotel Website",
+    "dealValue": "₹45,000",
+    "pitchHook": "Sayaji hotel dining. Pitch private candlelight dinner and proposal booking landing page with automated WhatsApp confirmation."
+  },
+  {
+    "id": 8,
+    "name": "Sway Bar - Palm Springs",
+    "type": "Bar & Lounge",
+    "area": "Gangapur Road",
+    "cuisine": "Bar & Finger Food",
+    "price": "₹1600",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Sway+Bar+Palm+Springs+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹35,000",
+    "pitchHook": "Popular weekend bar. Pitch guestlist RSVP management & drink menu QR codes so staff isn't overwhelmed during peak hours."
+  },
+  {
+    "id": 9,
+    "name": "Aster - Express Inn",
+    "type": "Hotel Restaurant",
+    "area": "Pathardi Phata",
+    "cuisine": "Multi-cuisine Buffet",
+    "price": "₹1500",
+    "rating": "4.3",
+    "hasWebsite": "Hotel Portal",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Aster+Express+Inn+Nashik",
+    "social": "Hotel Website",
+    "dealValue": "₹40,000",
+    "pitchHook": "Popular buffet spot. Pitch direct weekend buffet voucher sales with instant UPI payment gateway to reduce walk-in wait times."
+  },
+  {
+    "id": 10,
+    "name": "The Foundry",
+    "type": "Restaurant & Bar",
+    "area": "Satpur Colony",
+    "cuisine": "Industrial Resto-Bar",
+    "price": "₹1400",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/The+Foundry+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹45,000",
+    "pitchHook": "Satpur industrial belt favorite for corporate lunches. Pitch corporate party booking calculator and GST invoice automation on website."
+  },
+  {
+    "id": 11,
+    "name": "Amber - Palm Springs",
+    "type": "Restaurant",
+    "area": "Gangapur Road",
+    "cuisine": "North Indian & Mughlai",
+    "price": "₹1800",
+    "rating": "4.6",
+    "hasWebsite": "No Site",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Amber+Palm+Springs+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹35,000",
+    "pitchHook": "Family dining restaurant on Gangapur Rd. Pitch banquet/kitty party booking landing page + festive family thali packages."
+  },
+  {
+    "id": 12,
+    "name": "Boracco Alfresco Bar Kitchen",
+    "type": "Bar & Restaurant",
+    "area": "Gangapur Road",
+    "cuisine": "Outdoor Dining & Cocktails",
+    "price": "₹1600",
+    "rating": "4.4",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Boracco+Alfresco+Bar+Kitchen+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹45,000",
+    "pitchHook": "High footfall open-air aesthetic venue. Pitch stunning photo-rich landing page with live sunset reservation slots."
+  },
+  {
+    "id": 13,
+    "name": "Asian Wok And Grill",
+    "type": "Restaurant",
+    "area": "Anand Wali Goan",
+    "cuisine": "Pan-Asian & Chinese",
+    "price": "₹1200",
+    "rating": "5.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Asian+Wok+And+Grill+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹50,000",
+    "pitchHook": "5.0 Star rated Asian favorite with sister outlets. Pitch unified chain website with location switcher and online direct ordering."
+  },
+  {
+    "id": 14,
+    "name": "Barrel Tap Brewery",
+    "type": "Brewery & Lounge",
+    "area": "Pathardi Phata",
+    "cuisine": "Craft Beers & Gourmet Food",
+    "price": "₹1800",
+    "rating": "5.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Barrel+Tap+Brewery+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹55,000",
+    "pitchHook": "One of Nashik's premier craft breweries. Pitch live beer-on-tap menu, brewery tour bookings, and craft beer tasting flight vouchers."
+  },
+  {
+    "id": 15,
+    "name": "Hotel Hind Kesari",
+    "type": "Restaurant",
+    "area": "Gangapur Road",
+    "cuisine": "Authentic Maharashtrian & Non-Veg",
+    "price": "₹800",
+    "rating": "5.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Hotel+Hind+Kesari+Nashik",
+    "social": "JustDial/Google",
+    "dealValue": "₹30,000",
+    "pitchHook": "Loved for mutton thali & local flavor. Pitch tourist-focused website targeting Mumbai/Pune travelers visiting Sula Vineyards & Trimbakeshwar."
+  },
+  {
+    "id": 16,
+    "name": "Freesia Resort by Express Inn",
+    "type": "Resort & Restaurant",
+    "area": "Govardhan",
+    "cuisine": "Resort Dining & Multi-cuisine",
+    "price": "₹2500",
+    "rating": "5.0",
+    "hasWebsite": "Resort Portal",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Freesia+Resort+Express+Inn+Nashik",
+    "social": "Hotel Website",
+    "dealValue": "₹65,000",
+    "pitchHook": "Luxury resort destination. Pitch wedding catering & destination dining booking portal with 360-degree virtual tour."
+  },
+  {
+    "id": 17,
+    "name": "Hotel Seven Heaven",
+    "type": "Hotel & Restaurant",
+    "area": "Nashik City",
+    "cuisine": "Multi-cuisine Family Dining",
+    "price": "₹1000",
+    "rating": "5.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Hotel+Seven+Heaven+Nashik",
+    "social": "Google/JustDial",
+    "dealValue": "₹35,000",
+    "pitchHook": "Independent city hotel & restaurant. Pitch combo package: Restaurant table booking + room direct booking engine without OTA commissions."
+  },
+  {
+    "id": 18,
+    "name": "The White Mug",
+    "type": "Cafe",
+    "area": "Mahatma Nagar",
+    "cuisine": "Artisanal Coffee & Continental",
+    "price": "₹600",
+    "rating": "5.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/The+White+Mug+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹35,000",
+    "pitchHook": "Trendy boutique cafe in posh Mahatma Nagar. Pitch minimalist aesthetic website with online merchandise & specialty coffee bean ordering."
+  },
+  {
+    "id": 19,
+    "name": "Marquis",
+    "type": "Restaurant",
+    "area": "Govardhan",
+    "cuisine": "Multi-cuisine Fine Dining",
+    "price": "₹1500",
+    "rating": "5.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Marquis+Restaurant+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹40,000",
+    "pitchHook": "New fine-dining brand near scenic Govardhan. Pitch SEO ranking for 'luxury restaurants near Gangapur dam' to capture weekend travelers."
+  },
+  {
+    "id": 20,
+    "name": "Sidewalk",
+    "type": "Cafe & Restaurant",
+    "area": "Satpur Colony",
+    "cuisine": "Cafe & Casual Bites",
+    "price": "₹1000",
+    "rating": "5.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Sidewalk+Cafe+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹30,000",
+    "pitchHook": "Cozy bistro ambiance. Pitch QR contactless digital menu + loyalty points program to turn one-time diners into weekly regulars."
+  },
+  {
+    "id": 21,
+    "name": "De' koffiEstate",
+    "type": "Cafe",
+    "area": "Gangapur Road",
+    "cuisine": "Coffee Estate Specialty & Snacks",
+    "price": "₹800",
+    "rating": "5.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/De+koffiEstate+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹38,000",
+    "pitchHook": "Unique estate coffee concept. Pitch brand storytelling website showcasing coffee bean sourcing, brewing workshops, and direct coffee powder sales."
+  },
+  {
+    "id": 22,
+    "name": "Friends Bistro",
+    "type": "Cafe & Bistro",
+    "area": "College Road",
+    "cuisine": "Bistro, Pizza, Pasta, Shakes",
+    "price": "₹900",
+    "rating": "5.0",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Friends+Bistro+College+Road+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹35,000",
+    "pitchHook": "College Road hangout. Pitch student discount club registration and instant WhatsApp party table reservation widget."
+  },
+  {
+    "id": 23,
+    "name": "Barbeque Nation",
+    "type": "Chain Restaurant",
+    "area": "Nashik City",
+    "cuisine": "Live Grill & Buffet",
+    "price": "₹1800",
+    "rating": "4.5",
+    "hasWebsite": "Corporate Chain",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Barbeque+Nation+Nashik",
+    "social": "Corporate Site",
+    "dealValue": "₹20,000",
+    "pitchHook": "National brand with corporate app. Low chance of custom website; pitch local influencer marketing or Nashik SEO landing pages instead."
+  },
+  {
+    "id": 24,
+    "name": "Pokket Cafe",
+    "type": "Cafe Chain",
+    "area": "College Road",
+    "cuisine": "Burgers, Cold Coffee, Pasta",
+    "price": "₹700",
+    "rating": "4.3",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Pokket+Cafe+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹45,000",
+    "pitchHook": "Rapidly expanding local favorite (2 outlets). Pitch multi-outlet online ordering portal so customers can order direct without 25% Swiggy cuts."
+  },
+  {
+    "id": 25,
+    "name": "Namaste Chef by Asian Wok & Grill",
+    "type": "Restaurant Chain",
+    "area": "Multiple Outlets",
+    "cuisine": "Asian & Multi-cuisine",
+    "price": "₹1200",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Namaste+Chef+Asian+Wok+Grill+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹60,000",
+    "pitchHook": "3 Outlets in Nashik and zero unified website! Top tier prospect. Pitch complete franchise & chain website with centralized ordering system."
+  },
+  {
+    "id": 26,
+    "name": "Veg Aroma",
+    "type": "Pure Veg Chain",
+    "area": "Multiple Outlets",
+    "cuisine": "Pure Veg, North & South Indian",
+    "price": "₹800",
+    "rating": "4.4",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Veg+Aroma+Nashik",
+    "social": "Google/JustDial",
+    "dealValue": "₹40,000",
+    "pitchHook": "2 Busy veg outlets. High volume of family dining. Pitch bulk sweets/catering booking module and quick table reservation system."
+  },
+  {
+    "id": 27,
+    "name": "The Breakfast Story",
+    "type": "Cafe & Bistro",
+    "area": "Thatte Nagar",
+    "cuisine": "Artisan Breakfast, Waffles, Bistro",
+    "price": "₹700",
+    "rating": "4.9",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/The+Breakfast+Story+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹40,000",
+    "pitchHook": "4.9 rating with live music nights! Pitch event RSVP ticketing, breakfast combo pre-orders, and an Instagram-synchronized gallery."
+  },
+  {
+    "id": 28,
+    "name": "Hotel Durga",
+    "type": "Restaurant & Cafe",
+    "area": "Gangapur Road",
+    "cuisine": "Snacks, Legendary Cold Coffee",
+    "price": "₹400",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Hotel+Durga+Gangapur+Road+Nashik",
+    "social": "Google/JustDial",
+    "dealValue": "₹28,000",
+    "pitchHook": "Famous local institution for cold coffee & snacks. Pitch simple, high-speed mobile ordering page so students can skip long counter lines."
+  },
+  {
+    "id": 29,
+    "name": "Cafe Bliss",
+    "type": "Cafe",
+    "area": "Gangapur Road",
+    "cuisine": "Frappes, Shakes & Sandwiches",
+    "price": "₹600",
+    "rating": "4.4",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Cafe+Bliss+Gangapur+Road+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹32,000",
+    "pitchHook": "Beloved neighborhood hangout. Pitch cute branded website with digital loyalty stamp card to boost repeat weekly visits."
+  },
+  {
+    "id": 30,
+    "name": "Cafe Wassup",
+    "type": "Cafe",
+    "area": "College Road",
+    "cuisine": "Cafe, Shakes, Burgers",
+    "price": "₹500",
+    "rating": "4.2",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "0253-2311585",
+    "maps": "https://www.google.com/maps/search/Cafe+Wassup+College+Road+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹30,000",
+    "pitchHook": "Verified phone available! Ready for instant cold call. Pitch budget-friendly web design package with QR table ordering."
+  },
+  {
+    "id": 31,
+    "name": "Gandharv Restaurant",
+    "type": "Restaurant",
+    "area": "Mumbai-Agra Highway",
+    "cuisine": "Pure Veg Thali & Maharashtrian",
+    "price": "₹600",
+    "rating": "4.6",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "+91 98816 32502",
+    "maps": "https://www.google.com/maps/search/Gandharv+Restaurant+Nashik",
+    "social": "Facebook",
+    "dealValue": "₹38,000",
+    "pitchHook": "Verified phone! Prime highway location for weekend pilgrims and Shirdi/Sula tourists. Pitch highway SEO package to capture traveler stops."
+  },
+  {
+    "id": 32,
+    "name": "BLVD (Panorama)",
+    "type": "Restaurant & Bar",
+    "area": "Nashik City",
+    "cuisine": "Grill, Pan-Asian & Cocktails",
+    "price": "₹1800",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "+91 83800 39444",
+    "maps": "https://www.google.com/maps/search/BLVD+Panorama+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹50,000",
+    "pitchHook": "Verified phone! High-end dining venue. Call directly and pitch corporate dining packages, fine wine pairing events, and table booking engine."
+  },
+  {
+    "id": 33,
+    "name": "Chai Ketali",
+    "type": "Cafe",
+    "area": "College Road",
+    "cuisine": "Masala Chai, Sandwiches, Fries",
+    "price": "₹300",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Chai+Ketali+College+Road+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹25,000",
+    "pitchHook": "Popular cozy tea point. Pitch Starter Landing Page (₹20,000) with location map, menu pricing, and tea powder subscriptions."
+  },
+  {
+    "id": 34,
+    "name": "The Cafe Katta",
+    "type": "Cafe",
+    "area": "College Road",
+    "cuisine": "Healthy Bites, Coffee & Shakes",
+    "price": "₹500",
+    "rating": "4.3",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/The+Cafe+Katta+College+Road+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹30,000",
+    "pitchHook": "Famous birthday party venue. Pitch birthday decoration & private hall booking calendar directly on their website."
+  },
+  {
+    "id": 35,
+    "name": "Charlie's Deck",
+    "type": "Lounge & Cafe",
+    "area": "Nashik City",
+    "cuisine": "Romantic Cafe & Continental",
+    "price": "₹800",
+    "rating": "4.6",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Charlies+Deck+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹42,000",
+    "pitchHook": "Ultra-aesthetic Instagram sensation. Pitch romantic candlelight booking system + instant Instagram influencer review showcase."
+  },
+  {
+    "id": 36,
+    "name": "TRC (The Reality Cafe)",
+    "type": "Cafe & Diner",
+    "area": "CIDCO",
+    "cuisine": "Chicken Tandoori, Snacks, Breakfast",
+    "price": "₹500",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/TRC+The+Reality+Cafe+CIDCO+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹32,000",
+    "pitchHook": "CIDCO area top-rated diner. Pitch localized WhatsApp ordering bot & menu showcase to dominate CIDCO food deliveries."
+  },
+  {
+    "id": 37,
+    "name": "Cafe Coffee Day",
+    "type": "Cafe Chain",
+    "area": "City Center Mall",
+    "cuisine": "Coffee & Beverages",
+    "price": "₹500",
+    "rating": "4.0",
+    "hasWebsite": "Corporate Chain",
+    "priority": "LOW",
+    "phone": "093268 73036",
+    "maps": "https://www.google.com/maps/search/Cafe+Coffee+Day+City+Center+Mall+Nashik",
+    "social": "Corporate Site",
+    "dealValue": "₹20,000",
+    "pitchHook": "National brand. Pitch local franchise manager on Google My Business review automation."
+  },
+  {
+    "id": 38,
+    "name": "Chicago Pizza",
+    "type": "Pizza Chain",
+    "area": "Nashik City",
+    "cuisine": "Deep Dish Pizza & Fast Food",
+    "price": "₹700",
+    "rating": "4.2",
+    "hasWebsite": "Corporate Chain",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Chicago+Pizza+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹30,000",
+    "pitchHook": "Franchise outlet in Nashik. Pitch local store landing page with direct takeaway discount offers."
+  },
+  {
+    "id": 39,
+    "name": "PVR Cinemas Food Lounge",
+    "type": "Cinema F&B",
+    "area": "Nashik City",
+    "cuisine": "Movie Snacks & Fast Food",
+    "price": "₹1000",
+    "rating": "4.0",
+    "hasWebsite": "Corporate Chain",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/PVR+Nashik",
+    "social": "Corporate Site",
+    "dealValue": "₹15,000",
+    "pitchHook": "Cinema chain. Kept in database for commercial reference."
+  },
+  {
+    "id": 40,
+    "name": "Shree Khodiyar Kathiyawadi Dhaba",
+    "type": "Restaurant",
+    "area": "Nashik City",
+    "cuisine": "Kathiyawadi, Gujarati & Desi Ghee",
+    "price": "₹600",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Shree+Khodiyar+Kathiyawadi+Dhaba+Nashik",
+    "social": "Google/JustDial",
+    "dealValue": "₹35,000",
+    "pitchHook": "Huge local Gujarati/Kathiyawadi crowd. Absolutely no website. Pitch regional language support (Gujarati/Marathi/English) and family thali catering booking."
+  }
+];
+
+/* ================= CONFIG ================= */
+const STAGES = ['New Lead', 'In Discussion', 'Pitched', 'Meeting Booked', 'Deal Won'];
+const STAGE_META = {
+  'New Lead':       { icon: '⚪', cls: 'stage-new' },
+  'In Discussion':  { icon: '📞', cls: 'stage-talk' },
+  'Pitched':        { icon: '💬', cls: 'stage-pitched' },
+  'Meeting Booked': { icon: '📅', cls: 'stage-meeting' },
+  'Deal Won':       { icon: '🏆', cls: 'stage-won' }
+};
+const AREA_ORDER = ['College Road', 'Gangapur Road', 'Mahatma Nagar', 'Parijat Nagar', 'Satpur Colony', 'Pathardi Phata', 'Govardhan', 'Mumbai-Agra Highway', 'CIDCO', 'Thatte Nagar', 'Nashik City'];
+const CALL_TARGET = 15;
+const KEYS = { stages: 'r2u_lead_stages_v1', calls: 'r2u_daily_calls_v1' };
+const CONFETTI_COLORS = ['#4f46e5', '#06b6d4', '#059669', '#f59e0b', '#e11d48', '#7c3aed'];
+
+/* ================= HELPERS ================= */
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const todayKey = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const dealAmount = (l) => Number(String(l.dealValue).replace(/[^\d]/g, '')) || 0;
+const formatMoney = (n) => n >= 100000 ? `₹${(n / 100000).toFixed(1)}L` : `₹${n.toLocaleString('en-IN')}`;
+const isBar = (l) => /bar|lounge|brewery/i.test(l.type);
+const isCafe = (l) => /cafe|bistro/i.test(l.type) && !isBar(l);
+const typeIcon = (l) => isBar(l) ? '🍸' : isCafe(l) ? '☕' : '🍽️';
+const waNumber = (phone) => { let d = phone.replace(/\D/g, ''); if (d.startsWith('0')) d = d.slice(1); if (d.length === 10) d = '91' + d; return d; };
+const telHref = (phone) => `tel:${phone.replace(/[^\d+]/g, '')}`;
+
+function load(key, fallback) { try { const v = JSON.parse(localStorage.getItem(key)); return v ?? fallback; } catch { return fallback; } }
+function save(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} }
+
+/* ================= STATE ================= */
+let stages = load(KEYS.stages, {});
+Object.keys(stages).forEach((id) => { if (typeof stages[id] === 'string') stages[id] = { stage: stages[id], at: '' }; });
+let calls = load(KEYS.calls, { date: todayKey(), count: 0 });
+if (calls.date !== todayKey()) calls = { date: todayKey(), count: 0 };
+const filters = { q: '', area: 'all', stage: 'all', pill: 'all' };
+let activeLead = null;
+
+const stageOf = (id) => (stages[id] && STAGES.includes(stages[id].stage)) ? stages[id].stage : 'New Lead';
+
+const PILL_FILTERS = {
+  all: () => true,
+  hot: (l) => l.hasWebsite === 'No Site',
+  phone: (l) => !!l.phone,
+  cafes: isCafe,
+  dining: (l) => !isBar(l) && !isCafe(l),
+  bars: isBar
+};
+
+/* ================= SCRIPTS ================= */
+function waMessage(l) {
+  const name = l ? l.name : '[Restaurant Name]';
+  const area = l ? l.area : '[Area]';
+  return `Hey ${name} team! 👋
+Loved the ambiance and positive reviews of ${name} on ${area}! ⭐
+
+I noticed you don't have a direct website for table bookings & direct food orders. You're probably losing 20-25% in commissions to Swiggy & Zomato every single day.
+
+We run Ready2UP (a Nashik web design & AI automation agency). We create high-converting websites with:
+✅ 0% commission direct online ordering
+✅ WhatsApp table booking automation
+✅ Instagram-to-Menu sync
+✅ Google Local SEO dominance
+
+Can I share a 60-second preview design of what ${name}'s custom website could look like? Free of cost!`;
+}
+
+function callScript(l) {
+  const name = l ? l.name : '[Restaurant Name]';
+  const area = l ? l.area : '[Area]';
+  const hook = l ? `\n\n🎯 Angle for this lead: ${l.pitchHook}` : '';
+  return `"Hi! Am I speaking with the owner or manager of ${name}?
+
+This is [Your Name] from Ready2UP — we're a Nashik-based web design & AI automation agency. I'll take just 30 seconds.
+
+I noticed ${name} on ${area} doesn't have its own website yet, so most customers only find you on Swiggy/Zomato — and every order there costs you 20-25% in commission.
+
+We build zero-commission direct ordering websites for Nashik restaurants, with WhatsApp table booking and Google SEO so you rank #1 in your area. Packages start at just ₹25,000.
+
+Can I WhatsApp you a FREE 60-second preview design of ${name}'s website today? Which number should I send it to?"${hook}`;
+}
+
+function waLink(l) {
+  const text = encodeURIComponent(waMessage(l));
+  return l && l.phone ? `https://wa.me/${waNumber(l.phone)}?text=${text}` : `https://wa.me/?text=${text}`;
+}
+
+/* ================= TOAST & CONFETTI ================= */
+let toastTimer;
+function toast(msg) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function celebrate(size = 'normal') {
+  if (typeof confetti !== 'function') return;
+  if (size === 'big') {
+    confetti({ particleCount: 170, spread: 100, startVelocity: 45, origin: { y: 0.6 }, colors: CONFETTI_COLORS });
+    setTimeout(() => {
+      confetti({ particleCount: 90, angle: 60, spread: 70, origin: { x: 0, y: 0.7 }, colors: CONFETTI_COLORS });
+      confetti({ particleCount: 90, angle: 120, spread: 70, origin: { x: 1, y: 0.7 }, colors: CONFETTI_COLORS });
+    }, 260);
+  } else {
+    confetti({ particleCount: 100, spread: 80, origin: { y: 0.65 }, colors: CONFETTI_COLORS });
+  }
+}
+
+/* ================= STATS ================= */
+function bump(el) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
+
+function updateStats() {
+  const hot = LEADS.filter(PILL_FILTERS.hot).length;
+  const pipeline = LEADS.reduce((s, l) => s + dealAmount(l), 0);
+  const wonAll = LEADS.filter((l) => stageOf(l.id) === 'Deal Won');
+  const wonToday = wonAll.filter((l) => stages[l.id] && stages[l.id].at === todayKey()).length;
+  const wonValue = wonAll.reduce((s, l) => s + dealAmount(l), 0);
+
+  $('statTotal').textContent = LEADS.length;
+  $('statHot').textContent = hot;
+  $('statPipeline').textContent = formatMoney(pipeline);
+  $('statPipelineSub').textContent = wonValue ? `${formatMoney(wonValue)} already won 🎉` : 'Total deal potential';
+  const wonEl = $('statWon');
+  if (wonEl.textContent !== String(wonToday)) bump(wonEl);
+  wonEl.textContent = wonToday;
+  $('statWonSub').textContent = `${wonAll.length} won overall`;
+
+  document.querySelectorAll('.export-count').forEach((el) => (el.textContent = LEADS.length));
+  document.querySelectorAll('.pill-count').forEach((el) => {
+    const n = LEADS.filter(PILL_FILTERS[el.dataset.count]).length;
+    el.textContent = `(${n})`;
+  });
+}
+
+function updateCallsUI() {
+  const el = $('callsCount');
+  if (el.textContent !== String(calls.count)) bump(el);
+  el.textContent = calls.count;
+  $('callsProgress').style.width = `${Math.min(100, (calls.count / CALL_TARGET) * 100)}%`;
+}
+
+/* ================= FILTERS & RENDER ================= */
+function buildSelects() {
+  const dataAreas = [...new Set(LEADS.map((l) => l.area))];
+  const extra = dataAreas.filter((a) => !AREA_ORDER.includes(a)).sort();
+  const areas = [...AREA_ORDER, ...extra];
+  $('areaFilter').innerHTML = `<option value="all">All Nashik Areas</option>` + areas.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
+  $('stageFilter').innerHTML = `<option value="all">All Stages</option>` + STAGES.map((s) => `<option value="${esc(s)}">${STAGE_META[s].icon} ${esc(s)}</option>`).join('');
+}
+
+function visibleLeads() {
+  const q = filters.q.trim().toLowerCase();
+  return LEADS.filter((l) => {
+    if (!PILL_FILTERS[filters.pill](l)) return false;
+    if (filters.area !== 'all' && l.area !== filters.area) return false;
+    if (filters.stage !== 'all' && stageOf(l.id) !== filters.stage) return false;
+    if (q) {
+      const hay = `${l.name} ${l.area} ${l.cuisine} ${l.type} ${l.pitchHook}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function stageSelectHTML(l) {
+  const current = stageOf(l.id);
+  return `<select class="stage-select ${STAGE_META[current].cls}" data-id="${l.id}" data-testid="stage-select-${l.id}" aria-label="Sales stage for ${esc(l.name)}">
+    ${STAGES.map((s) => `<option value="${esc(s)}" ${s === current ? 'selected' : ''}>${STAGE_META[s].icon} ${esc(s)}</option>`).join('')}
+  </select>`;
+}
+
+function cardHTML(l, i) {
+  const pr = l.priority.toUpperCase();
+  const prClass = pr === 'HIGH' ? 'p-high' : pr === 'MEDIUM' ? 'p-medium' : 'p-low';
+  const prIcon = pr === 'HIGH' ? '🔥' : pr === 'MEDIUM' ? '⚡' : '🏢';
+  const noSite = l.hasWebsite === 'No Site';
+  const won = stageOf(l.id) === 'Deal Won';
+  const phoneHTML = l.phone
+    ? `<span class="spec-val phone-yes" data-testid="lead-phone-${l.id}">${esc(l.phone)}</span>`
+    : `<span class="spec-val phone-no" data-testid="lead-phone-${l.id}">Search Maps</span>`;
+  const callBtn = l.phone
+    ? `<a class="act act-call" href="${telHref(l.phone)}" data-testid="call-btn-${l.id}">📞 Call Now</a>`
+    : `<button class="act act-call" data-action="findphone" data-id="${l.id}" data-testid="call-btn-${l.id}">📞 Find Phone</button>`;
+
+  return `<article class="lead-card ${won ? 'is-won' : ''}" data-id="${l.id}" data-testid="lead-card-${l.id}" style="--i:${Math.min(i, 11)}">
+    <div class="card-head">
+      <h3 class="card-name" data-testid="lead-name-${l.id}">${esc(l.name)}</h3>
+      <span class="deal-tag" data-testid="deal-value-${l.id}">💵 ${esc(l.dealValue)}</span>
+    </div>
+    <div class="tag-row">
+      <span class="type-tag">${typeIcon(l)} ${esc(l.type)}</span>
+      <span class="web-tag ${noSite ? 'no-site' : ''}">${noSite ? '🚫 No Website' : '🌐 ' + esc(l.hasWebsite)}</span>
+    </div>
+    <div class="status-row">
+      <span class="priority ${prClass}" data-testid="priority-${l.id}">${prIcon} ${esc(pr)}</span>
+      ${stageSelectHTML(l)}
+    </div>
+    <div class="specs">
+      <div class="spec"><span class="spec-label">📍 Area</span><span class="spec-val" title="${esc(l.area)}">${esc(l.area)}</span></div>
+      <div class="spec"><span class="spec-label">⭐ Rating &amp; Cost</span><span class="spec-val">${esc(l.rating)} ★ • ${esc(l.price)}</span></div>
+      <div class="spec"><span class="spec-label">🍽️ Cuisine</span><span class="spec-val" title="${esc(l.cuisine)}">${esc(l.cuisine)}</span></div>
+      <div class="spec"><span class="spec-label">📞 Phone</span>${phoneHTML}</div>
+    </div>
+    <div class="pitch-box">
+      <span class="pitch-label">🎯 Ready2UP Pitch Angle</span>
+      <p>${esc(l.pitchHook)}</p>
+    </div>
+    <div class="actions">
+      <a class="act act-wa" href="${waLink(l)}" target="_blank" rel="noopener" data-testid="whatsapp-btn-${l.id}">💬 WhatsApp Pitch</a>
+      ${callBtn}
+      <button class="act act-outline" data-action="script" data-id="${l.id}" data-testid="script-btn-${l.id}">📋 Pitch Script</button>
+      <a class="act act-outline act-maps" href="${esc(l.maps)}" target="_blank" rel="noopener" data-testid="maps-btn-${l.id}">📍 Google Maps</a>
+    </div>
+  </article>`;
+}
+
+function render() {
+  const list = visibleLeads();
+  $('leadsGrid').innerHTML = list.map(cardHTML).join('');
+  $('emptyState').classList.toggle('show', list.length === 0);
+
+  const inView = list.reduce((s, l) => s + dealAmount(l), 0);
+  $('resultsText').innerHTML = `Showing <b>${list.length}</b> of ${LEADS.length} leads · <b class="money">${formatMoney(inView)}</b> pipeline in view`;
+
+  const active = filters.q.trim() || filters.area !== 'all' || filters.stage !== 'all' || filters.pill !== 'all';
+  $('clearFiltersBtn').hidden = !active;
+}
+
+function clearFilters() {
+  filters.q = ''; filters.area = 'all'; filters.stage = 'all'; filters.pill = 'all';
+  $('searchInput').value = ''; $('searchClear').hidden = true;
+  $('areaFilter').value = 'all'; $('stageFilter').value = 'all';
+  setActivePill('all');
+  render();
+}
+
+function setActivePill(key) {
+  document.querySelectorAll('.pill').forEach((p) => {
+    const on = p.dataset.filter === key;
+    p.classList.toggle('active', on);
+    p.setAttribute('aria-selected', on);
+  });
+}
+
+/* ================= STAGE MANAGEMENT ================= */
+function setStage(id, stage) {
+  stages[id] = { stage, at: todayKey() };
+  save(KEYS.stages, stages);
+
+  const lead = LEADS.find((l) => l.id === id);
+  const card = document.querySelector(`.lead-card[data-id="${id}"]`);
+  if (card) {
+    const sel = card.querySelector('.stage-select');
+    sel.className = `stage-select ${STAGE_META[stage].cls}`;
+    card.classList.toggle('is-won', stage === 'Deal Won');
+  }
+  updateStats();
+
+  if (stage === 'Deal Won') {
+    celebrate('big');
+    toast(`🎉 BOOM! Deal marked as WON! ${lead.name} → ${lead.dealValue}`);
+  } else {
+    toast(`${STAGE_META[stage].icon} ${lead.name} moved to ${stage}`);
+  }
+  if (filters.stage !== 'all') setTimeout(render, 350);
+}
+
+/* ================= CALL TRACKER ================= */
+function logCall() {
+  if (calls.date !== todayKey()) calls = { date: todayKey(), count: 0 };
+  calls.count += 1;
+  save(KEYS.calls, calls);
+  updateCallsUI();
+  if (calls.count === CALL_TARGET) {
+    celebrate('big');
+    toast(`🏅 TARGET SMASHED! ${calls.count}/${CALL_TARGET} calls — you're a closing machine!`);
+  } else if (calls.count % 5 === 0) {
+    celebrate();
+    toast(`🔥 ${calls.count} calls done! Momentum is everything — keep dialing!`);
+  } else {
+    toast(`📞 Call logged! Today's total: ${calls.count}`);
+  }
+}
+
+function resetCalls() {
+  calls = { date: todayKey(), count: 0 };
+  save(KEYS.calls, calls);
+  updateCallsUI();
+  toast('🔄 Daily call counter reset. Fresh sprint — go!');
+}
+
+/* ================= PLAYBOOK MODAL ================= */
+function openPlaybook(lead) {
+  activeLead = lead || null;
+  $('modalTitle').textContent = lead ? `Pitching: ${lead.name} (${lead.area})` : 'Pitching: Nashik F&B Prospect';
+  $('modalSub').textContent = lead
+    ? `${typeIcon(lead)} ${lead.type} · ${lead.cuisine} · Est. deal ${lead.dealValue}`
+    : 'Universal scripts — replace [Restaurant Name] and [Area], then copy, paste, close. 💪';
+  $('waScript').textContent = waMessage(lead);
+  $('callScript').textContent = callScript(lead);
+  const send = $('waSendBtn');
+  send.hidden = !lead;
+  if (lead) send.href = waLink(lead);
+
+  const m = $('modal');
+  m.classList.add('open');
+  m.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  $('modal').querySelector('.modal').scrollTop = 0;
+}
+
+function closePlaybook() {
+  const m = $('modal');
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch {}
+    ta.remove(); return ok;
+  }
+}
+
+/* ================= CSV EXPORT ================= */
+function exportCSV() {
+  const headers = ['Sr No', 'Business Name', 'Type', 'Area', 'Cuisine', 'Price (for 2)', 'Rating', 'Has Website', 'Priority', 'Est. Deal Value', 'Phone', 'Google Maps Link', 'Pitch Hook', 'Sales Stage'];
+  const rows = LEADS.map((l) => [l.id, l.name, l.type, l.area, l.cuisine, l.price, l.rating, l.hasWebsite, l.priority, l.dealValue, l.phone || '', l.maps, l.pitchHook, stageOf(l.id)]);
+  const csv = [headers, ...rows].map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `Ready2UP_Nashik_Leads_${todayKey()}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  toast(`📥 Exported ${LEADS.length} leads to CSV`);
+}
+
+/* ================= EVENTS ================= */
+let searchTimer;
+$('searchInput').addEventListener('input', (e) => {
+  filters.q = e.target.value;
+  $('searchClear').hidden = !filters.q;
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(render, 120);
+});
+$('searchClear').addEventListener('click', () => { $('searchInput').value = ''; filters.q = ''; $('searchClear').hidden = true; render(); $('searchInput').focus(); });
+$('areaFilter').addEventListener('change', (e) => { filters.area = e.target.value; render(); });
+$('stageFilter').addEventListener('change', (e) => { filters.stage = e.target.value; render(); });
+$('pills').addEventListener('click', (e) => {
+  const pill = e.target.closest('.pill'); if (!pill) return;
+  filters.pill = pill.dataset.filter; setActivePill(filters.pill); render();
+});
+$('clearFiltersBtn').addEventListener('click', clearFilters);
+$('emptyClearBtn').addEventListener('click', clearFilters);
+
+$('leadsGrid').addEventListener('change', (e) => {
+  const sel = e.target.closest('.stage-select'); if (!sel) return;
+  setStage(Number(sel.dataset.id), sel.value);
+});
+$('leadsGrid').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-action]'); if (!btn) return;
+  const lead = LEADS.find((l) => l.id === Number(btn.dataset.id));
+  if (btn.dataset.action === 'script') openPlaybook(lead);
+  if (btn.dataset.action === 'findphone') {
+    toast(`📍 No direct number for ${lead.name} — opening Google Maps to find it`);
+    setTimeout(() => window.open(lead.maps, '_blank', 'noopener'), 400);
+  }
+});
+
+$('playbookBtn').addEventListener('click', () => openPlaybook(null));
+$('modalClose').addEventListener('click', closePlaybook);
+$('modal').addEventListener('click', (e) => { if (e.target === $('modal')) closePlaybook(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('modal').classList.contains('open')) closePlaybook(); });
+document.querySelectorAll('[data-copy]').forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    const ok = await copyText($(btn.dataset.copy).textContent);
+    toast(ok ? '📋 Script copied! Paste it and start the conversation.' : '⚠️ Copy failed — long-press the text to copy manually');
+  });
+});
+
+$('exportBtn').addEventListener('click', exportCSV);
+$('celebrateBtn').addEventListener('click', () => { celebrate('big'); toast('🎉 Team Ready2UP — let\'s close Nashik!'); });
+$('logCallBtn').addEventListener('click', logCall);
+$('resetCallsBtn').addEventListener('click', resetCalls);
+
+$('dockHome').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+$('dockSearch').addEventListener('click', () => {
+  $('command').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => $('searchInput').focus({ preventScroll: true }), 350);
+});
+$('dockPlaybook').addEventListener('click', () => openPlaybook(null));
+$('dockCsv').addEventListener('click', exportCSV);
+
+/* ================= INIT ================= */
+buildSelects();
+updateStats();
+updateCallsUI();
+render();
+</script>
+</body>
+</html>

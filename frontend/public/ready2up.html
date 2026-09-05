@@ -3,481 +3,407 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#4f46e5">
+<meta name="theme-color" content="#0F172A">
 <meta name="description" content="Ready2UP Sales Command Center — Nashik F&B lead intelligence dashboard for closing website design, SEO & AI automation deals.">
 <title>Ready2UP Sales Command Center · Nashik F&amp;B Lead Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <style>
 /* ================= DESIGN TOKENS ================= */
 :root{
-  --bg:#f8fafc; --surface:#ffffff; --subtle:#f1f5f9; --subtle-2:#f8fafc;
-  --indigo:#4f46e5; --indigo-2:#6366f1; --indigo-deep:#4338ca; --indigo-soft:#eef2ff; --indigo-border:#c7d2fe;
-  --cyan:#06b6d4; --sky:#0ea5e9; --sky-soft:#f0f9ff; --sky-border:#bae6fd;
-  --emerald:#059669; --emerald-2:#10b981; --emerald-soft:#ecfdf5; --emerald-border:#a7f3d0;
-  --amber:#d97706; --amber-soft:#fffbeb; --amber-border:#fde68a;
-  --rose:#e11d48; --rose-soft:#fff1f2; --rose-border:#fecdd3;
-  --purple:#7c3aed; --purple-soft:#f5f3ff; --purple-border:#ddd6fe;
-  --wa:#25d366; --wa-deep:#1ebe5a;
-  --text:#0f172a; --text-2:#334155; --text-3:#475569; --muted:#64748b; --light:#94a3b8;
-  --border:#e2e8f0; --border-2:#cbd5e1;
-  --sh-xs:0 1px 2px rgba(15,23,42,.04);
-  --sh-sm:0 1px 3px rgba(15,23,42,.05),0 1px 2px rgba(15,23,42,.04);
-  --sh-md:0 4px 14px -2px rgba(15,23,42,.07),0 2px 6px -2px rgba(15,23,42,.04);
-  --sh-lg:0 18px 40px -8px rgba(15,23,42,.12),0 8px 16px -6px rgba(15,23,42,.05);
-  --sh-indigo:0 10px 28px -6px rgba(79,70,229,.45);
-  --sh-emerald:0 10px 28px -6px rgba(5,150,105,.4);
-  --r-card:18px; --r-lg:20px; --r-btn:13px; --r-sm:10px; --r-pill:9999px;
+  --bg-app:#F8FAFC; --surface:#FFFFFF; --surface-2:#F1F5F9; --surface-3:#E2E8F0;
+  --overlay:rgba(15,23,42,.65);
+  --border:#E2E8F0; --border-strong:#CBD5E1; --focus:#2563EB;
+  --text:#0F172A; --text-2:#475569; --text-3:#64748B; --text-4:#94A3B8;
+  --slate-900:#0F172A; --slate-800:#1E293B; --slate-700:#334155;
+  --primary:#1E3A8A; --primary-hover:#1E40AF; --primary-light:#EFF6FF; --primary-border:#BFDBFE; --primary-text:#1D4ED8;
+  --electric:#2563EB; --electric-hover:#1D4ED8;
+  --success:#059669; --success-bg:#ECFDF5; --success-text:#065F46; --success-border:#A7F3D0;
+  --warning:#D97706; --warning-bg:#FFFBEB; --warning-text:#92400E; --warning-border:#FDE68A;
+  --danger:#DC2626; --danger-bg:#FEF2F2; --danger-text:#991B1B; --danger-border:#FECACA;
+  --wa:#15803D; --wa-hover:#166534; --wa-bg:#F0FDF4; --wa-border:#86EFAC;
+  --sh-sm:0 1px 2px 0 rgba(15,23,42,.05);
+  --sh-md:0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.04);
+  --sh-lg:0 10px 15px -3px rgba(15,23,42,.1),0 4px 6px -4px rgba(15,23,42,.05);
+  --sh-xl:0 20px 25px -5px rgba(15,23,42,.15),0 8px 10px -6px rgba(15,23,42,.08);
+  --sh-dock:0 -4px 20px rgba(15,23,42,.08);
+  --r-sm:6px; --r-md:10px; --r-lg:16px; --r-full:9999px;
   --ease:cubic-bezier(.16,1,.3,1);
-  --font-body:'Plus Jakarta Sans',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --font-body:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --font-head:'Outfit',var(--font-body);
+  --font-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{
-  font-family:var(--font-body);color:var(--text);background:var(--bg);
-  min-height:100vh;line-height:1.5;overflow-x:hidden;font-size:15px;
+  font-family:var(--font-body);color:var(--text);background:var(--bg-app);
+  min-height:100vh;line-height:1.5;font-size:14px;overflow-x:hidden;
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
 }
-body::before{
-  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
-  background:
-    radial-gradient(900px 620px at 6% -8%, rgba(79,70,229,.085), transparent 62%),
-    radial-gradient(820px 600px at 104% 6%, rgba(5,150,105,.075), transparent 62%),
-    radial-gradient(760px 540px at 50% 112%, rgba(217,119,6,.07), transparent 62%),
-    radial-gradient(600px 400px at 90% 75%, rgba(6,182,212,.05), transparent 60%);
-}
-::selection{background:#c7d2fe;color:#1e1b4b}
+::selection{background:#BFDBFE;color:#0F172A}
 button,input,select{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none}
 a{color:inherit;text-decoration:none}
-h1,h2,h3,h4{font-family:var(--font-head);letter-spacing:-.5px;line-height:1.15}
-
-.container{width:100%;max-width:1280px;margin:0 auto;padding:0 24px}
+h1,h2,h3,h4{font-family:var(--font-head);line-height:1.25}
+svg.ic{flex:0 0 auto;display:inline-block;vertical-align:middle}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+[hidden]{display:none!important}
+.container{width:100%;max-width:1280px;margin:0 auto;padding:0 16px}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.mono{font-family:var(--font-mono)}
+
+/* ================= HEADER ================= */
+.app-header{position:sticky;top:0;z-index:100;background:var(--slate-900);border-bottom:1px solid var(--slate-800);color:#fff}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-mark{
+  width:36px;height:36px;flex:0 0 36px;border-radius:8px;display:grid;place-items:center;
+  background:var(--electric);color:#fff;font-family:var(--font-head);font-weight:700;font-size:13px;letter-spacing:-.02em;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08) inset;
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.brand-name{font-family:var(--font-head);font-weight:700;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.brand-live{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:.06em;color:#93C5FD;text-transform:uppercase}
+.brand-live::before{content:"";width:6px;height:6px;border-radius:50%;background:#3B82F6;box-shadow:0 0 0 3px rgba(59,130,246,.25)}
+.brand-sub{font-size:11.5px;color:var(--text-4);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-actions{display:flex;align-items:center;gap:8px}
+.hbtn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 14px;border-radius:8px;
+  font-size:13px;font-weight:600;color:#E2E8F0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  transition:background-color .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease);white-space:nowrap;
+}
+.hbtn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)}
+.hbtn:active{transform:scale(.97)}
+.hbtn-primary{background:var(--electric);border-color:var(--electric);color:#fff}
+.hbtn-primary:hover{background:var(--electric-hover);border-color:var(--electric-hover)}
+
+/* ================= HERO ================= */
+main{padding:20px 0 72px}
+.hero-banner{
+  position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:24px;
+  background:linear-gradient(135deg,#0F172A 0%,#1E3A8A 100%);color:#fff;border-radius:12px;padding:22px 24px;
+  box-shadow:0 4px 12px rgba(15,23,42,.15);animation:fadeUp .5s var(--ease) both;
+}
+.hero-banner::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);
+  background-size:28px 28px;mask-image:linear-gradient(115deg,transparent 40%,#000 100%);-webkit-mask-image:linear-gradient(115deg,transparent 40%,#000 100%);
+}
+.hero-banner::after{content:"";position:absolute;right:-80px;top:-100px;width:320px;height:320px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(37,99,235,.45),transparent 65%)}
+.hero-content{position:relative;z-index:1;min-width:0}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#93C5FD;margin-bottom:8px}
+.hero-title{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.hero-sub{margin-top:8px;font-size:13.5px;color:#CBD5E1;max-width:680px;line-height:1.55}
+.hero-sub b{color:#fff;font-weight:700}
+.hero-side{position:relative;z-index:1;flex:0 0 auto}
 
 /* ================= BUTTONS ================= */
 .btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  min-height:42px;padding:0 18px;border-radius:var(--r-btn);
-  font-weight:700;font-size:14px;letter-spacing:-.1px;white-space:nowrap;
-  transition:transform .28s var(--ease),box-shadow .28s var(--ease),background-color .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease);
-  will-change:transform;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;height:40px;padding:0 16px;border-radius:8px;
+  font-weight:600;font-size:13.5px;white-space:nowrap;border:1px solid transparent;
+  transition:background-color .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease),transform .2s var(--ease),box-shadow .2s var(--ease);
 }
-.btn:hover{transform:translateY(-1px) scale(1.02)}
-.btn:active{transform:translateY(0) scale(.98)}
-.btn:focus-visible{outline:3px solid rgba(79,70,229,.35);outline-offset:2px}
-.btn-outline{background:var(--surface);border:1.5px solid var(--border);color:var(--text-2);box-shadow:var(--sh-xs)}
-.btn-outline:hover{border-color:var(--indigo-border);color:var(--indigo);background:var(--indigo-soft)}
-.btn-success{background:var(--emerald);color:#fff;box-shadow:var(--sh-emerald)}
-.btn-success:hover{background:#047857}
-.btn-primary{background:var(--indigo);color:#fff;box-shadow:var(--sh-indigo)}
-.btn-primary:hover{background:var(--indigo-deep)}
-
-/* ================= TOP NAV ================= */
-.topbar{
-  position:sticky;top:0;z-index:60;
-  background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-}
-.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:70px}
-.brand{display:flex;align-items:center;gap:12px;min-width:0}
-.brand-mark{
-  width:42px;height:42px;flex:0 0 42px;border-radius:12px;display:grid;place-items:center;
-  font-family:var(--font-head);font-weight:900;font-size:16px;letter-spacing:-.5px;color:#fff;
-  background:linear-gradient(135deg,#6366f1 0%,#4f46e5 55%,#4338ca 100%);
-  box-shadow:0 8px 20px -6px rgba(79,70,229,.55), inset 0 1px 0 rgba(255,255,255,.25);
-}
-.brand-text{display:flex;flex-direction:column;line-height:1.15;min-width:0}
-.brand-name{display:flex;align-items:center;gap:8px;font-family:var(--font-head);font-weight:800;font-size:19px;letter-spacing:-.6px}
-.badge-pro{
-  font-family:var(--font-body);font-size:10px;font-weight:800;letter-spacing:.6px;white-space:nowrap;
-  padding:3px 8px;border-radius:var(--r-pill);background:var(--emerald-soft);color:var(--emerald);border:1px solid var(--emerald-border);
-}
-.brand-tag{font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap}
-.topbar-actions{display:flex;align-items:center;gap:10px}
-.btn-label-short{display:none}
-
-/* ================= HERO ================= */
-main{padding:28px 0 80px}
-.hero{
-  position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:space-between;gap:28px;
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
-  padding:34px 36px 34px 40px;box-shadow:var(--sh-md);
-  animation:fadeUp .7s var(--ease) both;
-}
-.hero::before{
-  content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
-  background:linear-gradient(180deg,var(--indigo) 0%,var(--cyan) 55%,var(--emerald) 100%);
-}
-.hero::after{
-  content:"";position:absolute;right:-120px;top:-120px;width:360px;height:360px;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle, rgba(79,70,229,.10), transparent 65%);
-}
-.hero-content{position:relative;z-index:1;max-width:760px}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:var(--r-pill);
-  background:var(--rose-soft);color:var(--rose);border:1px solid var(--rose-border);font-size:12px;font-weight:800;letter-spacing:.2px;
-}
-.hero-title{font-size:clamp(28px,4vw,42px);font-weight:900;letter-spacing:-1.2px;margin:14px 0 10px;color:var(--text)}
-.grad-text{
-  background:linear-gradient(92deg,#4f46e5 0%,#6366f1 45%,#06b6d4 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.hero-sub{font-size:15px;color:var(--text-3);max-width:700px;line-height:1.65}
-.hero-sub strong{color:var(--text);font-weight:700}
-.hero-side{position:relative;z-index:1;flex:0 0 auto}
-.btn-celebrate{
-  min-height:50px;padding:0 22px;border-radius:14px;font-size:15px;color:#fff;
-  background:linear-gradient(135deg,#f43f5e 0%,#e11d48 50%,#be123c 100%);
-  box-shadow:0 12px 28px -8px rgba(225,29,72,.5);
-}
-.btn-celebrate:hover{box-shadow:0 16px 32px -8px rgba(225,29,72,.55)}
+.btn:active{transform:scale(.97)}
+.btn-electric{background:var(--electric);color:#fff}
+.btn-electric:hover{background:var(--electric-hover)}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-subtle{background:var(--surface-2);color:var(--text-2)}
+.btn-subtle:hover{background:var(--surface-3);color:var(--text)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn-wa:hover{background:var(--wa-hover)}
+.btn-outline{background:var(--surface);border-color:var(--border-strong);color:var(--text-2)}
+.btn-outline:hover{border-color:var(--primary-border);color:var(--primary-text);background:var(--primary-light)}
 
 /* ================= SCOREBOARD ================= */
-.scoreboard{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.scoreboard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
 .stat{
-  display:flex;align-items:center;gap:16px;
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);
-  padding:20px 22px;box-shadow:var(--sh-sm);
-  transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease);
-  animation:fadeUp .7s var(--ease) both;
-}
-.stat:nth-child(2){animation-delay:.06s}.stat:nth-child(3){animation-delay:.12s}.stat:nth-child(4){animation-delay:.18s}
-.stat:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:var(--border-2)}
-.stat-icon{width:52px;height:52px;flex:0 0 52px;border-radius:14px;display:grid;place-items:center;font-size:24px}
-.stat-icon.i-indigo{background:var(--indigo-soft);border:1px solid var(--indigo-border)}
-.stat-icon.i-rose{background:var(--rose-soft);border:1px solid var(--rose-border)}
-.stat-icon.i-emerald{background:var(--emerald-soft);border:1px solid var(--emerald-border)}
-.stat-icon.i-amber{background:var(--amber-soft);border:1px solid var(--amber-border)}
-.stat-body{min-width:0}
-.stat-label{font-size:11px;font-weight:800;letter-spacing:.7px;color:var(--muted);text-transform:uppercase}
-.stat-value{font-family:var(--font-head);font-size:32px;font-weight:800;letter-spacing:-1px;line-height:1.05;margin-top:3px}
-.stat-sub{font-size:12px;color:var(--light);font-weight:600;margin-top:2px}
-.stat-value.pop{animation:pop .5s var(--ease)}
-
-/* ================= SPRINT TRACKER ================= */
-.sprint{
-  position:relative;overflow:hidden;margin-top:16px;
-  background:linear-gradient(120deg,#4338ca 0%,#4f46e5 45%,#6366f1 100%);
-  color:#fff;border-radius:var(--r-card);padding:20px 24px;
-  box-shadow:0 18px 40px -14px rgba(79,70,229,.55);
-  animation:fadeUp .7s var(--ease) .1s both;
-}
-.sprint::before{
-  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
-  background:radial-gradient(600px 200px at 100% 0%, rgba(255,255,255,.18), transparent 60%);
-}
-.sprint-row{position:relative;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.sprint-left{display:flex;align-items:center;gap:14px;min-width:0}
-.sprint-icon{width:46px;height:46px;flex:0 0 46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22)}
-.sprint-title{font-family:var(--font-head);font-weight:800;font-size:17px;letter-spacing:-.4px}
-.sprint-sub{font-size:13px;color:rgba(255,255,255,.82);font-weight:500;margin-top:2px}
-.sprint-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.counter-pill{
-  display:inline-flex;align-items:center;gap:6px;min-height:42px;padding:0 16px;border-radius:var(--r-pill);
-  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);font-weight:600;font-size:14px;
-}
-.counter-pill b{font-family:var(--font-head);font-size:20px;font-weight:800;letter-spacing:-.5px}
-.btn-log{background:var(--emerald-2);color:#fff;box-shadow:0 8px 20px -6px rgba(16,185,129,.6)}
-.btn-log:hover{background:var(--emerald)}
-.btn-reset{background:var(--purple);color:#fff;border:1px solid rgba(255,255,255,.28);box-shadow:0 8px 20px -6px rgba(124,58,237,.55)}
-.btn-reset:hover{background:#6d28d9}
-.progress{position:relative;height:6px;margin-top:16px;border-radius:var(--r-pill);background:rgba(255,255,255,.18);overflow:hidden}
-.progress-fill{height:100%;width:0;border-radius:var(--r-pill);background:linear-gradient(90deg,#a7f3d0,#ffffff);transition:width .6s var(--ease)}
-
-/* ================= COMMAND STRIP ================= */
-.command{
-  margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);
-  padding:18px;box-shadow:var(--sh-sm);animation:fadeUp .7s var(--ease) .16s both;
-}
-.search-wrap{position:relative;display:flex;align-items:center}
-.search-icon{position:absolute;left:16px;font-size:17px;pointer-events:none}
-.search-input{
-  width:100%;min-height:52px;padding:0 48px 0 48px;border-radius:14px;
-  border:1.5px solid var(--border);background:var(--subtle-2);font-size:15px;font-weight:500;color:var(--text);
-  transition:border-color .2s var(--ease),box-shadow .2s var(--ease),background-color .2s var(--ease);
-}
-.search-input::placeholder{color:var(--light)}
-.search-input:focus{outline:none;border-color:var(--indigo);background:#fff;box-shadow:0 0 0 4px rgba(79,70,229,.12)}
-.search-clear{
-  position:absolute;right:10px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
-  color:var(--muted);background:var(--subtle);font-size:13px;font-weight:800;transition:background-color .2s,color .2s;
-}
-.search-clear:hover{background:var(--rose-soft);color:var(--rose)}
-.search-clear[hidden]{display:none}
-.selects{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-.select-wrap{position:relative;display:flex;align-items:center}
-.select-wrap .sel-icon{position:absolute;left:14px;font-size:15px;pointer-events:none}
-.select-wrap::after{
-  content:"";position:absolute;right:16px;width:9px;height:9px;pointer-events:none;
-  border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:translateY(-3px) rotate(45deg);
-}
-.select{
-  width:100%;min-height:48px;padding:0 40px 0 40px;border-radius:13px;appearance:none;-webkit-appearance:none;
-  border:1.5px solid var(--border);background:var(--subtle-2);font-weight:600;font-size:14px;color:var(--text-2);cursor:pointer;
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;box-shadow:var(--sh-sm);
+  display:flex;flex-direction:column;gap:10px;animation:fadeUp .5s var(--ease) both;animation-delay:calc(var(--i)*60ms);
   transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
 }
-.select:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 4px rgba(79,70,229,.12)}
-.pills{display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-ms-overflow-style:none;scroll-snap-type:x proximity}
-.pills::-webkit-scrollbar{display:none}
+.stat:hover{border-color:var(--border-strong);box-shadow:var(--sh-md)}
+.stat-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.stat-label{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3);line-height:1.3}
+.stat-icon{width:30px;height:30px;flex:0 0 30px;border-radius:8px;display:grid;place-items:center;background:var(--primary-light);color:var(--primary-text)}
+.stat-icon.i-danger{background:var(--danger-bg);color:var(--danger)}
+.stat-icon.i-success{background:var(--success-bg);color:var(--success)}
+.stat-icon.i-warning{background:var(--warning-bg);color:var(--warning)}
+.stat-value{font-family:var(--font-head);font-weight:700;font-size:1.625rem;letter-spacing:-.02em;line-height:1;color:var(--text)}
+.stat-value.pop{animation:pop .45s var(--ease)}
+.stat-sub{font-size:12px;color:var(--text-3);font-weight:500}
+
+/* ================= SPRINT TRACKER ================= */
+.sprint-tracker{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:16px;box-shadow:var(--sh-sm)}
+.sprint-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sprint-left{display:flex;align-items:center;gap:12px;min-width:0}
+.sprint-icon{width:38px;height:38px;flex:0 0 38px;border-radius:9px;display:grid;place-items:center;background:var(--slate-900);color:#fff}
+.sprint-title{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.sprint-sub{font-size:12.5px;color:var(--text-2);margin-top:1px}
+.sprint-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.counter-chip{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 12px;border-radius:8px;background:var(--surface-2);border:1px solid var(--border);font-size:13px;font-weight:600;color:var(--text-2)}
+.counter-chip b{font-family:var(--font-mono);font-size:15px;color:var(--text);font-weight:700}
+.counter-chip b.pop{animation:pop .45s var(--ease);display:inline-block}
+.progress{height:8px;background:var(--surface-3);border-radius:var(--r-full);overflow:hidden;margin-top:14px}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--electric),var(--success));border-radius:var(--r-full);transition:width .4s var(--ease)}
+
+/* ================= COMMAND STRIP ================= */
+.command-strip{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--sh-sm)}
+.controls-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.field{position:relative;display:flex;align-items:center}
+.field-icon{position:absolute;left:12px;color:var(--text-3);pointer-events:none;display:flex}
+.field .input,.field .select{
+  width:100%;height:42px;border:1px solid var(--border-strong);border-radius:8px;background:var(--surface);
+  font-size:13.5px;font-weight:500;padding:0 12px 0 38px;color:var(--text);
+  transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+}
+.field .input::placeholder{color:var(--text-4)}
+.field .input:focus,.field .select:focus{outline:none;border-color:var(--electric);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.field .select{
+  cursor:pointer;-webkit-appearance:none;appearance:none;padding-right:34px;text-overflow:ellipsis;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+}
+.field-search{grid-column:1 / -1}
+.field-sort{grid-column:1 / -1}
+.search-clear{position:absolute;right:8px;width:28px;height:28px;border-radius:6px;display:grid;place-items:center;color:var(--text-3);transition:background-color .2s}
+.search-clear:hover{background:var(--surface-2);color:var(--text)}
+.quick-filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.quick-filters::-webkit-scrollbar{display:none}
 .pill{
-  flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border-radius:var(--r-pill);
-  background:var(--subtle);color:var(--text-3);font-weight:700;font-size:13.5px;white-space:nowrap;scroll-snap-align:start;
-  border:1px solid transparent;
-  transition:background-color .22s var(--ease),color .22s var(--ease),transform .22s var(--ease),box-shadow .22s var(--ease);
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;height:32px;padding:0 12px;border-radius:var(--r-full);
+  font-size:12px;font-weight:600;border:1px solid var(--border);background:#F8FAFC;color:var(--text-2);flex:0 0 auto;
+  transition:background-color .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease);
 }
-.pill:hover{background:#e2e8f0;transform:translateY(-1px)}
-.pill.active{background:var(--indigo);color:#fff;box-shadow:var(--sh-indigo)}
-.pill-count{font-size:12px;font-weight:800;opacity:.75}
+.pill:hover{border-color:var(--border-strong);background:var(--surface-2)}
+.pill:active{transform:scale(.97)}
+.pill.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.pill-count{opacity:.7;font-family:var(--font-mono);font-size:11px}
 
-/* ================= RESULTS META ================= */
-.results-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 4px 14px;flex-wrap:wrap}
-.results-text{font-size:14px;color:var(--muted);font-weight:600}
-.results-text b{color:var(--text);font-weight:800}
-.results-text .money{color:var(--emerald)}
-.link-btn{font-size:13px;font-weight:700;color:var(--indigo);padding:8px 12px;border-radius:var(--r-sm);transition:background-color .2s}
-.link-btn:hover{background:var(--indigo-soft)}
-.link-btn[hidden]{display:none}
+/* ================= RESULTS ================= */
+.results-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:16px 0 12px;flex-wrap:wrap}
+.results-text{font-size:13px;color:var(--text-2)}
+.results-text b{color:var(--text);font-weight:700}
+.results-text .money{font-family:var(--font-mono);color:var(--success)}
+.link-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border-radius:6px;font-size:12.5px;font-weight:600;color:var(--primary-text);transition:background-color .2s}
+.link-btn:hover{background:var(--primary-light)}
 
-/* ================= LEAD GRID & CARDS ================= */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(380px,100%),1fr));gap:20px}
+/* ================= LEAD GRID & CARD ================= */
+.leads-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:14px}
 .lead-card{
-  position:relative;display:flex;flex-direction:column;gap:14px;
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:22px;
-  box-shadow:var(--sh-sm);
-  transition:transform .32s var(--ease),box-shadow .32s var(--ease),border-color .32s var(--ease);
-  animation:cardIn .55s var(--ease) both;animation-delay:calc(var(--i,0) * 45ms);
+  position:relative;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;
+  box-shadow:0 1px 3px rgba(15,23,42,.04);display:flex;flex-direction:column;gap:12px;
+  transition:border-color .2s var(--ease),box-shadow .2s var(--ease),transform .2s var(--ease);
+  animation:fadeUp .45s var(--ease) both;animation-delay:calc(var(--i)*40ms);
 }
-.lead-card:hover{transform:translateY(-4px);box-shadow:var(--sh-lg);border-color:var(--indigo-border)}
-.lead-card.is-won{border-color:var(--emerald-border);background:linear-gradient(180deg,#fff 0%,#f5fdf9 100%)}
-.lead-card.is-won::after{
-  content:"🏆 WON";position:absolute;top:-1px;right:22px;padding:5px 10px 4px;border-radius:0 0 10px 10px;
-  background:var(--emerald);color:#fff;font-size:10px;font-weight:800;letter-spacing:.8px;box-shadow:0 6px 14px -6px rgba(5,150,105,.6);
-}
+.lead-card:hover{border-color:#93C5FD;box-shadow:0 4px 12px rgba(15,23,42,.08)}
+.lead-card.is-won{border-color:var(--success-border);box-shadow:0 0 0 1px var(--success-border)}
+.won-ribbon{position:absolute;top:-1px;right:16px;display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 9px;border-radius:0 0 6px 6px;background:var(--success);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.card-name{font-size:19px;font-weight:800;letter-spacing:-.6px;line-height:1.2;color:var(--text)}
-.deal-tag{
-  flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;padding:6px 11px;border-radius:var(--r-pill);
-  background:var(--emerald-soft);color:var(--emerald);border:1px solid var(--emerald-border);font-weight:800;font-size:13px;letter-spacing:-.2px;
-}
-.tag-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:-4px}
-.type-tag{
-  display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:var(--r-pill);
-  background:var(--indigo-soft);color:var(--indigo);border:1px solid var(--indigo-border);font-weight:700;font-size:12px;
-}
-.web-tag{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:var(--r-pill);font-weight:700;font-size:11.5px;background:var(--subtle);color:var(--muted);border:1px solid var(--border)}
-.web-tag.no-site{background:var(--rose-soft);color:var(--rose);border-color:var(--rose-border)}
-.status-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.priority{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:var(--r-pill);font-weight:800;font-size:11.5px;letter-spacing:.5px}
-.p-high{background:var(--rose-soft);color:var(--rose);border:1px solid var(--rose-border)}
-.p-medium{background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber-border)}
-.p-low{background:var(--subtle);color:var(--muted);border:1px solid var(--border)}
+.card-name{font-size:1.0625rem;font-weight:700;letter-spacing:-.01em;line-height:1.3;color:var(--text);min-width:0}
+.deal-tag{font-family:var(--font-mono);font-size:13.5px;font-weight:700;color:var(--success);background:var(--success-bg);border:1px solid var(--success-border);padding:4px 8px;border-radius:6px;white-space:nowrap;flex:0 0 auto;line-height:1.2}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px}
+.tag{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 8px;border-radius:6px;font-size:11.5px;font-weight:600;border:1px solid var(--border);background:var(--surface-2);color:var(--text-2);white-space:nowrap}
+.tag.no-site{background:var(--danger-bg);color:var(--danger-text);border-color:var(--danger-border)}
+.tag.old-site{background:var(--warning-bg);color:var(--warning-text);border-color:var(--warning-border)}
+.tag.has-site{background:var(--primary-light);color:var(--primary-text);border-color:var(--primary-border)}
+.tag .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.tag.p-high{background:#FEF2F2;color:#991B1B;border-color:#FCA5A5}
+.tag.p-medium{background:#FFFBEB;color:#92400E;border-color:#FDE68A}
+.tag.p-low{background:#F1F5F9;color:#475569;border-color:#CBD5E1}
+.stage-wrap{position:relative;display:flex;align-items:center}
+.stage-dot{position:absolute;left:11px;width:8px;height:8px;border-radius:50%;pointer-events:none;background:var(--text-3)}
 .stage-select{
-  appearance:none;-webkit-appearance:none;min-height:38px;padding:0 34px 0 13px;border-radius:var(--r-pill);
-  border:1px solid;font-weight:700;font-size:12.5px;cursor:pointer;max-width:200px;
-  background-repeat:no-repeat;background-position:right 12px center;background-size:11px;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-  transition:background-color .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease),box-shadow .2s var(--ease);
+  width:100%;height:38px;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-2);
+  font-size:12.5px;font-weight:600;padding:0 32px 0 28px;cursor:pointer;-webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
 }
-.stage-select:focus{outline:none;box-shadow:0 0 0 4px rgba(79,70,229,.14)}
-.stage-new{background-color:var(--subtle);color:var(--text-3);border-color:var(--border)}
-.stage-talk{background-color:var(--sky-soft);color:#0369a1;border-color:var(--sky-border)}
-.stage-pitched{background-color:var(--purple-soft);color:#6d28d9;border-color:var(--purple-border)}
-.stage-meeting{background-color:var(--amber-soft);color:#b45309;border-color:var(--amber-border)}
-.stage-won{background-color:var(--emerald);color:#fff;border-color:var(--emerald);box-shadow:var(--sh-emerald);
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");}
-.specs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.spec{background:var(--subtle-2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;min-width:0}
-.spec-label{display:block;font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--light)}
-.spec-val{display:block;font-size:13px;font-weight:600;color:var(--text-2);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.spec-val.phone-yes{color:var(--emerald);font-weight:800}
-.spec-val.phone-no{color:var(--light);font-weight:600}
-.pitch-box{position:relative;background:var(--purple-soft);border:1px solid var(--purple-border);border-left:4px solid var(--purple);border-radius:12px;padding:12px 14px}
-.pitch-label{display:block;font-size:11px;font-weight:800;letter-spacing:.6px;color:var(--purple);text-transform:uppercase;margin-bottom:5px}
-.pitch-box p{font-size:13.5px;color:var(--text-2);line-height:1.55;font-weight:500}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:auto}
+.stage-select:focus{outline:none;border-color:var(--electric);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.stage-wrap.stage-new .stage-dot{background:#64748B}
+.stage-wrap.stage-talk .stage-select{background-color:#EFF6FF;border-color:#BFDBFE;color:#1D4ED8}.stage-wrap.stage-talk .stage-dot{background:#2563EB}
+.stage-wrap.stage-pitched .stage-select{background-color:#FEF3C7;border-color:#FDE68A;color:#B45309}.stage-wrap.stage-pitched .stage-dot{background:#D97706}
+.stage-wrap.stage-meeting .stage-select{background-color:#F5F3FF;border-color:#DDD6FE;color:#6D28D9}.stage-wrap.stage-meeting .stage-dot{background:#7C3AED}
+.stage-wrap.stage-won .stage-select{background-color:#DCFCE7;border-color:#86EFAC;color:#15803D}.stage-wrap.stage-won .stage-dot{background:#059669}
+.specs{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 12px}
+.spec{display:flex;flex-direction:column;gap:3px;min-width:0}
+.spec-label{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3)}
+.spec-val{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.spec-val.phone-yes{color:var(--success)}
+.spec-val.phone-no{color:var(--text-3);font-weight:500}
+.pitch-box{background:var(--primary-light);border-left:3px solid var(--electric);padding:10px 12px;border-radius:0 6px 6px 0}
+.pitch-label{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--primary-text);margin-bottom:4px}
+.pitch-box p{font-size:13px;color:#1E40AF;line-height:1.5}
+
+/* ---- Follow-up section ---- */
+.followup{background:#F8FAFC;border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.fu-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.fu-label{display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3)}
+.due-chip{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:6px;font-size:11px;font-weight:700;border:1px solid var(--border);background:var(--surface);color:var(--text-2)}
+.due-chip.overdue{background:var(--danger-bg);color:var(--danger-text);border-color:var(--danger-border)}
+.due-chip.today{background:var(--warning-bg);color:var(--warning-text);border-color:var(--warning-border)}
+.due-chip.upcoming{background:var(--primary-light);color:var(--primary-text);border-color:var(--primary-border)}
+.due-chip.saved{background:var(--success-bg);color:var(--success-text);border-color:var(--success-border)}
+.fu-fields{display:grid;grid-template-columns:1fr auto;gap:8px}
+.fu-note{grid-column:1 / -1}
+.fu-input{
+  width:100%;height:38px;border:1px solid var(--border-strong);border-radius:7px;background:var(--surface);padding:0 10px;
+  font-size:13px;font-weight:500;color:var(--text);-webkit-appearance:none;appearance:none;min-width:0;
+  transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+}
+.fu-input::placeholder{color:var(--text-4)}
+.fu-input:focus{outline:none;border-color:var(--electric);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.fu-input[type="date"]{font-family:var(--font-mono);font-size:12.5px;color:var(--text-2)}
+.fu-input[type="date"]::-webkit-calendar-picker-indicator{cursor:pointer;opacity:.6}
+.fu-actions{display:flex;gap:6px}
+.fu-save{flex:1;height:38px;border-radius:7px;background:var(--primary);color:#fff;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:background-color .2s,transform .2s}
+.fu-save:hover{background:var(--primary-hover)}
+.fu-save:active{transform:scale(.97)}
+.fu-clear{width:38px;height:38px;border-radius:7px;background:var(--surface);border:1px solid var(--border-strong);color:var(--text-3);display:grid;place-items:center;transition:background-color .2s,color .2s}
+.fu-clear:hover{background:var(--danger-bg);color:var(--danger);border-color:var(--danger-border)}
+
+/* ---- Actions ---- */
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
 .act{
-  display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 12px;border-radius:var(--r-btn);
-  font-weight:700;font-size:13.5px;letter-spacing:-.1px;white-space:nowrap;
-  transition:transform .28s var(--ease),box-shadow .28s var(--ease),background-color .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease);
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:42px;border-radius:8px;
+  font-size:13px;font-weight:600;padding:0 10px;white-space:nowrap;border:1px solid transparent;
+  transition:background-color .2s var(--ease),transform .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease);
 }
-.act:hover{transform:translateY(-1px) scale(1.02)}
+.act:hover{transform:translateY(-1px)}
 .act:active{transform:scale(.97)}
-.act:focus-visible{outline:3px solid rgba(79,70,229,.35);outline-offset:2px}
-.act-wa{background:var(--wa);color:#fff;box-shadow:0 8px 20px -8px rgba(37,211,102,.7)}
-.act-wa:hover{background:var(--wa-deep)}
-.act-call{background:var(--sky);color:#fff;box-shadow:0 8px 20px -8px rgba(14,165,233,.7)}
-.act-call:hover{background:#0284c7}
-.act-outline{background:var(--surface);color:var(--text-2);border:1.5px solid var(--border)}
-.act-outline:hover{border-color:var(--indigo-border);color:var(--indigo);background:var(--indigo-soft)}
-.act-maps:hover{border-color:var(--rose-border);color:var(--rose);background:var(--rose-soft)}
+.act-wa{background:var(--wa);color:#fff}.act-wa:hover{background:var(--wa-hover)}
+.act-call{background:var(--primary);color:#fff}.act-call:hover{background:var(--primary-hover)}
+.act-pb{background:var(--primary-light);color:var(--primary-text);border-color:var(--primary-border)}.act-pb:hover{background:#DBEAFE}
+.act-maps{background:var(--surface-2);color:var(--slate-700);border-color:var(--border)}.act-maps:hover{background:var(--surface-3)}
 
-.empty{
-  display:none;text-align:center;padding:64px 24px;background:var(--surface);border:1.5px dashed var(--border-2);border-radius:var(--r-card);
-}
+/* ================= EMPTY & FOOTER ================= */
+.empty{display:none;text-align:center;padding:48px 20px;background:var(--surface);border:1px dashed var(--border-strong);border-radius:12px}
 .empty.show{display:block}
-.empty-icon{font-size:44px}
-.empty h3{font-size:20px;margin:12px 0 6px}
-.empty p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.empty-icon{width:52px;height:52px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;background:var(--surface-2);color:var(--text-3)}
+.empty h3{font-size:1.05rem;font-weight:600;margin-bottom:6px}
+.empty p{font-size:13.5px;color:var(--text-2);margin-bottom:16px}
+.footer{text-align:center;font-size:12px;color:var(--text-3);margin-top:40px}
+.footer b{color:var(--text-2)}
 
-/* ================= MODAL ================= */
+/* ================= MODALS ================= */
 .modal-backdrop{
-  position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;
-  background:rgba(15,23,42,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-  opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s;
+  position:fixed;inset:0;z-index:200;background:var(--overlay);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .2s var(--ease),visibility .2s;
 }
 .modal-backdrop.open{opacity:1;visibility:visible}
 .modal{
-  position:relative;width:100%;max-width:600px;max-height:min(88vh,860px);overflow-y:auto;
-  background:var(--surface);border-radius:22px;padding:30px;box-shadow:0 40px 90px -20px rgba(15,23,42,.35);
-  transform:translateY(24px) scale(.97);transition:transform .38s var(--ease);
-  -webkit-overflow-scrolling:touch;
+  position:relative;background:var(--surface);width:100%;max-width:680px;max-height:90vh;border-radius:16px;overflow-y:auto;padding:22px 18px;
+  box-shadow:var(--sh-xl);transform:translateY(12px) scale(.98);transition:transform .25s var(--ease);
 }
-.modal-backdrop.open .modal{transform:translateY(0) scale(1)}
-.modal-close{
-  position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
-  background:var(--subtle);color:var(--text-3);font-size:15px;font-weight:800;
-  transition:background-color .2s,color .2s,transform .25s var(--ease);
-}
-.modal-close:hover{background:var(--rose-soft);color:var(--rose);transform:rotate(90deg)}
-.modal-badge{display:inline-flex;padding:5px 11px;border-radius:var(--r-pill);background:var(--indigo-soft);color:var(--indigo);border:1px solid var(--indigo-border);font-size:10.5px;font-weight:800;letter-spacing:.9px}
-.modal-title{font-size:24px;font-weight:800;letter-spacing:-.8px;margin:14px 44px 4px 0}
-.modal-sub{font-size:13.5px;color:var(--muted);font-weight:500;margin-bottom:22px}
-.script-block{margin-bottom:18px}
-.script-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap}
-.script-head h4{font-size:15px;font-weight:800;letter-spacing:-.3px}
-.script-tools{display:flex;gap:8px}
-.btn-mini{
-  display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 13px;border-radius:10px;font-size:12.5px;font-weight:800;
-  background:var(--indigo);color:#fff;transition:transform .25s var(--ease),background-color .2s,box-shadow .25s var(--ease);
-}
-.btn-mini:hover{transform:translateY(-1px) scale(1.03);background:var(--indigo-deep);box-shadow:var(--sh-indigo)}
-.btn-mini.wa{background:var(--wa)}
-.btn-mini.wa:hover{background:var(--wa-deep);box-shadow:0 8px 20px -8px rgba(37,211,102,.7)}
-.btn-mini[hidden]{display:none}
-.script{
-  white-space:pre-wrap;word-wrap:break-word;font-family:var(--font-body);font-size:13.5px;line-height:1.6;color:var(--text-2);
-  background:var(--subtle-2);border:1px solid var(--border);border-radius:14px;padding:16px;
-}
-.pricing{background:var(--emerald-soft);border:1px solid var(--emerald-border);border-radius:16px;padding:18px}
-.pricing h4{font-size:15px;font-weight:800;color:#065f46;margin-bottom:12px;letter-spacing:-.3px}
-.pkg{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:12px 14px;background:rgba(255,255,255,.75);border:1px solid var(--emerald-border);border-radius:12px;margin-bottom:8px;transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
-.pkg:last-child{margin-bottom:0}
-.pkg:hover{transform:translateY(-2px);box-shadow:var(--sh-md)}
-.pkg-name{font-weight:800;font-size:14px;color:var(--text)}
-.pkg-desc{font-size:12.5px;color:var(--text-3);margin-top:3px;line-height:1.5}
-.pkg-price{flex:0 0 auto;font-family:var(--font-head);font-weight:800;font-size:17px;color:var(--emerald);letter-spacing:-.5px}
-.pkg.featured{border-color:var(--emerald);box-shadow:0 0 0 1px var(--emerald) inset}
-.pkg-tag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.7px;padding:2px 7px;border-radius:var(--r-pill);background:var(--emerald);color:#fff;margin-left:6px;vertical-align:middle}
+.modal-backdrop.open .modal{transform:none}
+.modal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--text-3);background:var(--surface-2);transition:background-color .2s,color .2s}
+.modal-close:hover{background:var(--surface-3);color:var(--text)}
+.modal-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary-text);background:var(--primary-light);border:1px solid var(--primary-border);padding:4px 9px;border-radius:6px}
+.modal-title{font-size:1.25rem;font-weight:700;letter-spacing:-.015em;margin-top:12px;padding-right:40px}
+.modal-sub{font-size:13px;color:var(--text-2);margin-top:4px}
+.script-block{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:16px}
+.script-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;background:var(--surface-2);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.script-head h4{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;font-family:var(--font-body)}
+.script-tools{display:flex;gap:6px}
+.btn-mini{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border-radius:6px;font-size:12px;font-weight:600;background:var(--surface);border:1px solid var(--border-strong);color:var(--text-2);transition:background-color .2s,color .2s,border-color .2s}
+.btn-mini:hover{border-color:var(--primary-border);color:var(--primary-text);background:var(--primary-light)}
+.btn-mini.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn-mini.wa:hover{background:var(--wa-hover);border-color:var(--wa-hover);color:#fff}
+.script{padding:14px;font-family:var(--font-body);font-size:13.5px;line-height:1.6;white-space:pre-wrap;word-break:break-word;color:var(--text)}
+.pricing{margin-top:18px}
+.pricing h4{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;font-family:var(--font-body);margin-bottom:8px}
+.pkg{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:10px;margin-top:8px;background:var(--surface)}
+.pkg.featured{border-color:var(--primary-border);background:var(--primary-light)}
+.pkg-name{font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pkg-tag{font-size:10px;font-weight:700;letter-spacing:.06em;padding:2px 6px;border-radius:4px;background:var(--electric);color:#fff}
+.pkg-desc{font-size:12.5px;color:var(--text-2);margin-top:2px}
+.pkg-price{font-family:var(--font-mono);font-size:15px;font-weight:700;color:var(--success);white-space:nowrap}
+.report-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.rs{background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.rs-label{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-3)}
+.rs-val{font-family:var(--font-head);font-size:1.25rem;font-weight:700;letter-spacing:-.02em;margin-top:2px}
+.report-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.report-actions .btn{flex:1}
 
 /* ================= TOAST ================= */
 .toast{
-  position:fixed;left:50%;bottom:28px;z-index:120;transform:translate(-50%,24px);
-  display:inline-flex;align-items:center;gap:8px;max-width:calc(100% - 32px);
-  padding:13px 20px;border-radius:var(--r-pill);background:var(--text);color:#fff;font-weight:700;font-size:14px;
-  box-shadow:0 20px 40px -10px rgba(15,23,42,.45);opacity:0;visibility:hidden;pointer-events:none;
-  transition:transform .4s var(--ease),opacity .3s var(--ease),visibility .4s;
+  position:fixed;left:16px;right:16px;bottom:84px;z-index:300;margin:0 auto;width:max-content;max-width:calc(100% - 32px);
+  background:var(--slate-900);color:#fff;padding:12px 16px;border-radius:10px;font-size:13.5px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,.2);
+  opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s var(--ease),transform .25s var(--ease);
 }
-.toast.show{transform:translate(-50%,0);opacity:1;visibility:visible}
-
-/* ================= FOOTER ================= */
-.footer{text-align:center;color:var(--light);font-size:12.5px;font-weight:600;margin-top:40px}
-.footer b{color:var(--muted)}
+.toast.show{opacity:1;transform:none}
 
 /* ================= MOBILE DOCK ================= */
-.dock{
-  position:fixed;left:50%;bottom:14px;z-index:90;transform:translateX(-50%);display:none;
-  width:calc(100% - 28px);max-width:440px;padding:8px;border-radius:24px;
-  background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
-  border:1px solid var(--border);box-shadow:0 20px 50px -12px rgba(15,23,42,.25);
-  padding-bottom:calc(8px + env(safe-area-inset-bottom));
+.mobile-bottom-dock{
+  display:flex;position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--surface);border-top:1px solid var(--border);box-shadow:var(--sh-dock);
+  justify-content:space-around;align-items:center;height:calc(62px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);
 }
-.dock-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.dock-btn{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;border-radius:16px;
-  font-size:11px;font-weight:700;color:var(--text-3);transition:background-color .2s var(--ease),color .2s var(--ease),transform .25s var(--ease);
-}
-.dock-btn span:first-child{font-size:20px;line-height:1}
-.dock-btn:hover,.dock-btn:active{background:var(--indigo-soft);color:var(--indigo);transform:translateY(-2px)}
+.dock-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--text-3);font-size:11px;font-weight:600;flex:1;height:100%;transition:color .2s}
+.dock-item:hover,.dock-item:active{color:var(--primary)}
 
 /* ================= ANIMATIONS ================= */
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes cardIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 /* ================= RESPONSIVE ================= */
-@media (max-width:1024px){
-  .brand-tag{display:none}
+@media (max-width:767.98px){
+  .hbtn{width:38px;padding:0}
+  .hbtn .hbtn-label{display:none}
+  .brand-sub{max-width:190px}
+  .hero-banner{flex-direction:column;align-items:flex-start;gap:16px;padding:20px 18px}
+  .hero-side{width:100%}
+  .hero-side .btn{width:100%}
+  .sprint-right{width:100%}
+  .counter-chip{flex:1;justify-content:center}
+  .stat-value{font-size:1.5rem}
+  main{padding-bottom:96px}
+  .toast{bottom:calc(76px + env(safe-area-inset-bottom))}
 }
-@media (max-width:767px){
-  .container{padding:0 16px}
-  main{padding:18px 0 120px}
-  .topbar-inner{height:64px}
-  .brand-mark{width:38px;height:38px;flex-basis:38px;font-size:14px}
-  .brand-name{font-size:17px}
-  .badge-pro{font-size:9px;padding:2px 6px}
-  .btn{min-height:44px;padding:0 14px}
-  .btn-label-long,#playbookBtn .btn-label{display:none}
-  .btn-label-short{display:inline}
-  .hero{flex-direction:column;align-items:stretch;padding:26px 20px 24px 24px;gap:20px}
-  .hero-title{font-size:30px;letter-spacing:-1px}
-  .hero-sub{font-size:14px}
-  .btn-celebrate{width:100%}
-  .scoreboard{grid-template-columns:1fr 1fr;gap:12px}
-  .stat{padding:16px;gap:12px;flex-direction:column;align-items:flex-start}
-  .stat-icon{width:44px;height:44px;flex-basis:44px;font-size:20px;border-radius:12px}
-  .stat-value{font-size:26px}
-  .stat-label{font-size:10px}
-  .sprint{padding:18px}
-  .sprint-row{flex-direction:column;align-items:stretch}
-  .sprint-right{justify-content:space-between}
-  .counter-pill{flex:1 1 100%;justify-content:center;min-height:46px}
-  .sprint-right .btn{flex:1 1 0;min-height:46px}
-  .command{padding:14px}
-  .selects{grid-template-columns:1fr}
-  .pill{min-height:44px}
-  .results-meta{margin:18px 2px 12px}
-  .grid{gap:14px}
-  .lead-card{padding:18px}
-  .card-name{font-size:18px}
-  .act{min-height:48px;font-size:13px;padding:0 8px}
-  .stage-select{max-width:170px;min-height:40px}
-  .modal-backdrop{padding:0;align-items:flex-end}
-  .modal{max-height:92vh;border-radius:22px 22px 0 0;padding:24px 18px calc(24px + env(safe-area-inset-bottom))}
-  .modal-title{font-size:21px}
-  .toast{bottom:114px;font-size:13px}
-  .dock{display:block}
+@media (min-width:768px){
+  .container{padding:0 24px}
+  main{padding:24px 0 80px}
+  .header-inner{height:68px}
+  .hero-title{font-size:1.875rem}
+  .hero-banner{padding:26px 30px}
+  .scoreboard-grid{grid-template-columns:repeat(4,1fr);gap:16px}
+  .controls-row{grid-template-columns:2fr 1fr 1fr 1fr;gap:12px}
+  .field-search,.field-sort{grid-column:auto}
+  .command-strip{padding:14px}
+  .leads-grid{gap:16px}
+  .lead-card{padding:20px}
+  .modal{padding:26px}
+  .mobile-bottom-dock{display:none}
+  .toast{left:auto;right:24px;bottom:24px;margin:0}
 }
-@media (max-width:380px){
-  .actions{grid-template-columns:1fr 1fr}
-  .act{font-size:12.5px;gap:5px}
-  .specs{grid-template-columns:1fr 1fr}
+@media (min-width:1024px){
+  .stat-value{font-size:1.875rem}
 }
 </style>
 </head>
 <body>
 
-<!-- ================= TOP NAV ================= -->
-<header class="topbar" data-testid="topbar">
-  <div class="container topbar-inner">
-    <a class="brand" href="#top" data-testid="brand-link" aria-label="Ready2UP home">
+<!-- ================= HEADER ================= -->
+<header class="app-header" data-testid="topbar">
+  <div class="container header-inner">
+    <a class="brand" href="#top" data-testid="brand-logo" aria-label="Ready2UP home">
       <span class="brand-mark">R2</span>
       <span class="brand-text">
-        <span class="brand-name">Ready2UP <span class="badge-pro">SALES PRO</span></span>
-        <span class="brand-tag">Web Design &amp; AI Automation Deals</span>
+        <span class="brand-name">Ready2UP <span class="brand-live">Sales</span></span>
+        <span class="brand-sub">Nashik F&amp;B Command Center</span>
       </span>
     </a>
-    <div class="topbar-actions">
-      <button class="btn btn-outline" id="playbookBtn" data-testid="playbook-btn" aria-label="Open Pitch Playbook">
-        <span>💡</span><span class="btn-label">Pitch Playbook</span>
+    <div class="header-actions">
+      <button class="hbtn" id="playbookBtn" data-testid="playbook-open-btn" aria-label="Open Pitch Playbook" title="Pitch Playbook">
+        <span data-icon="book" data-size="17"></span><span class="hbtn-label">Playbook</span>
       </button>
-      <button class="btn btn-success" id="exportBtn" data-testid="export-csv-btn" aria-label="Export leads to CSV">
-        <span>📥</span><span class="btn-label-long">Export CSV (<span class="export-count">40</span>)</span><span class="btn-label-short">CSV (<span class="export-count">40</span>)</span>
+      <button class="hbtn" id="reportBtn" data-testid="daily-report-btn" aria-label="Share daily report" title="Daily Report">
+        <span data-icon="report" data-size="17"></span><span class="hbtn-label">Daily Report</span>
+      </button>
+      <button class="hbtn hbtn-primary" id="exportBtn" data-testid="export-csv-btn" aria-label="Export leads to CSV" title="Export CSV">
+        <span data-icon="download" data-size="17"></span><span class="hbtn-label">Export CSV (<span class="export-count">0</span>)</span>
       </button>
     </div>
   </div>
@@ -486,109 +412,124 @@ main{padding:28px 0 80px}
 <main class="container" id="top">
 
   <!-- ================= HERO ================= -->
-  <section class="hero" data-testid="hero-banner">
+  <section class="hero-banner" data-testid="hero-banner">
     <div class="hero-content">
-      <span class="hero-badge" data-testid="hero-badge">🔥 Nashik F&amp;B Growth Engine</span>
-      <h1 class="hero-title" data-testid="hero-title">Ready2UP <span class="grad-text">Deal Closer</span> Portal</h1>
-      <p class="hero-sub">Targeting <strong>40 high-potential cafes, lounges &amp; restaurants</strong> across Nashik. These owners are bleeding customers to Swiggy/Zomato commission — pitch our <strong>zero-commission websites, QR menus, and Google SEO</strong> to close ₹35k–₹60k deals!</p>
+      <span class="eyebrow" data-testid="hero-badge"><span data-icon="zap" data-size="13"></span> Daily Sales Sprint</span>
+      <h1 class="hero-title" data-testid="hero-title">Close Nashik's finest dining &amp; nightlife</h1>
+      <p class="hero-sub"><b><span class="hero-count">0</span> verified cafes, restaurants, lounges and breweries</b> across Nashik. Most still hand 20–25% of every order to aggregator commissions — pitch <b>zero-commission websites, WhatsApp booking automation and local SEO</b> to close ₹25k–₹65k deals.</p>
     </div>
     <div class="hero-side">
-      <button class="btn btn-celebrate" id="celebrateBtn" data-testid="celebrate-btn">🎉 Team Win Celebration</button>
+      <button class="btn btn-electric" id="celebrateBtn" data-testid="team-win-btn"><span data-icon="trophy" data-size="16"></span> Team Win</button>
     </div>
   </section>
 
   <!-- ================= SCOREBOARD ================= -->
-  <section class="scoreboard" data-testid="scoreboard" aria-label="Sales scoreboard">
-    <div class="stat" data-testid="stat-total">
-      <div class="stat-icon i-indigo">🎯</div>
-      <div class="stat-body"><div class="stat-label">Total Verified Leads</div><div class="stat-value" id="statTotal">40</div><div class="stat-sub">Across Nashik F&amp;B</div></div>
+  <section class="scoreboard-grid" data-testid="scoreboard" aria-label="Sales scoreboard">
+    <div class="stat" data-testid="stat-total-leads" style="--i:0">
+      <div class="stat-top"><div class="stat-label">Total Verified Leads</div><div class="stat-icon"><span data-icon="target" data-size="16"></span></div></div>
+      <div class="stat-value" id="statTotal">0</div>
+      <div class="stat-sub">Across Nashik F&amp;B</div>
     </div>
-    <div class="stat" data-testid="stat-hot">
-      <div class="stat-icon i-rose">🔥</div>
-      <div class="stat-body"><div class="stat-label">Hot Opportunities (No Site)</div><div class="stat-value" id="statHot">0</div><div class="stat-sub">Zero web presence</div></div>
+    <div class="stat" data-testid="stat-hot-opps" style="--i:1">
+      <div class="stat-top"><div class="stat-label">Hot Opportunities</div><div class="stat-icon i-danger"><span data-icon="flame" data-size="16"></span></div></div>
+      <div class="stat-value" id="statHot">0</div>
+      <div class="stat-sub">No website yet</div>
     </div>
-    <div class="stat" data-testid="stat-pipeline">
-      <div class="stat-icon i-emerald">💰</div>
-      <div class="stat-body"><div class="stat-label">Est. Pipeline Value</div><div class="stat-value" id="statPipeline">₹0</div><div class="stat-sub" id="statPipelineSub">Total deal potential</div></div>
+    <div class="stat" data-testid="stat-pipeline-val" style="--i:2">
+      <div class="stat-top"><div class="stat-label">Est. Pipeline Value</div><div class="stat-icon i-success"><span data-icon="rupee" data-size="16"></span></div></div>
+      <div class="stat-value" id="statPipeline">₹0</div>
+      <div class="stat-sub" id="statPipelineSub">Total deal potential</div>
     </div>
-    <div class="stat" data-testid="stat-won">
-      <div class="stat-icon i-amber">🏆</div>
-      <div class="stat-body"><div class="stat-label">Deals Closed Today</div><div class="stat-value" id="statWon">0</div><div class="stat-sub" id="statWonSub">0 won overall</div></div>
+    <div class="stat" data-testid="stat-deals-closed" style="--i:3">
+      <div class="stat-top"><div class="stat-label">Deals Closed Today</div><div class="stat-icon i-warning"><span data-icon="trophy" data-size="16"></span></div></div>
+      <div class="stat-value" id="statWon">0</div>
+      <div class="stat-sub" id="statWonSub">0 won overall</div>
     </div>
   </section>
 
   <!-- ================= SPRINT TRACKER ================= -->
-  <section class="sprint" data-testid="sprint-tracker" aria-label="Daily sprint tracker">
+  <section class="sprint-tracker" data-testid="sprint-tracker" aria-label="Daily sprint tracker">
     <div class="sprint-row">
       <div class="sprint-left">
-        <div class="sprint-icon">⚡</div>
+        <div class="sprint-icon"><span data-icon="phone" data-size="18"></span></div>
         <div>
-          <div class="sprint-title">Sales Rep Daily Sprint Tracker</div>
-          <div class="sprint-sub">Log your calls &amp; DMs in real-time. Target: <b>15 outreach contacts</b> today!</div>
+          <div class="sprint-title">Daily Sprint Tracker</div>
+          <div class="sprint-sub">Log every call and DM in real time. Target: <b>15 outreach contacts</b> today.</div>
         </div>
       </div>
       <div class="sprint-right">
-        <div class="counter-pill" data-testid="calls-counter">📞 Calls Made: <b id="callsCount" data-testid="calls-count">0</b> / 15</div>
-        <button class="btn btn-log" id="logCallBtn" data-testid="log-call-btn">+ Log Call</button>
-        <button class="btn btn-reset" id="resetCallsBtn" data-testid="reset-calls-btn">Reset</button>
+        <div class="counter-chip" data-testid="calls-counter">Calls Completed <b id="callsCount" data-testid="calls-count">0</b> / 15</div>
+        <button class="btn btn-primary" id="logCallBtn" data-testid="log-call-btn"><span data-icon="plus" data-size="16"></span> Log Call</button>
+        <button class="btn btn-subtle" id="resetCallsBtn" data-testid="reset-sprint-btn" aria-label="Reset daily calls"><span data-icon="reset" data-size="16"></span> Reset</button>
       </div>
     </div>
     <div class="progress" aria-hidden="true"><div class="progress-fill" id="callsProgress" data-testid="calls-progress"></div></div>
   </section>
 
   <!-- ================= COMMAND STRIP ================= -->
-  <section class="command" id="command" data-testid="command-strip" aria-label="Search and filters">
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" id="searchInput" data-testid="search-input" type="search" autocomplete="off" placeholder="Search by restaurant name, area (College Rd), cuisine..." aria-label="Search leads">
-      <button class="search-clear" id="searchClear" data-testid="search-clear-btn" hidden aria-label="Clear search">✕</button>
+  <section class="command-strip" id="command" data-testid="command-strip" aria-label="Search, filters and sorting">
+    <div class="controls-row">
+      <div class="field field-search">
+        <span class="field-icon" data-icon="search" data-size="16"></span>
+        <input class="input" id="searchInput" data-testid="search-input" type="search" autocomplete="off" placeholder="Search name, area, cuisine or pitch angle" aria-label="Search leads">
+        <button class="search-clear" id="searchClear" data-testid="search-clear-btn" hidden aria-label="Clear search"><span data-icon="x" data-size="14"></span></button>
+      </div>
+      <div class="field"><span class="field-icon" data-icon="pin" data-size="16"></span><select class="select" id="areaFilter" data-testid="area-select" aria-label="Filter by area"></select></div>
+      <div class="field"><span class="field-icon" data-icon="chart" data-size="16"></span><select class="select" id="stageFilter" data-testid="stage-select" aria-label="Filter by stage"></select></div>
+      <div class="field field-sort"><span class="field-icon" data-icon="sort" data-size="16"></span>
+        <select class="select" id="sortSelect" data-testid="sort-select" aria-label="Sort leads">
+          <option value="default">Sort: Recommended</option>
+          <option value="value">Deal Value: High to Low</option>
+          <option value="rating">Rating: High to Low</option>
+          <option value="priority">Priority: High to Low</option>
+          <option value="followup">Follow-up: Soonest First</option>
+          <option value="name">Name: A to Z</option>
+        </select>
+      </div>
     </div>
-    <div class="selects">
-      <div class="select-wrap"><span class="sel-icon">📍</span><select class="select" id="areaFilter" data-testid="area-filter" aria-label="Filter by area"></select></div>
-      <div class="select-wrap"><span class="sel-icon">📊</span><select class="select" id="stageFilter" data-testid="stage-filter" aria-label="Filter by stage"></select></div>
-    </div>
-    <div class="pills" id="pills" role="tablist" aria-label="Quick filters">
+    <div class="quick-filters" id="pills" role="tablist" aria-label="Quick filters">
       <button class="pill active" data-filter="all" data-testid="pill-all" role="tab" aria-selected="true">All Leads <span class="pill-count" data-count="all"></span></button>
-      <button class="pill" data-filter="hot" data-testid="pill-hot" role="tab" aria-selected="false">🔥 Hot Leads <span class="pill-count" data-count="hot"></span></button>
-      <button class="pill" data-filter="phone" data-testid="pill-phone" role="tab" aria-selected="false">📞 Phone Ready <span class="pill-count" data-count="phone"></span></button>
-      <button class="pill" data-filter="cafes" data-testid="pill-cafes" role="tab" aria-selected="false">☕ Cafes &amp; Bistros</button>
-      <button class="pill" data-filter="dining" data-testid="pill-dining" role="tab" aria-selected="false">🍽️ Fine Dining &amp; Casual</button>
-      <button class="pill" data-filter="bars" data-testid="pill-bars" role="tab" aria-selected="false">🍸 Lounges &amp; Bars</button>
+      <button class="pill" data-filter="hot" data-testid="pill-hot" role="tab" aria-selected="false"><span data-icon="flame" data-size="13"></span>Hot Leads <span class="pill-count" data-count="hot"></span></button>
+      <button class="pill" data-filter="phone" data-testid="pill-phone" role="tab" aria-selected="false"><span data-icon="phone" data-size="13"></span>Phone Ready <span class="pill-count" data-count="phone"></span></button>
+      <button class="pill" data-filter="due" data-testid="pill-due" role="tab" aria-selected="false"><span data-icon="clock" data-size="13"></span>Follow-ups Due <span class="pill-count" data-count="due"></span></button>
+      <button class="pill" data-filter="cafes" data-testid="pill-cafes" role="tab" aria-selected="false"><span data-icon="coffee" data-size="13"></span>Cafes &amp; Bistros</button>
+      <button class="pill" data-filter="dining" data-testid="pill-dining" role="tab" aria-selected="false"><span data-icon="utensils" data-size="13"></span>Dining</button>
+      <button class="pill" data-filter="bars" data-testid="pill-bars" role="tab" aria-selected="false"><span data-icon="wine" data-size="13"></span>Lounges &amp; Bars</button>
     </div>
   </section>
 
   <!-- ================= RESULTS ================= -->
   <div class="results-meta">
-    <div class="results-text" id="resultsText" data-testid="results-count">Showing <b>40</b> of 40 leads</div>
-    <button class="link-btn" id="clearFiltersBtn" data-testid="clear-filters-btn" hidden>✕ Clear all filters</button>
+    <div class="results-text" id="resultsText" data-testid="results-count">Showing <b>0</b> of 0 leads</div>
+    <button class="link-btn" id="clearFiltersBtn" data-testid="clear-filters-btn" hidden><span data-icon="x" data-size="14"></span> Clear all filters</button>
   </div>
 
-  <section class="grid" id="leadsGrid" data-testid="leads-grid" aria-live="polite"></section>
+  <section class="leads-grid" id="leadsGrid" data-testid="leads-grid" aria-live="polite"></section>
 
   <div class="empty" id="emptyState" data-testid="empty-state">
-    <div class="empty-icon">🔎</div>
+    <div class="empty-icon"><span data-icon="search" data-size="22"></span></div>
     <h3>No leads match these filters</h3>
-    <p>Try a different area, stage or search term — there are 40 verified prospects waiting.</p>
+    <p>Try a different area, stage or search term — every verified prospect is one tap away.</p>
     <button class="btn btn-primary" id="emptyClearBtn" data-testid="empty-clear-btn">Show all leads</button>
   </div>
 
-  <p class="footer"><b>Ready2UP</b> · Web Design, SEO &amp; AI Automation · Nashik, Maharashtra · Built for closers 🚀</p>
+  <p class="footer"><b>Ready2UP</b> · Web Design, SEO &amp; AI Automation · Nashik, Maharashtra</p>
 </main>
 
 <!-- ================= PITCH PLAYBOOK MODAL ================= -->
 <div class="modal-backdrop" id="modal" data-testid="pitch-modal" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <button class="modal-close" id="modalClose" data-testid="modal-close-btn" aria-label="Close playbook">✕</button>
-    <span class="modal-badge">READY2UP SALES PLAYBOOK</span>
+    <button class="modal-close" id="modalClose" data-testid="modal-close-btn" aria-label="Close playbook"><span data-icon="x" data-size="16"></span></button>
+    <span class="modal-eyebrow"><span data-icon="book" data-size="12"></span> Sales Playbook</span>
     <h2 class="modal-title" id="modalTitle" data-testid="modal-title">Pitching: Nashik F&amp;B Prospect</h2>
-    <p class="modal-sub" id="modalSub">Personalised scripts — copy, paste, and close. 💪</p>
+    <p class="modal-sub" id="modalSub">Personalised scripts — copy, paste, close.</p>
 
     <section class="script-block">
       <div class="script-head">
-        <h4>💬 WhatsApp Opener Template</h4>
+        <h4><span data-icon="whatsapp" data-size="15"></span> WhatsApp Opener</h4>
         <div class="script-tools">
-          <button class="btn-mini" data-copy="waScript" data-testid="copy-wa-btn">📋 Copy Text</button>
-          <a class="btn-mini wa" id="waSendBtn" data-testid="wa-send-btn" target="_blank" rel="noopener" hidden>💬 Send</a>
+          <button class="btn-mini" data-copy="waScript" data-testid="copy-wa-btn"><span data-icon="copy" data-size="13"></span> Copy</button>
+          <a class="btn-mini wa" id="waSendBtn" data-testid="wa-send-btn" target="_blank" rel="noopener" hidden><span data-icon="send" data-size="13"></span> Send</a>
         </div>
       </div>
       <pre class="script" id="waScript" data-testid="wa-script"></pre>
@@ -596,20 +537,20 @@ main{padding:28px 0 80px}
 
     <section class="script-block">
       <div class="script-head">
-        <h4>☎️ Cold Call 30-Second Pitch</h4>
-        <div class="script-tools"><button class="btn-mini" data-copy="callScript" data-testid="copy-call-btn">📋 Copy Text</button></div>
+        <h4><span data-icon="phone" data-size="15"></span> Cold Call · 30-Second Pitch</h4>
+        <div class="script-tools"><button class="btn-mini" data-copy="callScript" data-testid="copy-call-btn"><span data-icon="copy" data-size="13"></span> Copy</button></div>
       </div>
       <pre class="script" id="callScript" data-testid="call-script"></pre>
     </section>
 
     <section class="pricing" data-testid="pricing-section">
-      <h4>💰 Ready2UP Pricing Packages</h4>
+      <h4><span data-icon="rupee" data-size="15"></span> Ready2UP Packages</h4>
       <div class="pkg">
         <div><div class="pkg-name">Starter F&amp;B Website</div><div class="pkg-desc">5-page responsive site, digital menu, WhatsApp booking, location map.</div></div>
         <div class="pkg-price">₹25,000</div>
       </div>
       <div class="pkg featured">
-        <div><div class="pkg-name">Pro Direct Ordering Suite <span class="pkg-tag">BEST SELLER</span></div><div class="pkg-desc">Zero-commission ordering, UPI payment, automated reservations, Google My Business SEO.</div></div>
+        <div><div class="pkg-name">Pro Direct Ordering Suite <span class="pkg-tag">BEST SELLER</span></div><div class="pkg-desc">Zero-commission ordering, UPI payments, automated reservations, Google Business SEO.</div></div>
         <div class="pkg-price">₹45,000</div>
       </div>
       <div class="pkg">
@@ -620,21 +561,42 @@ main{padding:28px 0 80px}
   </div>
 </div>
 
+<!-- ================= DAILY REPORT MODAL ================= -->
+<div class="modal-backdrop" id="reportModal" data-testid="report-modal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reportTitle">
+    <button class="modal-close" id="reportClose" data-testid="report-close-btn" aria-label="Close report"><span data-icon="x" data-size="16"></span></button>
+    <span class="modal-eyebrow"><span data-icon="report" data-size="12"></span> Daily Report</span>
+    <h2 class="modal-title" id="reportTitle">Today's Sales Summary</h2>
+    <p class="modal-sub" id="reportSub">Share one tap to the team WhatsApp group.</p>
+    <div class="report-summary">
+      <div class="rs"><div class="rs-label">Calls</div><div class="rs-val" id="rsCalls" data-testid="report-calls">0</div></div>
+      <div class="rs"><div class="rs-label">Won Today</div><div class="rs-val" id="rsWon" data-testid="report-won">0</div></div>
+      <div class="rs"><div class="rs-label">Follow-ups Due</div><div class="rs-val" id="rsDue" data-testid="report-due">0</div></div>
+    </div>
+    <section class="script-block">
+      <div class="script-head"><h4><span data-icon="whatsapp" data-size="15"></span> WhatsApp Message Preview</h4></div>
+      <pre class="script" id="reportText" data-testid="report-text"></pre>
+    </section>
+    <div class="report-actions">
+      <button class="btn btn-outline" id="reportCopyBtn" data-testid="report-copy-btn"><span data-icon="copy" data-size="15"></span> Copy Text</button>
+      <a class="btn btn-wa" id="reportShareBtn" data-testid="report-share-btn" target="_blank" rel="noopener" href="#"><span data-icon="whatsapp" data-size="15"></span> Share on WhatsApp</a>
+    </div>
+  </div>
+</div>
+
 <!-- ================= TOAST ================= -->
 <div class="toast" id="toast" data-testid="toast" role="status" aria-live="polite"></div>
 
 <!-- ================= MOBILE DOCK ================= -->
-<nav class="dock" data-testid="mobile-dock" aria-label="Quick actions">
-  <div class="dock-inner">
-    <button class="dock-btn" id="dockHome" data-testid="dock-dashboard"><span>🏠</span><span>Dashboard</span></button>
-    <button class="dock-btn" id="dockSearch" data-testid="dock-search"><span>🔍</span><span>Search</span></button>
-    <button class="dock-btn" id="dockPlaybook" data-testid="dock-playbook"><span>💡</span><span>Playbook</span></button>
-    <button class="dock-btn" id="dockCsv" data-testid="dock-csv"><span>📥</span><span>CSV</span></button>
-  </div>
+<nav class="mobile-bottom-dock" data-testid="mobile-bottom-dock" aria-label="Quick actions">
+  <button class="dock-item" id="dockHome" data-testid="dock-dashboard"><span data-icon="home" data-size="20"></span><span>Home</span></button>
+  <button class="dock-item" id="dockSearch" data-testid="dock-search"><span data-icon="search" data-size="20"></span><span>Search</span></button>
+  <button class="dock-item" id="dockPlaybook" data-testid="dock-playbook"><span data-icon="book" data-size="20"></span><span>Playbook</span></button>
+  <button class="dock-item" id="dockReport" data-testid="dock-report"><span data-icon="report" data-size="20"></span><span>Report</span></button>
 </nav>
 
 <script>
-/* ================= LEAD DATABASE (40 VERIFIED NASHIK BUSINESSES) ================= */
+/* ================= LEAD DATABASE (VERIFIED NASHIK F&B BUSINESSES) ================= */
 const LEADS = [
   {
     "id": 1,
@@ -1276,31 +1238,412 @@ const LEADS = [
     "dealValue": "₹35,000",
     "pitchHook": "Huge local Gujarati/Kathiyawadi crowd. Absolutely no website. Pitch regional language support (Gujarati/Marathi/English) and family thali catering booking."
   }
+,
+  {
+    "id": 41,
+    "name": "Dessert Villa",
+    "type": "Cafe & Dessert Parlour",
+    "area": "College Road",
+    "cuisine": "Waffles, Shakes, Nutella Desserts",
+    "price": "₹500",
+    "rating": "4.3",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Dessert+Villa+Prestige+Point+College+Road+Nashik",
+    "social": "Instagram/Magicpin",
+    "dealValue": "₹28,000",
+    "pitchHook": "Dessert hotspot at Prestige Point relying on Magicpin and Instagram. Pitch a photo-first menu site with WhatsApp cake pre-orders and birthday dessert-table bookings."
+  },
+  {
+    "id": 42,
+    "name": "Pilgrim Coffee",
+    "type": "Specialty Cafe",
+    "area": "Gangapur Road",
+    "cuisine": "Pour-over Coffee, Cheesecake, Bakes",
+    "price": "₹700",
+    "rating": "4.7",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Pilgrim+Cafe+Old+Gangapur+Naka+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹35,000",
+    "pitchHook": "Top-rated specialty coffee spot near Old Gangapur Naka. Pitch a brand story site with bean subscriptions, cheesecake pre-orders and a brewing workshop calendar."
+  },
+  {
+    "id": 43,
+    "name": "Brewing Tales",
+    "type": "Cafe",
+    "area": "Gangapur Road",
+    "cuisine": "Sandwiches, Burgers, Coffee",
+    "price": "₹600",
+    "rating": "4.4",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Brewing+Tales+Cafe+Gangapur+Road+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹30,000",
+    "pitchHook": "Busy cafe near Old Gangapur Naka with strong walk-in crowd. Pitch zero-commission takeaway ordering and a Google Business SEO boost for 'cafe near Gangapur Road'."
+  },
+  {
+    "id": 44,
+    "name": "Cafe Suburb",
+    "type": "Cafe & Workspace",
+    "area": "Gangapur Road",
+    "cuisine": "Coffee, Continental, Work-friendly",
+    "price": "₹700",
+    "rating": "4.5",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Cafe+Suburb+Gangapur+Road+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹32,000",
+    "pitchHook": "Nashik's go-to remote-work cafe. Pitch a co-working style site with table/desk reservations, day-pass packages and corporate meeting room bookings."
+  },
+  {
+    "id": 45,
+    "name": "Coffee Club NX",
+    "type": "Cafe",
+    "area": "College Road",
+    "cuisine": "Breakfast, Brunch, Veg-friendly",
+    "price": "₹600",
+    "rating": "4.2",
+    "hasWebsite": "No Site",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Coffee+Club+NX+College+Road+Nashik",
+    "social": "Instagram/Facebook",
+    "dealValue": "₹28,000",
+    "pitchHook": "Reliable brunch hub on College Road. Pitch Starter Website with weekend brunch pre-booking and a student loyalty program."
+  },
+  {
+    "id": 46,
+    "name": "Celestia Lounge by Sayaji",
+    "type": "Lounge & Bar",
+    "area": "Indira Nagar",
+    "cuisine": "Bar, Dance Floor, Live Sports",
+    "price": "₹1500",
+    "rating": "4.4",
+    "hasWebsite": "Hotel Portal",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Celestia+Lounge+Sayaji+Indira+Nagar+Nashik",
+    "social": "Hotel Website/Instagram",
+    "dealValue": "₹40,000",
+    "pitchHook": "5th-floor lounge with dance floor and sports screenings. Pitch a standalone events microsite with match-night table RSVPs and DJ night ticketing."
+  },
+  {
+    "id": 47,
+    "name": "Lacasa The Roof Top Cafe",
+    "type": "Rooftop Cafe",
+    "area": "Indira Nagar",
+    "cuisine": "Cafe, Fast Food, Rooftop Views",
+    "price": "₹600",
+    "rating": "4.3",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Lacasa+Roof+Top+Cafe+Yashika+Plaza+Indira+Nagar+Nashik",
+    "social": "Instagram",
+    "dealValue": "₹30,000",
+    "pitchHook": "Rooftop cafe at Yashika Plaza popular with Indira Nagar youth. Pitch sunset-slot table booking, private terrace party packages and reel-embedded gallery."
+  },
+  {
+    "id": 48,
+    "name": "InterMezzo - Four Points by Sheraton",
+    "type": "Hotel Cafe",
+    "area": "Mumbai Naka",
+    "cuisine": "Cafe, Bakery, Continental",
+    "price": "₹1200",
+    "rating": "4.5",
+    "hasWebsite": "Hotel Portal",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/InterMezzo+Four+Points+by+Sheraton+Nashik",
+    "social": "Hotel Website",
+    "dealValue": "₹35,000",
+    "pitchHook": "Marriott-group hotel cafe. Pitch a local landing page for corporate high-tea packages and celebration cake pre-orders aimed at Nashik residents, not just guests."
+  },
+  {
+    "id": 49,
+    "name": "Sadhana Chulivarchi Misal",
+    "type": "Restaurant",
+    "area": "Gangapur-Satpur Link Road",
+    "cuisine": "Chulivarchi Misal, Maharashtrian Snacks",
+    "price": "₹300",
+    "rating": "4.5",
+    "hasWebsite": "Old Website",
+    "priority": "MEDIUM",
+    "phone": "080 4806 7352",
+    "maps": "https://www.google.com/maps/search/Sadhana+Chulivarchi+Misal+Nashik",
+    "social": "Website/Instagram",
+    "dealValue": "₹30,000",
+    "pitchHook": "Iconic since 1959 with a basic website. Pitch a modern redesign: tourist-focused SEO, group booking for the village-style seating and misal masala e-commerce."
+  },
+  {
+    "id": 50,
+    "name": "Divtya Budhlya Wada",
+    "type": "Restaurant",
+    "area": "Anand Wali Goan",
+    "cuisine": "Non-veg Maharashtrian, Gavran Thali",
+    "price": "₹800",
+    "rating": "4.4",
+    "hasWebsite": "Old Website",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Divtya+Budhlya+Wada+Gangapur+Road+Nashik",
+    "social": "Website/Facebook",
+    "dealValue": "₹35,000",
+    "pitchHook": "Famous village-style non-veg thali venue with a dated website. Pitch a mobile-first redesign with thali pre-booking, family group reservations and Marathi language support."
+  },
+  {
+    "id": 51,
+    "name": "Topchi Brewing Outpost",
+    "type": "Brewery & Gastropub",
+    "area": "Nashik City",
+    "cuisine": "Craft Beer, Mead, Cocktails, Gastropub",
+    "price": "₹1500",
+    "rating": "4.6",
+    "hasWebsite": "Has Website",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Topchi+Brewing+Outpost+Nashik",
+    "social": "Website/Instagram",
+    "dealValue": "₹40,000",
+    "pitchHook": "Craft brewery taproom with a brand site. Pitch AI automation add-ons: brewery tour bookings, tap-list live menu and a WhatsApp bot for event guestlists."
+  },
+  {
+    "id": 52,
+    "name": "Cerana Taproom",
+    "type": "Taproom & Lounge",
+    "area": "Trimbak Road",
+    "cuisine": "Handcrafted Meads, Slow Food",
+    "price": "₹1200",
+    "rating": "4.6",
+    "hasWebsite": "Has Website",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Cerana+Taproom+Trimbak+Road+Nashik",
+    "social": "Website/Instagram",
+    "dealValue": "₹30,000",
+    "pitchHook": "Nashik's first mead taproom opposite the Coin Museum. Pitch tasting-flight reservations, mead pairing dinner events and Google SEO for wine-tourism traffic."
+  },
+  {
+    "id": 53,
+    "name": "Curry Leaves",
+    "type": "Restaurant",
+    "area": "Sharanpur Road",
+    "cuisine": "Multi-cuisine, North Indian, Chinese",
+    "price": "₹1000",
+    "rating": "4.3",
+    "hasWebsite": "No Site",
+    "priority": "HIGH",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Curry+Leaves+Restaurant+Nashik",
+    "social": "Google/JustDial",
+    "dealValue": "₹35,000",
+    "pitchHook": "Long-running family restaurant with strong repeat customers. Pitch direct online ordering to escape aggregator commissions plus a party hall booking calendar."
+  },
+  {
+    "id": 54,
+    "name": "Woodlands Restaurant",
+    "type": "Restaurant",
+    "area": "Nashik City",
+    "cuisine": "Pure Veg, South Indian, Thali",
+    "price": "₹600",
+    "rating": "4.2",
+    "hasWebsite": "No Site",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Woodlands+Restaurant+Nashik",
+    "social": "Google/JustDial",
+    "dealValue": "₹28,000",
+    "pitchHook": "Established pure-veg South Indian name. Pitch Starter Website with daily thali menu updates and bulk lunch-box ordering for offices."
+  },
+  {
+    "id": 55,
+    "name": "Cafe Peter",
+    "type": "Cafe Chain",
+    "area": "College Road",
+    "cuisine": "Coffee, Sizzlers, Pizza",
+    "price": "₹800",
+    "rating": "4.3",
+    "hasWebsite": "Corporate Chain",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Cafe+Peter+College+Road+Nashik",
+    "social": "Corporate Site/Instagram",
+    "dealValue": "₹20,000",
+    "pitchHook": "Regional franchise outlet. Pitch the local franchisee a Nashik-only landing page with outlet offers and Google Business review automation."
+  },
+  {
+    "id": 56,
+    "name": "The Chocolate Room",
+    "type": "Cafe Chain",
+    "area": "Gangapur Road",
+    "cuisine": "Desserts, Hot Chocolate, Waffles",
+    "price": "₹700",
+    "rating": "4.1",
+    "hasWebsite": "Corporate Chain",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/The+Chocolate+Room+Nashik",
+    "social": "Corporate Site",
+    "dealValue": "₹20,000",
+    "pitchHook": "National dessert franchise. Pitch the franchisee on local SEO and a WhatsApp gifting/cake ordering flow for Nashik customers."
+  },
+  {
+    "id": 57,
+    "name": "York Winery Tasting Room",
+    "type": "Winery & Restaurant",
+    "area": "Gangapur-Savargaon Road",
+    "cuisine": "Wine Tasting, Continental, Sunset Deck",
+    "price": "₹1500",
+    "rating": "4.5",
+    "hasWebsite": "Has Website",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/York+Winery+Tasting+Room+Nashik",
+    "social": "Website/Instagram",
+    "dealValue": "₹35,000",
+    "pitchHook": "Boutique winery with a tasting room overlooking Gangapur dam. Pitch tasting-slot bookings, wine e-commerce and an AI concierge for Mumbai/Pune weekenders."
+  },
+  {
+    "id": 58,
+    "name": "Soma Vine Village",
+    "type": "Resort & Restaurant",
+    "area": "Gangapur-Savargaon Road",
+    "cuisine": "Resort Dining, Wine Pairing",
+    "price": "₹2000",
+    "rating": "4.3",
+    "hasWebsite": "Resort Portal",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Soma+Vine+Village+Nashik",
+    "social": "Resort Website",
+    "dealValue": "₹45,000",
+    "pitchHook": "Vineyard resort near Gangapur dam. Pitch a direct-booking engine for its restaurant and stays to bypass OTA commissions, plus wedding enquiry automation."
+  },
+  {
+    "id": 59,
+    "name": "Panchavati Gaurav",
+    "type": "Hotel & Restaurant",
+    "area": "Nashik City",
+    "cuisine": "Maharashtrian, Gujarati Thali, Multi-cuisine",
+    "price": "₹700",
+    "rating": "4.2",
+    "hasWebsite": "Old Website",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Hotel+Panchavati+Gaurav+Nashik",
+    "social": "Website/Google",
+    "dealValue": "₹30,000",
+    "pitchHook": "Part of the legacy Panchavati hotel group with an outdated site. Pitch a modern redesign with thali menu, pilgrim group bookings and Marathi/Gujarati language toggles."
+  },
+  {
+    "id": 60,
+    "name": "Coffee Culture",
+    "type": "Cafe Chain",
+    "area": "College Road",
+    "cuisine": "Coffee, Sizzlers, Continental",
+    "price": "₹800",
+    "rating": "4.2",
+    "hasWebsite": "Has Website",
+    "priority": "MEDIUM",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Coffee+Culture+Nashik",
+    "social": "Website/Instagram",
+    "dealValue": "₹25,000",
+    "pitchHook": "Regional cafe brand with a corporate site but no Nashik-specific presence. Pitch a local SEO landing page with outlet offers and WhatsApp table reservations."
+  },
+  {
+    "id": 61,
+    "name": "Spice It - ibis Nashik",
+    "type": "Hotel Restaurant",
+    "area": "Mumbai-Agra Highway",
+    "cuisine": "Multi-cuisine Buffet, Indian, Continental",
+    "price": "₹1300",
+    "rating": "4.3",
+    "hasWebsite": "Hotel Portal",
+    "priority": "LOW",
+    "phone": "",
+    "maps": "https://www.google.com/maps/search/Spice+It+ibis+Nashik",
+    "social": "Hotel Website",
+    "dealValue": "₹30,000",
+    "pitchHook": "Accor-group hotel buffet restaurant. Pitch a Nashik-local landing page selling Sunday brunch and corporate lunch buffets to non-guests with instant UPI checkout."
+  }
 ];
+
+/* ================= ICONS (inline SVG, stroke 1.75) ================= */
+const ICONS = {
+  phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  whatsapp: '<path fill="currentColor" stroke="none" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>',
+  pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+  book: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+  trophy: '<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>',
+  search: '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+  sort: '<path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/>',
+  report: '<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  note: '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+  target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  flame: '<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  rupee: '<path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/>',
+  zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  check: '<polyline points="20 6 9 17 4 12"/>',
+  star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  globe: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+  ban: '<circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>',
+  utensils: '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>',
+  coffee: '<path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/>',
+  wine: '<path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5z"/>',
+  home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  copy: '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  send: '<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>',
+  reset: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+  plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+  clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  chart: '<path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v3"/>',
+  building: '<rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/>',
+  tagIcon: '<path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2z"/><path d="M7 7h.01"/>',
+  alert: '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'
+};
+const icon = (name, size = 16, cls = '') => `<svg class="ic ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name] || ''}</svg>`;
+document.querySelectorAll('[data-icon]').forEach((el) => {
+  const svg = icon(el.dataset.icon, Number(el.dataset.size) || 16);
+  if (el.classList.contains('field-icon')) el.innerHTML = svg; else el.outerHTML = svg;
+});
 
 /* ================= CONFIG ================= */
 const STAGES = ['New Lead', 'In Discussion', 'Pitched', 'Meeting Booked', 'Deal Won'];
 const STAGE_META = {
-  'New Lead':       { icon: '⚪', cls: 'stage-new' },
-  'In Discussion':  { icon: '📞', cls: 'stage-talk' },
-  'Pitched':        { icon: '💬', cls: 'stage-pitched' },
-  'Meeting Booked': { icon: '📅', cls: 'stage-meeting' },
-  'Deal Won':       { icon: '🏆', cls: 'stage-won' }
+  'New Lead':       { cls: 'stage-new' },
+  'In Discussion':  { cls: 'stage-talk' },
+  'Pitched':        { cls: 'stage-pitched' },
+  'Meeting Booked': { cls: 'stage-meeting' },
+  'Deal Won':       { cls: 'stage-won' }
 };
-const AREA_ORDER = ['College Road', 'Gangapur Road', 'Mahatma Nagar', 'Parijat Nagar', 'Satpur Colony', 'Pathardi Phata', 'Govardhan', 'Mumbai-Agra Highway', 'CIDCO', 'Thatte Nagar', 'Nashik City'];
+const AREA_ORDER = ['College Road', 'Gangapur Road', 'Mahatma Nagar', 'Parijat Nagar', 'Sharanpur Road', 'Indira Nagar', 'Mumbai Naka', 'Satpur Colony', 'Pathardi Phata', 'CIDCO', 'Thatte Nagar', 'Trimbak Road', 'Govardhan', 'Gangapur-Savargaon Road', 'Mumbai-Agra Highway', 'Nashik City'];
 const CALL_TARGET = 15;
-const KEYS = { stages: 'r2u_lead_stages_v1', calls: 'r2u_daily_calls_v1' };
-const CONFETTI_COLORS = ['#4f46e5', '#06b6d4', '#059669', '#f59e0b', '#e11d48', '#7c3aed'];
+const KEYS = { stages: 'r2u_lead_stages_v1', calls: 'r2u_daily_calls_v1', notes: 'r2u_lead_notes_v1', sort: 'r2u_sort_v1' };
+const CONFETTI_COLORS = ['#2563EB', '#1E3A8A', '#059669', '#0D9488', '#D97706', '#0F172A'];
+const PRIORITY_RANK = { HIGH: 0, MEDIUM: 1, LOW: 2 };
 
 /* ================= HELPERS ================= */
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const todayKey = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const fmtDate = (key) => { if (!key) return ''; const [y, m, d] = key.split('-').map(Number); return new Date(y, m - 1, d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }); };
 const dealAmount = (l) => Number(String(l.dealValue).replace(/[^\d]/g, '')) || 0;
 const formatMoney = (n) => n >= 100000 ? `₹${(n / 100000).toFixed(1)}L` : `₹${n.toLocaleString('en-IN')}`;
-const isBar = (l) => /bar|lounge|brewery/i.test(l.type);
-const isCafe = (l) => /cafe|bistro/i.test(l.type) && !isBar(l);
-const typeIcon = (l) => isBar(l) ? '🍸' : isCafe(l) ? '☕' : '🍽️';
+const isBar = (l) => /bar|lounge|brewery|taproom|winery/i.test(l.type);
+const isCafe = (l) => /cafe|bistro|dessert/i.test(l.type) && !isBar(l);
+const typeIconName = (l) => isBar(l) ? 'wine' : isCafe(l) ? 'coffee' : 'utensils';
 const waNumber = (phone) => { let d = phone.replace(/\D/g, ''); if (d.startsWith('0')) d = d.slice(1); if (d.length === 10) d = '91' + d; return d; };
 const telHref = (phone) => `tel:${phone.replace(/[^\d+]/g, '')}`;
 
@@ -1310,53 +1653,68 @@ function save(key, value) { try { localStorage.setItem(key, JSON.stringify(value
 /* ================= STATE ================= */
 let stages = load(KEYS.stages, {});
 Object.keys(stages).forEach((id) => { if (typeof stages[id] === 'string') stages[id] = { stage: stages[id], at: '' }; });
+let notes = load(KEYS.notes, {});
 let calls = load(KEYS.calls, { date: todayKey(), count: 0 });
 if (calls.date !== todayKey()) calls = { date: todayKey(), count: 0 };
-const filters = { q: '', area: 'all', stage: 'all', pill: 'all' };
+const filters = { q: '', area: 'all', stage: 'all', pill: 'all', sort: load(KEYS.sort, 'default') };
 let activeLead = null;
 
 const stageOf = (id) => (stages[id] && STAGES.includes(stages[id].stage)) ? stages[id].stage : 'New Lead';
+const noteOf = (id) => notes[id] || { note: '', due: '' };
+const dueStatus = (due) => { if (!due) return ''; const t = todayKey(); return due < t ? 'overdue' : due === t ? 'today' : 'upcoming'; };
+const isDue = (l) => { const s = dueStatus(noteOf(l.id).due); return s === 'overdue' || s === 'today'; };
 
 const PILL_FILTERS = {
   all: () => true,
   hot: (l) => l.hasWebsite === 'No Site',
   phone: (l) => !!l.phone,
+  due: isDue,
   cafes: isCafe,
   dining: (l) => !isBar(l) && !isCafe(l),
   bars: isBar
+};
+
+const SORTERS = {
+  default: null,
+  value: (a, b) => dealAmount(b) - dealAmount(a),
+  rating: (a, b) => (Number(b.rating) - Number(a.rating)) || (dealAmount(b) - dealAmount(a)),
+  priority: (a, b) => (PRIORITY_RANK[a.priority] - PRIORITY_RANK[b.priority]) || (dealAmount(b) - dealAmount(a)),
+  followup: (a, b) => { const da = noteOf(a.id).due, db = noteOf(b.id).due; if (da && db) return da.localeCompare(db); if (da) return -1; if (db) return 1; return 0; },
+  name: (a, b) => a.name.localeCompare(b.name)
 };
 
 /* ================= SCRIPTS ================= */
 function waMessage(l) {
   const name = l ? l.name : '[Restaurant Name]';
   const area = l ? l.area : '[Area]';
-  return `Hey ${name} team! 👋
-Loved the ambiance and positive reviews of ${name} on ${area}! ⭐
+  return `Hello ${name} team,
 
-I noticed you don't have a direct website for table bookings & direct food orders. You're probably losing 20-25% in commissions to Swiggy & Zomato every single day.
+I came across ${name} on ${area} and was impressed by the ambiance and the reviews.
 
-We run Ready2UP (a Nashik web design & AI automation agency). We create high-converting websites with:
-✅ 0% commission direct online ordering
-✅ WhatsApp table booking automation
-✅ Instagram-to-Menu sync
-✅ Google Local SEO dominance
+I noticed there is no direct website for table bookings or online orders yet, which usually means 20-25% of every order goes to Swiggy/Zomato as commission.
 
-Can I share a 60-second preview design of what ${name}'s custom website could look like? Free of cost!`;
+I'm from Ready2UP, a Nashik-based web design and AI automation agency. We build high-converting restaurant websites with:
+- 0% commission direct online ordering
+- WhatsApp table booking automation
+- Instagram-to-menu sync
+- Google local SEO so you rank first in your area
+
+Can I share a free 60-second preview of what ${name}'s own website could look like?`;
 }
 
 function callScript(l) {
   const name = l ? l.name : '[Restaurant Name]';
   const area = l ? l.area : '[Area]';
-  const hook = l ? `\n\n🎯 Angle for this lead: ${l.pitchHook}` : '';
-  return `"Hi! Am I speaking with the owner or manager of ${name}?
+  const hook = l ? `\n\nAngle for this lead: ${l.pitchHook}` : '';
+  return `"Hi, am I speaking with the owner or manager of ${name}?
 
-This is [Your Name] from Ready2UP — we're a Nashik-based web design & AI automation agency. I'll take just 30 seconds.
+This is [Your Name] from Ready2UP. We're a Nashik-based web design and AI automation agency, and I'll take just 30 seconds.
 
-I noticed ${name} on ${area} doesn't have its own website yet, so most customers only find you on Swiggy/Zomato — and every order there costs you 20-25% in commission.
+I noticed ${name} on ${area} doesn't have its own website yet, so most customers only find you on Swiggy/Zomato, and every order there costs you 20-25% in commission.
 
-We build zero-commission direct ordering websites for Nashik restaurants, with WhatsApp table booking and Google SEO so you rank #1 in your area. Packages start at just ₹25,000.
+We build zero-commission direct ordering websites for Nashik restaurants, with WhatsApp table booking and Google SEO so you rank first in your area. Packages start at ₹25,000.
 
-Can I WhatsApp you a FREE 60-second preview design of ${name}'s website today? Which number should I send it to?"${hook}`;
+Can I WhatsApp you a free 60-second preview of ${name}'s website today? Which number should I send it to?"${hook}`;
 }
 
 function waLink(l) {
@@ -1400,13 +1758,13 @@ function updateStats() {
   $('statTotal').textContent = LEADS.length;
   $('statHot').textContent = hot;
   $('statPipeline').textContent = formatMoney(pipeline);
-  $('statPipelineSub').textContent = wonValue ? `${formatMoney(wonValue)} already won 🎉` : 'Total deal potential';
+  $('statPipelineSub').textContent = wonValue ? `${formatMoney(wonValue)} already closed` : 'Total deal potential';
   const wonEl = $('statWon');
   if (wonEl.textContent !== String(wonToday)) bump(wonEl);
   wonEl.textContent = wonToday;
   $('statWonSub').textContent = `${wonAll.length} won overall`;
 
-  document.querySelectorAll('.export-count').forEach((el) => (el.textContent = LEADS.length));
+  document.querySelectorAll('.export-count, .hero-count').forEach((el) => (el.textContent = LEADS.length));
   document.querySelectorAll('.pill-count').forEach((el) => {
     const n = LEADS.filter(PILL_FILTERS[el.dataset.count]).length;
     el.textContent = `(${n})`;
@@ -1423,74 +1781,105 @@ function updateCallsUI() {
 /* ================= FILTERS & RENDER ================= */
 function buildSelects() {
   const dataAreas = [...new Set(LEADS.map((l) => l.area))];
+  const ordered = AREA_ORDER.filter((a) => dataAreas.includes(a));
   const extra = dataAreas.filter((a) => !AREA_ORDER.includes(a)).sort();
-  const areas = [...AREA_ORDER, ...extra];
-  $('areaFilter').innerHTML = `<option value="all">All Nashik Areas</option>` + areas.map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
-  $('stageFilter').innerHTML = `<option value="all">All Stages</option>` + STAGES.map((s) => `<option value="${esc(s)}">${STAGE_META[s].icon} ${esc(s)}</option>`).join('');
+  $('areaFilter').innerHTML = `<option value="all">All Nashik Areas</option>` + [...ordered, ...extra].map((a) => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
+  $('stageFilter').innerHTML = `<option value="all">All Stages</option>` + STAGES.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('');
+  $('sortSelect').value = SORTERS.hasOwnProperty(filters.sort) ? filters.sort : 'default';
 }
 
 function visibleLeads() {
   const q = filters.q.trim().toLowerCase();
-  return LEADS.filter((l) => {
+  const list = LEADS.filter((l) => {
     if (!PILL_FILTERS[filters.pill](l)) return false;
     if (filters.area !== 'all' && l.area !== filters.area) return false;
     if (filters.stage !== 'all' && stageOf(l.id) !== filters.stage) return false;
     if (q) {
-      const hay = `${l.name} ${l.area} ${l.cuisine} ${l.type} ${l.pitchHook}`.toLowerCase();
+      const hay = `${l.name} ${l.area} ${l.cuisine} ${l.type} ${l.pitchHook} ${noteOf(l.id).note}`.toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
   });
+  const sorter = SORTERS[filters.sort];
+  if (sorter) list.sort(sorter);
+  return list;
 }
 
 function stageSelectHTML(l) {
   const current = stageOf(l.id);
-  return `<select class="stage-select ${STAGE_META[current].cls}" data-id="${l.id}" data-testid="stage-select-${l.id}" aria-label="Sales stage for ${esc(l.name)}">
-    ${STAGES.map((s) => `<option value="${esc(s)}" ${s === current ? 'selected' : ''}>${STAGE_META[s].icon} ${esc(s)}</option>`).join('')}
-  </select>`;
+  return `<div class="stage-wrap ${STAGE_META[current].cls}"><span class="stage-dot"></span>
+    <select class="stage-select" data-id="${l.id}" data-testid="stage-select-${l.id}" aria-label="Sales stage for ${esc(l.name)}">
+      ${STAGES.map((s) => `<option value="${esc(s)}" ${s === current ? 'selected' : ''}>${esc(s)}</option>`).join('')}
+    </select></div>`;
+}
+
+function webTagHTML(l) {
+  if (l.hasWebsite === 'No Site') return `<span class="tag no-site">${icon('ban', 12)} No Website</span>`;
+  if (l.hasWebsite === 'Old Website') return `<span class="tag old-site">${icon('globe', 12)} Old Website · Redesign</span>`;
+  return `<span class="tag has-site">${icon(/hotel|resort|corporate/i.test(l.hasWebsite) ? 'building' : 'globe', 12)} ${esc(l.hasWebsite)}</span>`;
+}
+
+function followupHTML(l) {
+  const n = noteOf(l.id);
+  const status = dueStatus(n.due);
+  let chip = '';
+  if (status === 'overdue') chip = `<span class="due-chip overdue" data-testid="lead-due-chip-${l.id}">${icon('alert', 12)} Overdue · ${esc(fmtDate(n.due))}</span>`;
+  else if (status === 'today') chip = `<span class="due-chip today" data-testid="lead-due-chip-${l.id}">${icon('clock', 12)} Due today</span>`;
+  else if (status === 'upcoming') chip = `<span class="due-chip upcoming" data-testid="lead-due-chip-${l.id}">${icon('calendar', 12)} Follow-up ${esc(fmtDate(n.due))}</span>`;
+  else if (n.note) chip = `<span class="due-chip saved" data-testid="lead-due-chip-${l.id}">${icon('check', 12)} Note saved</span>`;
+  const hasData = !!(n.note || n.due);
+  return `<div class="followup" data-testid="lead-followup-${l.id}">
+    <div class="fu-head"><span class="fu-label">${icon('note', 12)} Follow-up</span>${chip}</div>
+    <div class="fu-fields">
+      <input class="fu-input fu-note" type="text" maxlength="140" placeholder="Quick note (spoke to owner, call back Tue...)" value="${esc(n.note)}" data-field="note" data-testid="lead-followup-note-${l.id}" aria-label="Quick note for ${esc(l.name)}">
+      <input class="fu-input" type="date" value="${esc(n.due)}" data-field="due" data-testid="lead-followup-date-${l.id}" aria-label="Next follow-up date for ${esc(l.name)}">
+      <div class="fu-actions">
+        <button class="fu-save" data-action="savenote" data-id="${l.id}" data-testid="lead-followup-save-${l.id}">${icon('check', 14)} Save</button>
+        ${hasData ? `<button class="fu-clear" data-action="clearnote" data-id="${l.id}" data-testid="lead-followup-clear-${l.id}" aria-label="Clear follow-up">${icon('x', 14)}</button>` : ''}
+      </div>
+    </div>
+  </div>`;
 }
 
 function cardHTML(l, i) {
   const pr = l.priority.toUpperCase();
   const prClass = pr === 'HIGH' ? 'p-high' : pr === 'MEDIUM' ? 'p-medium' : 'p-low';
-  const prIcon = pr === 'HIGH' ? '🔥' : pr === 'MEDIUM' ? '⚡' : '🏢';
-  const noSite = l.hasWebsite === 'No Site';
   const won = stageOf(l.id) === 'Deal Won';
   const phoneHTML = l.phone
     ? `<span class="spec-val phone-yes" data-testid="lead-phone-${l.id}">${esc(l.phone)}</span>`
-    : `<span class="spec-val phone-no" data-testid="lead-phone-${l.id}">Search Maps</span>`;
+    : `<span class="spec-val phone-no" data-testid="lead-phone-${l.id}">Not listed · use Maps</span>`;
   const callBtn = l.phone
-    ? `<a class="act act-call" href="${telHref(l.phone)}" data-testid="call-btn-${l.id}">📞 Call Now</a>`
-    : `<button class="act act-call" data-action="findphone" data-id="${l.id}" data-testid="call-btn-${l.id}">📞 Find Phone</button>`;
+    ? `<a class="act act-call" href="${telHref(l.phone)}" data-testid="lead-call-btn-${l.id}">${icon('phone', 15)} Call</a>`
+    : `<button class="act act-call" data-action="findphone" data-id="${l.id}" data-testid="lead-call-btn-${l.id}">${icon('phone', 15)} Find Phone</button>`;
 
   return `<article class="lead-card ${won ? 'is-won' : ''}" data-id="${l.id}" data-testid="lead-card-${l.id}" style="--i:${Math.min(i, 11)}">
+    ${won ? `<span class="won-ribbon" data-testid="won-ribbon-${l.id}">${icon('trophy', 11)} Won</span>` : ''}
     <div class="card-head">
       <h3 class="card-name" data-testid="lead-name-${l.id}">${esc(l.name)}</h3>
-      <span class="deal-tag" data-testid="deal-value-${l.id}">💵 ${esc(l.dealValue)}</span>
+      <span class="deal-tag" data-testid="deal-value-${l.id}">${esc(l.dealValue)}</span>
     </div>
     <div class="tag-row">
-      <span class="type-tag">${typeIcon(l)} ${esc(l.type)}</span>
-      <span class="web-tag ${noSite ? 'no-site' : ''}">${noSite ? '🚫 No Website' : '🌐 ' + esc(l.hasWebsite)}</span>
+      <span class="tag">${icon(typeIconName(l), 12)} ${esc(l.type)}</span>
+      ${webTagHTML(l)}
+      <span class="tag ${prClass}" data-testid="priority-${l.id}"><span class="dot"></span>${esc(pr)}</span>
     </div>
-    <div class="status-row">
-      <span class="priority ${prClass}" data-testid="priority-${l.id}">${prIcon} ${esc(pr)}</span>
-      ${stageSelectHTML(l)}
-    </div>
+    ${stageSelectHTML(l)}
     <div class="specs">
-      <div class="spec"><span class="spec-label">📍 Area</span><span class="spec-val" title="${esc(l.area)}">${esc(l.area)}</span></div>
-      <div class="spec"><span class="spec-label">⭐ Rating &amp; Cost</span><span class="spec-val">${esc(l.rating)} ★ • ${esc(l.price)}</span></div>
-      <div class="spec"><span class="spec-label">🍽️ Cuisine</span><span class="spec-val" title="${esc(l.cuisine)}">${esc(l.cuisine)}</span></div>
-      <div class="spec"><span class="spec-label">📞 Phone</span>${phoneHTML}</div>
+      <div class="spec"><span class="spec-label">${icon('pin', 11)} Area</span><span class="spec-val" title="${esc(l.area)}">${esc(l.area)}</span></div>
+      <div class="spec"><span class="spec-label">${icon('star', 11)} Rating · Cost</span><span class="spec-val">${esc(l.rating)} · ${esc(l.price)} for two</span></div>
+      <div class="spec"><span class="spec-label">${icon('utensils', 11)} Cuisine</span><span class="spec-val" title="${esc(l.cuisine)}">${esc(l.cuisine)}</span></div>
+      <div class="spec"><span class="spec-label">${icon('phone', 11)} Phone</span>${phoneHTML}</div>
     </div>
     <div class="pitch-box">
-      <span class="pitch-label">🎯 Ready2UP Pitch Angle</span>
+      <span class="pitch-label">${icon('target', 11)} Pitch Angle</span>
       <p>${esc(l.pitchHook)}</p>
     </div>
+    ${followupHTML(l)}
     <div class="actions">
-      <a class="act act-wa" href="${waLink(l)}" target="_blank" rel="noopener" data-testid="whatsapp-btn-${l.id}">💬 WhatsApp Pitch</a>
+      <a class="act act-wa" href="${waLink(l)}" target="_blank" rel="noopener" data-testid="lead-whatsapp-btn-${l.id}">${icon('whatsapp', 15)} WhatsApp</a>
       ${callBtn}
-      <button class="act act-outline" data-action="script" data-id="${l.id}" data-testid="script-btn-${l.id}">📋 Pitch Script</button>
-      <a class="act act-outline act-maps" href="${esc(l.maps)}" target="_blank" rel="noopener" data-testid="maps-btn-${l.id}">📍 Google Maps</a>
+      <button class="act act-pb" data-action="script" data-id="${l.id}" data-testid="script-btn-${l.id}">${icon('book', 15)} Playbook</button>
+      <a class="act act-maps" href="${esc(l.maps)}" target="_blank" rel="noopener" data-testid="lead-maps-btn-${l.id}">${icon('pin', 15)} Maps</a>
     </div>
   </article>`;
 }
@@ -1505,6 +1894,12 @@ function render() {
 
   const active = filters.q.trim() || filters.area !== 'all' || filters.stage !== 'all' || filters.pill !== 'all';
   $('clearFiltersBtn').hidden = !active;
+}
+
+function rerenderCard(id) {
+  const card = document.querySelector(`.lead-card[data-id="${id}"]`);
+  const lead = LEADS.find((l) => l.id === id);
+  if (card && lead) { card.outerHTML = cardHTML(lead, 0); }
 }
 
 function clearFilters() {
@@ -1527,23 +1922,41 @@ function setActivePill(key) {
 function setStage(id, stage) {
   stages[id] = { stage, at: todayKey() };
   save(KEYS.stages, stages);
-
   const lead = LEADS.find((l) => l.id === id);
-  const card = document.querySelector(`.lead-card[data-id="${id}"]`);
-  if (card) {
-    const sel = card.querySelector('.stage-select');
-    sel.className = `stage-select ${STAGE_META[stage].cls}`;
-    card.classList.toggle('is-won', stage === 'Deal Won');
-  }
+  rerenderCard(id);
   updateStats();
 
   if (stage === 'Deal Won') {
     celebrate('big');
-    toast(`🎉 BOOM! Deal marked as WON! ${lead.name} → ${lead.dealValue}`);
+    toast(`Deal won: ${lead.name} (${lead.dealValue})`);
   } else {
-    toast(`${STAGE_META[stage].icon} ${lead.name} moved to ${stage}`);
+    toast(`${lead.name} moved to ${stage}`);
   }
   if (filters.stage !== 'all') setTimeout(render, 350);
+}
+
+/* ================= FOLLOW-UP NOTES ================= */
+function saveNote(id) {
+  const card = document.querySelector(`.lead-card[data-id="${id}"]`);
+  const note = card.querySelector('[data-field="note"]').value.trim();
+  const due = card.querySelector('[data-field="due"]').value;
+  const lead = LEADS.find((l) => l.id === id);
+  if (!note && !due) { toast('Add a note or pick a follow-up date first'); return; }
+  notes[id] = { note, due, at: todayKey() };
+  save(KEYS.notes, notes);
+  rerenderCard(id);
+  updateStats();
+  toast(due ? `Follow-up saved for ${lead.name} on ${fmtDate(due)}` : `Note saved for ${lead.name}`);
+  if (filters.pill === 'due' || filters.sort === 'followup') setTimeout(render, 300);
+}
+
+function clearNote(id) {
+  delete notes[id];
+  save(KEYS.notes, notes);
+  rerenderCard(id);
+  updateStats();
+  toast('Follow-up cleared');
+  if (filters.pill === 'due') setTimeout(render, 300);
 }
 
 /* ================= CALL TRACKER ================= */
@@ -1554,12 +1967,12 @@ function logCall() {
   updateCallsUI();
   if (calls.count === CALL_TARGET) {
     celebrate('big');
-    toast(`🏅 TARGET SMASHED! ${calls.count}/${CALL_TARGET} calls — you're a closing machine!`);
+    toast(`Target reached: ${calls.count}/${CALL_TARGET} calls today. Outstanding work.`);
   } else if (calls.count % 5 === 0) {
     celebrate();
-    toast(`🔥 ${calls.count} calls done! Momentum is everything — keep dialing!`);
+    toast(`${calls.count} calls done. Keep the momentum going.`);
   } else {
-    toast(`📞 Call logged! Today's total: ${calls.count}`);
+    toast(`Call logged. Today's total: ${calls.count}`);
   }
 }
 
@@ -1567,34 +1980,86 @@ function resetCalls() {
   calls = { date: todayKey(), count: 0 };
   save(KEYS.calls, calls);
   updateCallsUI();
-  toast('🔄 Daily call counter reset. Fresh sprint — go!');
+  toast('Daily call counter reset');
 }
 
-/* ================= PLAYBOOK MODAL ================= */
+/* ================= MODALS ================= */
+function openModal(id) {
+  const m = $(id);
+  m.classList.add('open');
+  m.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  m.querySelector('.modal').scrollTop = 0;
+}
+function closeModal(id) {
+  const m = $(id);
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
 function openPlaybook(lead) {
   activeLead = lead || null;
   $('modalTitle').textContent = lead ? `Pitching: ${lead.name} (${lead.area})` : 'Pitching: Nashik F&B Prospect';
   $('modalSub').textContent = lead
-    ? `${typeIcon(lead)} ${lead.type} · ${lead.cuisine} · Est. deal ${lead.dealValue}`
-    : 'Universal scripts — replace [Restaurant Name] and [Area], then copy, paste, close. 💪';
+    ? `${lead.type} · ${lead.cuisine} · Est. deal ${lead.dealValue}`
+    : 'Universal scripts. Replace [Restaurant Name] and [Area], then copy, paste, close.';
   $('waScript').textContent = waMessage(lead);
   $('callScript').textContent = callScript(lead);
   const send = $('waSendBtn');
-  send.hidden = !lead;
-  if (lead) send.href = waLink(lead);
-
-  const m = $('modal');
-  m.classList.add('open');
-  m.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  $('modal').querySelector('.modal').scrollTop = 0;
+  const canSend = !!(lead && lead.phone);
+  send.hidden = !canSend;
+  if (canSend) send.href = waLink(lead);
+  openModal('modal');
 }
 
-function closePlaybook() {
-  const m = $('modal');
-  m.classList.remove('open');
-  m.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
+/* ================= DAILY REPORT ================= */
+function reportData() {
+  const t = todayKey();
+  const wonToday = LEADS.filter((l) => stageOf(l.id) === 'Deal Won' && stages[l.id].at === t);
+  const movedToday = LEADS.filter((l) => stages[l.id] && stages[l.id].at === t && stageOf(l.id) !== 'Deal Won' && stageOf(l.id) !== 'New Lead');
+  const due = LEADS.filter(isDue).sort(SORTERS.followup);
+  const upcoming = LEADS.filter((l) => dueStatus(noteOf(l.id).due) === 'upcoming').sort(SORTERS.followup).slice(0, 5);
+  const wonAll = LEADS.filter((l) => stageOf(l.id) === 'Deal Won');
+  return { wonToday, movedToday, due, upcoming, wonAll };
+}
+
+function reportText() {
+  const { wonToday, movedToday, due, upcoming, wonAll } = reportData();
+  const dateLabel = new Date().toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+  const wonValue = wonToday.reduce((s, l) => s + dealAmount(l), 0);
+  const wonAllValue = wonAll.reduce((s, l) => s + dealAmount(l), 0);
+  const lines = [
+    '*Ready2UP Daily Sales Report*',
+    `${dateLabel} | Nashik F&B Pipeline`,
+    '',
+    `*Calls made:* ${calls.count} / ${CALL_TARGET}`,
+    `*Deals won today:* ${wonToday.length}${wonToday.length ? ` (${formatMoney(wonValue)})` : ''}`
+  ];
+  wonToday.forEach((l) => lines.push(`- ${l.name} (${l.area}) - ${l.dealValue}`));
+  lines.push('', `*Pipeline moved today:* ${movedToday.length} lead${movedToday.length === 1 ? '' : 's'}`);
+  movedToday.slice(0, 8).forEach((l) => lines.push(`- ${l.name} -> ${stageOf(l.id)}`));
+  if (movedToday.length > 8) lines.push(`- and ${movedToday.length - 8} more`);
+  lines.push('', `*Follow-ups due:* ${due.length}`);
+  due.slice(0, 6).forEach((l) => { const n = noteOf(l.id); lines.push(`- ${l.name} - ${dueStatus(n.due) === 'overdue' ? 'overdue since ' + fmtDate(n.due) : 'due today'}${n.note ? ' | ' + n.note : ''}`); });
+  if (due.length > 6) lines.push(`- and ${due.length - 6} more`);
+  if (upcoming.length) {
+    lines.push('', '*Next scheduled follow-ups:*');
+    upcoming.forEach((l) => { const n = noteOf(l.id); lines.push(`- ${fmtDate(n.due)}: ${l.name}${n.note ? ' | ' + n.note : ''}`); });
+  }
+  lines.push('', `*Totals:* ${wonAll.length} deals won overall | ${formatMoney(wonAllValue)} closed | ${LEADS.length} leads tracked`, '', 'Sent from Ready2UP Sales Command Center');
+  return lines.join('\n');
+}
+
+function openReport() {
+  const { wonToday, due } = reportData();
+  const text = reportText();
+  $('rsCalls').textContent = `${calls.count}/${CALL_TARGET}`;
+  $('rsWon').textContent = wonToday.length;
+  $('rsDue').textContent = due.length;
+  $('reportText').textContent = text;
+  $('reportShareBtn').href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  openModal('reportModal');
 }
 
 async function copyText(text) {
@@ -1610,8 +2075,8 @@ async function copyText(text) {
 
 /* ================= CSV EXPORT ================= */
 function exportCSV() {
-  const headers = ['Sr No', 'Business Name', 'Type', 'Area', 'Cuisine', 'Price (for 2)', 'Rating', 'Has Website', 'Priority', 'Est. Deal Value', 'Phone', 'Google Maps Link', 'Pitch Hook', 'Sales Stage'];
-  const rows = LEADS.map((l) => [l.id, l.name, l.type, l.area, l.cuisine, l.price, l.rating, l.hasWebsite, l.priority, l.dealValue, l.phone || '', l.maps, l.pitchHook, stageOf(l.id)]);
+  const headers = ['Sr No', 'Business Name', 'Type', 'Area', 'Cuisine', 'Price (for 2)', 'Rating', 'Has Website', 'Priority', 'Est. Deal Value', 'Phone', 'Google Maps Link', 'Pitch Hook', 'Sales Stage', 'Note', 'Next Follow-up'];
+  const rows = LEADS.map((l) => { const n = noteOf(l.id); return [l.id, l.name, l.type, l.area, l.cuisine, l.price, l.rating, l.hasWebsite, l.priority, l.dealValue, l.phone || '', l.maps, l.pitchHook, stageOf(l.id), n.note, n.due]; });
   const csv = [headers, ...rows].map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\r\n');
   const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
@@ -1619,7 +2084,7 @@ function exportCSV() {
   a.href = url; a.download = `Ready2UP_Nashik_Leads_${todayKey()}.csv`;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1500);
-  toast(`📥 Exported ${LEADS.length} leads to CSV`);
+  toast(`Exported ${LEADS.length} leads to CSV`);
 }
 
 /* ================= EVENTS ================= */
@@ -1633,6 +2098,7 @@ $('searchInput').addEventListener('input', (e) => {
 $('searchClear').addEventListener('click', () => { $('searchInput').value = ''; filters.q = ''; $('searchClear').hidden = true; render(); $('searchInput').focus(); });
 $('areaFilter').addEventListener('change', (e) => { filters.area = e.target.value; render(); });
 $('stageFilter').addEventListener('change', (e) => { filters.stage = e.target.value; render(); });
+$('sortSelect').addEventListener('change', (e) => { filters.sort = e.target.value; save(KEYS.sort, filters.sort); render(); });
 $('pills').addEventListener('click', (e) => {
   const pill = e.target.closest('.pill'); if (!pill) return;
   filters.pill = pill.dataset.filter; setActivePill(filters.pill); render();
@@ -1644,29 +2110,47 @@ $('leadsGrid').addEventListener('change', (e) => {
   const sel = e.target.closest('.stage-select'); if (!sel) return;
   setStage(Number(sel.dataset.id), sel.value);
 });
+$('leadsGrid').addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter' || !e.target.classList.contains('fu-input')) return;
+  e.preventDefault();
+  saveNote(Number(e.target.closest('.lead-card').dataset.id));
+});
 $('leadsGrid').addEventListener('click', (e) => {
   const btn = e.target.closest('[data-action]'); if (!btn) return;
-  const lead = LEADS.find((l) => l.id === Number(btn.dataset.id));
+  const id = Number(btn.dataset.id);
+  const lead = LEADS.find((l) => l.id === id);
   if (btn.dataset.action === 'script') openPlaybook(lead);
+  if (btn.dataset.action === 'savenote') saveNote(id);
+  if (btn.dataset.action === 'clearnote') clearNote(id);
   if (btn.dataset.action === 'findphone') {
-    toast(`📍 No direct number for ${lead.name} — opening Google Maps to find it`);
+    toast(`No direct number for ${lead.name}. Opening Google Maps to find it.`);
     setTimeout(() => window.open(lead.maps, '_blank', 'noopener'), 400);
   }
 });
 
 $('playbookBtn').addEventListener('click', () => openPlaybook(null));
-$('modalClose').addEventListener('click', closePlaybook);
-$('modal').addEventListener('click', (e) => { if (e.target === $('modal')) closePlaybook(); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('modal').classList.contains('open')) closePlaybook(); });
+$('modalClose').addEventListener('click', () => closeModal('modal'));
+$('modal').addEventListener('click', (e) => { if (e.target === $('modal')) closeModal('modal'); });
+$('reportBtn').addEventListener('click', openReport);
+$('reportClose').addEventListener('click', () => closeModal('reportModal'));
+$('reportModal').addEventListener('click', (e) => { if (e.target === $('reportModal')) closeModal('reportModal'); });
+$('reportCopyBtn').addEventListener('click', async () => {
+  const ok = await copyText($('reportText').textContent);
+  toast(ok ? 'Report copied to clipboard' : 'Copy failed. Long-press the text to copy manually.');
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  ['modal', 'reportModal'].forEach((id) => { if ($(id).classList.contains('open')) closeModal(id); });
+});
 document.querySelectorAll('[data-copy]').forEach((btn) => {
   btn.addEventListener('click', async () => {
     const ok = await copyText($(btn.dataset.copy).textContent);
-    toast(ok ? '📋 Script copied! Paste it and start the conversation.' : '⚠️ Copy failed — long-press the text to copy manually');
+    toast(ok ? 'Script copied. Paste it and start the conversation.' : 'Copy failed. Long-press the text to copy manually.');
   });
 });
 
 $('exportBtn').addEventListener('click', exportCSV);
-$('celebrateBtn').addEventListener('click', () => { celebrate('big'); toast('🎉 Team Ready2UP — let\'s close Nashik!'); });
+$('celebrateBtn').addEventListener('click', () => { celebrate('big'); toast('Team Ready2UP: let\'s close Nashik.'); });
 $('logCallBtn').addEventListener('click', logCall);
 $('resetCallsBtn').addEventListener('click', resetCalls);
 
@@ -1676,7 +2160,7 @@ $('dockSearch').addEventListener('click', () => {
   setTimeout(() => $('searchInput').focus({ preventScroll: true }), 350);
 });
 $('dockPlaybook').addEventListener('click', () => openPlaybook(null));
-$('dockCsv').addEventListener('click', exportCSV);
+$('dockReport').addEventListener('click', openReport);
 
 /* ================= INIT ================= */
 buildSelects();
